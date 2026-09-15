@@ -3,4 +3,4 @@ Allow: /
 Disallow: /gdpr.html
 Disallow: /tools/
 
-Sitemap: https://DOPLNIT-DOMENA.cz/sitemap.xml
+Sitemap: https://www.alternativaprorajhradice.cz/sitemap.xml
