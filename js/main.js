@@ -240,7 +240,25 @@ function initContact() {
   if (!form) return;
   const status = form.querySelector(".form__status");
   const btn = form.querySelector("button[type=submit]");
+  const done = form.querySelector(".form__done");
   form.querySelector("input[name=access_key]").value = SITE.formKey;
+
+  // překryv se rozlije z místa tlačítka "Odeslat"
+  const showDone = (html, off = false) => {
+    const f = form.getBoundingClientRect(), b = btn.getBoundingClientRect();
+    done.style.setProperty("--ox", `${((b.left + b.width / 2 - f.left) / f.width) * 100}%`);
+    done.style.setProperty("--oy", `${((b.top + b.height / 2 - f.top) / f.height) * 100}%`);
+    done.classList.toggle("form__done--off", off);
+    done.innerHTML = `<div>${html}</div>`;
+    done.hidden = false;
+    done.getBoundingClientRect();
+    done.classList.add("is-in");
+    form.classList.add("is-done");
+  };
+  const showOff = () => showDone(`
+    <img src="assets/img/normal-darkBG.svg" alt="Alternativa pro Rajhradice">
+    <b>Momentálně mimo provoz</b>
+    <p>Formulář má pro tento měsíc vyčerpanou kapacitu. Děkujeme za pochopení – napište nám na <a href="mailto:${esc(SITE.email)}">${esc(SITE.email)}</a> nebo zavolejte na <a href="${esc(SITE.telefonHref)}">${esc(SITE.telefon)}</a>.</p>`, true);
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -256,10 +274,12 @@ function initContact() {
         method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify(Object.fromEntries(new FormData(form))),
       });
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
+      // vyčerpaný měsíční limit Web3Forms → černý překryv "mimo provoz"
+      if (res.status === 429 || /limit|quota|exceed/i.test(data.message || "")) { showOff(); return; }
       if (!res.ok || !data.success) throw new Error(data.message || "Odeslání se nepovedlo");
-      status.textContent = "Díky! Zpráva dorazila, ozveme se.";
-      status.classList.add("ok"); form.reset();
+      form.reset();
+      showDone(`<b>Díky! Zpráva dorazila.</b><p>Ozveme se vám na uvedený e-mail.</p>`);
     } catch (err) {
       status.textContent = "Nepovedlo se odeslat. Zkuste to znovu, nebo nám zavolejte.";
       status.classList.add("err");
@@ -434,6 +454,12 @@ function initVidea() {
           <div class="vid__link">Nejde video přehrát? <a href="https://www.youtube.com/watch?v=${esc(v.yt)}" target="_blank" rel="noopener">Otevřít na YouTube ↗</a></div>
           ${real(v.text).map((p) => `<p>${esc(p)}</p>`).join("")}
           ${real(v.body).length ? `<div><div class="points__title">Co navrhujeme</div><ul class="points">${real(v.body).map((b) => `<li>${esc(b)}</li>`).join("")}</ul></div>` : ""}
+          ${v.dokumenty?.length ? `<div><div class="points__title">Ke stažení</div>${v.dokumenty.map((d) => `
+            <a class="doc" href="${esc(d.soubor)}" target="_blank" rel="noopener">
+              <span class="doc__thumb">${d.nahled ? `<img src="${esc(d.nahled)}" alt="" loading="lazy">` : ""}</span>
+              <span><span class="doc__kind">Celý návrh · PDF</span><span class="doc__name">${esc(d.nazev)}</span>${d.popis ? `<span class="doc__meta">${esc(d.popis)}</span>` : ""}</span>
+              <span class="btn"><span>Otevřít</span>${ICONS.arrow}</span>
+            </a>`).join("")}</div>` : ""}
         </div>
       </article>
       <div class="detail__nav">

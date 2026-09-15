@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260915c">
+  <link rel="stylesheet" href="css/style.css?v=20260915e">
 </head>
 <body data-page="home">
 
@@ -159,8 +159,8 @@
       <input type="hidden" name="from_name" value="Web Alternativa pro Rajhradice">
       <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
       <div class="form__row">
-        <div class="field"><label for="f-name">Jméno</label><input id="f-name" name="name" type="text" required autocomplete="name"></div>
-        <div class="field"><label for="f-email">E-mail</label><input id="f-email" name="email" type="email" required autocomplete="email"></div>
+        <div class="field"><label for="f-name">Jméno <small>(ať víme, jak vás oslovit)</small></label><input id="f-name" name="name" type="text" required autocomplete="name"></div>
+        <div class="field"><label for="f-email">E-mail <small>(ať vám můžeme odpovědět)</small></label><input id="f-email" name="email" type="email" required autocomplete="email"></div>
       </div>
       <div class="field"><label for="f-msg">Váš nápad nebo dotaz</label><textarea id="f-msg" name="message" required></textarea></div>
       <div class="form__foot">
@@ -168,6 +168,8 @@
         <button class="btn btn--brick" type="submit"><span>Odeslat zprávu</span><svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       </div>
       <div class="form__status" role="status"></div>
+      <!-- překryv po odeslání (červený) / při vyčerpání limitu (černý) – naplní JS -->
+      <div class="form__done" aria-live="polite" hidden></div>
     </form>
   </div>
 </section>
@@ -200,7 +202,7 @@
   </div>
 </footer>
 
-<script src="js/data.js?v=20260915c"></script>
-<script src="js/main.js?v=20260915c"></script>
+<script src="js/data.js?v=20260915e"></script>
+<script src="js/main.js?v=20260915e"></script>
 </body>
 </html>

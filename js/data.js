@@ -77,6 +77,7 @@ const CANDIDATES = [
    shrnuti  – 1–2 věty, co video říká (ukazuje se v seznamu)
    body     – "co navrhujeme" – odrážky na podstránce
    text     – odstavce delšího popisu na podstránce
+   dokumenty – [{ nazev, soubor, nahled, popis }] – PDF ke stažení pod videem (volitelné)
    ------------------------------------------------------------------------ */
 const VIDEOS = [
   {
@@ -94,6 +95,9 @@ const VIDEOS = [
       "Pětky řešit okamžitě, hrozí úraz",
       "Čtyřky zařadit do plánu oprav a rozpočtu",
       "Celý soupis zveřejnit, ať to každý vidí",
+    ],
+    dokumenty: [
+      { nazev: "Hodnocení stavu chodníků a plán oprav", soubor: "assets/dokumenty/chodniky-hodnoceni-a-plan-oprav.pdf", nahled: "assets/dokumenty/chodniky-hodnoceni-a-plan-oprav.webp", popis: "Kompletní návrh: pětibodová stupnice, pořadí oprav, veřejný plán. PDF, 1 strana, 61 kB." },
     ],
   },
   {
