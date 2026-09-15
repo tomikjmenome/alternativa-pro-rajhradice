@@ -15,18 +15,20 @@ Statický web, žádný build, žádný framework. Čisté HTML + CSS + JS.
 | `js/data.js` | **VŠECHNA DATA** – kandidáti, videa, odkazy na sítě, telefon, klíč formuláře |
 | `js/main.js` | logika (vykreslení seznamů, odpočet, formulář) |
 | `css/style.css` | styl – paleta a fonty z brand kitu videí |
-| `assets/` | logo, animace loga (webm s alfou), roadmapa |
+| `assets/` | logo, animace loga (webm s alfou), fotky týmu, medailonky, dokumenty (PDF) |
 
 ## Co doplnit
 
 1. **Kandidáti** – `js/data.js` → `CANDIDATES`. Čtvercová fotka do seznamu je `foto` (`assets/img/tym/`),
    grafická karta 4:5 na podstránce je `medailonek` (`assets/img/tym/medailonek/`, WebP 900×1125).
    Bez fotky se ukáže monogram. Text v `text: []` je volitelný – zobrazí se vedle karty.
-2. **Videa** – `js/data.js` → `VIDEOS`. U příspěvků 2–5 chybí `shrnuti`, `text`, `body`.
-   Nové video = nový objekt v poli, `yt` je ID z adresy `watch?v=XXXX`.
+2. **Videa** – `js/data.js` → `VIDEOS`. Nové video = nový objekt v poli, `yt` je ID z adresy `watch?v=XXXX`.
+   PDF ke stažení pod videem: `dokumenty: [{ nazev, soubor, nahled, popis }]` (soubory do `assets/dokumenty/`).
 3. **Formulář** – zaregistruj e-mail na https://web3forms.com (zdarma, 250 zpráv/měsíc),
    přijde Access Key → `SITE.formKey` v `js/data.js`. Do té doby formulář hlásí, že není zapojený.
 4. **Program** – text je v `program.md`; po změně spusť `python tools/build_program.py` (přegeneruje `program.html`).
+   Časová osa na homepage bere kapitoly z `PROGRAM` v `js/data.js` – při přidání kapitoly doplnit i tam.
+   Obsah vpravo na stránce programu se staví automaticky z nadpisů.
 
 Texty začínající slovem „Doplnit" (v `text`, `body`, `shrnuti`) se návštěvníkům nezobrazují –
 jsou to poznámky pro redakci.

@@ -155,6 +155,64 @@ function renderTeam() {
   }).join("");
 }
 
+// program: časová osa tří období, u každého prvních 5 témat + "dalších N"
+function renderProgramTimeline() {
+  const box = document.querySelector("#program-timeline");
+  if (!box) return;
+  box.innerHTML = PROGRAM.map((p, i) => `
+    <div class="tl__item">
+      <div class="tl__year"><small>Část ${i + 1}</small>Rajhradice ${esc(p.roky)}</div>
+      <div class="tl__sub">${esc(p.sub)}</div>
+      <div class="tl__list">
+        ${p.kapitoly.slice(0, 5).map(([id, n]) => `<a href="program.html#${esc(id)}">${esc(n)}</a>`).join("")}
+        ${p.kapitoly.length > 5 ? `<a class="more" href="program.html#${esc(p.id)}">+ dalších ${p.kapitoly.length - 5}</a>` : ""}
+      </div>
+    </div>`).join("");
+}
+
+/* --- podstránka: program – obsah vpravo se sledováním scrollu ------------ */
+
+function initProgramNav() {
+  const main = document.querySelector("main.prose");
+  if (!main) return;
+  const heads = [...main.querySelectorAll("h2[id], h3[id]")];
+  if (!heads.length) return;
+
+  // obsah textu zabalit, vedle něj dát postranní navigaci
+  const body = document.createElement("div"); body.className = "prose__body";
+  while (main.firstChild) body.appendChild(main.firstChild);
+  main.appendChild(body);
+  const aside = document.createElement("aside");
+  aside.className = "pnav"; aside.setAttribute("aria-label", "Obsah programu");
+  aside.innerHTML = `
+    <div class="pnav__bar"><i></i></div>
+    <div class="pnav__title">Obsah</div>
+    <ol class="pnav__list">
+      ${heads.map((h) => `<li class="pnav__${h.tagName.toLowerCase()}"><a href="#${esc(h.id)}">${esc(h.querySelector("span")?.textContent || h.lastChild.textContent.trim())}</a></li>`).join("")}
+    </ol>
+    <a class="pnav__top" href="#uvod">↑ Zpět nahoru</a>`;
+  main.appendChild(aside);
+  main.classList.add("has-pnav");
+  const links = new Map([...aside.querySelectorAll("a[href^='#']")].map((a) => [a.getAttribute("href").slice(1), a]));
+  const bar = aside.querySelector(".pnav__bar i");
+
+  // aktivní kapitola = poslední nadpis nad třetinou obrazovky; průběh čtení = pruh
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const line = innerHeight * 0.33;
+    let cur = heads[0];
+    for (const h of heads) { if (h.getBoundingClientRect().top <= line) cur = h; else break; }
+    links.forEach((a, id) => a.classList.toggle("is-active", id === cur.id));
+    links.get(cur.id)?.scrollIntoView({ block: "nearest" });
+    const r = body.getBoundingClientRect();
+    bar.style.transform = `scaleY(${Math.min(1, Math.max(0, (line - r.top) / r.height))})`;
+  };
+  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  addEventListener("resize", update);
+  update();
+}
+
 /* --- nejnovější videa z YouTube ------------------------------------------
    1) YouTube Data API v3 (když je v data.js ytApiKey)
    2) jinak veřejný RSS kanálu přes rss2json.com (bez klíče)
@@ -568,7 +626,8 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
 
   switch (document.body.dataset.page) {
-    case "home": renderHeroMosaic(); renderHeroVideo(); renderTeam(); renderVideoTeasers(); initContact(); break;
+    case "home": renderHeroMosaic(); renderHeroVideo(); renderTeam(); renderProgramTimeline(); renderVideoTeasers(); initContact(); break;
+    case "program": initProgramNav(); break;
     case "kandidati": initKandidati(); break;
     case "videa": initVidea(); break;
   }
