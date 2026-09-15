@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1126.92 400.11">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #21242b;
+        font-size: 135.6px;
+      }
+
+      .cls-1, .cls-2 {
+        font-family: ArialMT, Arial;
+        isolation: isolate;
+      }
+
+      .cls-3 {
+        fill: #24252d;
+        stroke: #f2ebe1;
+        stroke-miterlimit: 10;
+        stroke-width: 8px;
+      }
+
+      .cls-2 {
+        fill: #5f5e5a;
+        font-size: 90.4px;
+      }
+
+      .cls-4 {
+        fill: #ca4e2d;
+      }
+
+      .cls-5 {
+        fill: #f2ebe1;
+      }
+    </style>
+  </defs>
+  <g>
+    <path class="cls-5" d="M398.99,348.01c.07,31.86-23.55,52.18-53.57,52.1l-298.99-.81c-25.83-.07-46.33-23.24-46.34-48.54L0,48.05C0,22.89,20.77.08,46.44.08L352.2,0c24.57,0,46.08,21.59,46.14,46.24l.65,301.77Z"/>
+    <path class="cls-4" d="M238.03,273.08c-12.33-19.02-27.44-35.26-46.75-50.49l82.34-72.98.56-93.98,70.27.04.05,122.79-106.48,94.63Z"/>
+    <path class="cls-3" d="M250.69,354.58l-90.07.05-.57-50.25-96.91-89.72c-6.29-5.83-9.9-12.68-10.48-21.57l.04-141.12,90.98.05.1,113.99,88.43,82.45c9.67,9.2,16.49,20.42,18.24,33.79l.25,72.33Z"/>
+  </g>
+  <text class="cls-1" transform="translate(486.26 177.08)"><tspan x="0" y="0">Alternativa</tspan></text>
+  <text class="cls-2" transform="translate(486.26 307.66)"><tspan x="0" y="0">pro Rajhradice</tspan></text>
+</svg>

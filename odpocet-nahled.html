@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Náhled odpočtu · Alternativa pro Rajhradice</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="assets/img/Icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=20260915c">
+  <style>
+    /* DEMO – jen náhled tří stavů odpočtu. Před nasazením smazat. */
+    .demo { padding: 40px 0 16px; }
+    .demo h2 { font-size: 13px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--brick); }
+    .demo p { font-size: 14px; color: var(--grey); margin-top: 6px; }
+  </style>
+</head>
+<body data-page="demo">
+
+<header class="nav">
+  <div class="container nav__in">
+    <a class="nav__logo" href="index.html">
+      <img src="assets/img/Icon.svg" alt="">
+      <span>Alternativa<small>pro Rajhradice</small></span>
+    </a>
+  </div>
+</header>
+
+<section class="page-head">
+  <div class="container">
+    <span class="kicker"><i class="mark"></i>Demo</span>
+    <h1 class="h-l">Odpočet – <span class="brick">3 stavy</span></h1>
+    <p class="lead">Stejný kód jako na homepage (`countdownState` v js/main.js), jen s podstrčeným časem. Přepíná se sám podle data v `SITE.volby` a `SITE.volbyKonec`.</p>
+  </div>
+</section>
+
+<div class="container demo"><h2>1 · Před volbami</h2><p>Do pátku 9. 10. 2026 14:00.</p></div>
+<section class="strip"><div class="container strip__in">
+  <div class="strip__count"><div class="strip__label" data-label></div><div class="countdown-demo" data-at="2026-09-15T12:00:00+02:00"></div></div>
+  <div class="strip__social"><div class="strip__label">Sledujte nás</div><div class="social__list" data-social></div></div>
+</div></section>
+
+<div class="container demo"><h2>2 · Během voleb</h2><p>Od pá 9. 10. 14:00 do so 10. 10. 14:00.</p></div>
+<section class="strip"><div class="container strip__in">
+  <div class="strip__count"><div class="strip__label" data-label></div><div class="countdown-demo" data-at="2026-10-09T18:00:00+02:00"></div></div>
+  <div class="strip__social"><div class="strip__label">Sledujte nás</div><div class="social__list" data-social></div></div>
+</div></section>
+
+<div class="container demo"><h2>3 · Po volbách</h2><p>Od so 10. 10. 14:00 napořád. Odkaz vede na <code>SITE.vysledkyUrl</code>.</p></div>
+<section class="strip"><div class="container strip__in">
+  <div class="strip__count"><div class="strip__label" data-label></div><div class="countdown-demo" data-at="2026-10-12T09:00:00+02:00"></div></div>
+  <div class="strip__social"><div class="strip__label">Sledujte nás</div><div class="social__list" data-social></div></div>
+</div></section>
+
+<div style="height:80px"></div>
+
+<script src="js/data.js?v=20260915c"></script>
+<script src="js/main.js?v=20260915c"></script>
+<script>
+  // běží až po initCountdown() z main.js, aby ho přepsal
+  document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".countdown-demo").forEach((el) => {
+    el.classList.add("countdown");
+    const { text, html } = countdownState(new Date(el.dataset.at).getTime());
+    el.closest(".strip__count").querySelector("[data-label]").textContent = text;
+    el.innerHTML = html;
+  });
+  document.querySelectorAll("[data-social]").forEach((el) => renderSocialLinks(el));
+  });
+</script>
+</body>
+</html>
