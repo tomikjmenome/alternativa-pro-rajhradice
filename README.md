@@ -34,8 +34,9 @@ Statický web, žádný build, žádný framework. Čisté HTML + CSS + JS.
    Obsah vpravo na stránce programu se staví automaticky z nadpisů. Skript na konci zkontroluje,
    že osa v `data.js` sedí na kapitoly (vypíše POZOR, když něco chybí nebo přebývá).
 5. **Doména** – jakmile je známá, spusť jednou `python tools/set_domain.py https://www.domena.cz`.
+   Indexaci to nezapne – na to je až `python tools/set_domain.py https://www.domena.cz --index`.
    Nahradí placeholder `DOPLNIT-DOMENA.cz` v canonical/og tazích, sitemap, robots a JSON-LD.
-   Zároveň odstraní dočasné `noindex` a zapne ostrý `robots.txt` (do té doby Google web neindexuje – náhled na GitHub Pages).
+   S `--index` odstraní dočasné `noindex` a zapne ostrý `robots.txt` (do té doby Google web neindexuje).
    Bez toho nefunguje náhled při sdílení na Facebooku (potřebuje absolutní adresu obrázku).
 6. **Po volbách** – `SITE.vysledkyUrl` míří rovnou na Rajhradice na volby.cz (formát z roku 2022);
    večer 10. 10. ověřit, že odkaz opravdu otevře Rajhradice.
