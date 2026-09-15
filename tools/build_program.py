@@ -107,7 +107,7 @@ main_new = f'''<!-- ============================================================
   </div>
 </main>'''
 s = s.replace(main_old, main_new)
-s = s.replace('<span class="kicker"><i class="mark"></i>Programové prohlášení</span>', '<span class="kicker"><i class="mark"></i>Volební program 2026</span>')
+s = s.replace('<span class="kicker">Programové prohlášení</span>', '<span class="kicker">Volební program 2026</span>')
 open(p, "w", encoding="utf-8").write(s)
 print("ok", len(toc), "částí")
 
