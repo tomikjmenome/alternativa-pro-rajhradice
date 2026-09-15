@@ -110,3 +110,14 @@ s = s.replace(main_old, main_new)
 s = s.replace('<span class="kicker"><i class="mark"></i>Programové prohlášení</span>', '<span class="kicker"><i class="mark"></i>Volební program 2026</span>')
 open(p, "w", encoding="utf-8").write(s)
 print("ok", len(toc), "částí")
+
+# ---------- kontrola: časová osa na homepage (PROGRAM v js/data.js) musí sedět na kapitoly ----------
+# Krátké názvy kapitol pro osu se píšou ručně (dlouhé nadpisy by se tam nevešly),
+# tak aspoň ohlídáme, že každý odkaz vede na existující nadpis a že žádná kapitola nechybí.
+js = open("js/data.js", encoding="utf-8").read()
+js_ids = set(re.findall(r'^\s*\["([a-z0-9-]+)",\s*"', js, re.M))
+html_ids = {m for m in re.findall(r'<h3 id="([^"]+)">', body)}
+chybi = html_ids - js_ids; navic = js_ids - html_ids
+if navic: print("POZOR – v js/data.js PROGRAM jsou id, která v programu nejsou:", ", ".join(sorted(navic)))
+if chybi: print("POZOR – kapitoly bez položky v js/data.js PROGRAM (na časové ose chybí):", ", ".join(sorted(chybi)))
+if not navic and not chybi: print("ok – časová osa v data.js sedí na kapitoly programu")

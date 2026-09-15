@@ -5,17 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Alternativa pro Rajhradice · Komunální volby 2026</title>
   <meta name="description" content="Máme tým, máme plán, máme sílu věci měnit. Alternativa pro Rajhradice – kandidátka do komunálních voleb 9.–10. října 2026.">
+  <meta name="robots" content="noindex, nofollow"><!-- DOČASNĚ (náhled na GitHub Pages) – odstraní tools/set_domain.py při ostrém spuštění -->
+  <link rel="canonical" href="https://DOPLNIT-DOMENA.cz/">
+  <!-- Sdílení (Facebook, Messenger, WhatsApp, X) – adresy musí být absolutní, relativní FB neumí -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Alternativa pro Rajhradice">
+  <meta property="og:locale" content="cs_CZ">
+  <meta property="og:url" content="https://DOPLNIT-DOMENA.cz/">
   <meta property="og:title" content="Alternativa pro Rajhradice">
   <meta property="og:description" content="Není na čase zvolit alternativní cestu? My myslíme, že ano. Komunální volby 9.–10. října 2026.">
-  <meta property="og:image" content="assets/img/og.png">
+  <meta property="og:image" content="https://DOPLNIT-DOMENA.cz/assets/img/og.png">
+  <meta property="og:image:width" content="1640">
+  <meta property="og:image:height" content="720">
+  <meta property="og:image:alt" content="Alternativa pro Rajhradice – komunální volby 2026">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#24252d">
   <link rel="icon" href="assets/img/Icon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260915i">
+  <link rel="stylesheet" href="css/style.css?v=20260915j">
+  <!-- Strukturovaná data pro vyhledávače (Google zobrazí logo, sítě a kontakt u výsledku) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Alternativa pro Rajhradice",
+    "url": "https://DOPLNIT-DOMENA.cz/",
+    "logo": "https://DOPLNIT-DOMENA.cz/assets/img/og.png",
+    "description": "Kandidátka do komunálních voleb 2026 v obci Rajhradice.",
+    "email": "alternativaprorajhradice@gmail.com",
+    "telephone": "+420732760085",
+    "areaServed": { "@type": "City", "name": "Rajhradice" },
+    "sameAs": [
+      "https://www.facebook.com/stolarstvimatl",
+      "https://www.instagram.com/alternativa_pro_rajhradice/",
+      "https://www.youtube.com/@AlternativaProRajhradice"
+    ]
+  }
+  </script>
 </head>
 <body data-page="home">
+<a class="skip" href="#obsah">Přeskočit na obsah</a>
 
 <!-- ===== NAVIGACE ===== -->
 <header class="nav">
@@ -24,17 +55,18 @@
       <img src="assets/img/Icon.svg" alt="">
       <span>Alternativa<small>pro Rajhradice</small></span>
     </a>
-    <nav class="nav__links">
+    <nav class="nav__links" id="hlavni-menu" aria-label="Hlavní">
       <a href="#tym" data-nav="kandidati">Náš tým</a>
       <a href="#program" data-nav="program">Program</a>
       <a href="#videa" data-nav="videa">Videa</a>
       <a class="btn btn--brick" href="#kontakt"><span>Napište nám</span></a>
     </nav>
-    <button class="nav__burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <button class="nav__burger" aria-label="Menu" aria-expanded="false" aria-controls="hlavni-menu"><span></span><span></span><span></span></button>
   </div>
 </header>
 
 <!-- ===== HERO – mozaika kandidátů (běží i pod pruhem s odpočtem a sítěmi) ===== -->
+<main id="obsah" tabindex="-1">
 <div class="hero-wrap">
   <div class="hero__mosaic" id="hero-mosaic" aria-hidden="true"></div>
   <div class="hero__tint"></div>
@@ -74,6 +106,11 @@
   </div>
 </section>
 </div>
+
+<noscript>
+  <div class="container"><div class="notice"><strong>Máte vypnutý JavaScript.</strong>
+  <span>Seznam kandidátů, časová osa programu a videa se bez něj nenačtou. Program si přečtete na <a href="program.html">samostatné stránce</a>; napsat nám můžete na <a href="mailto:alternativaprorajhradice@gmail.com">alternativaprorajhradice@gmail.com</a> nebo zavolat na <a href="tel:+420732760085">732 760 085</a>.</span></div></div>
+</noscript>
 
 <!-- ===== TÝM ===== -->
 <section class="section" id="tym">
@@ -172,6 +209,8 @@
   </div>
 </section>
 
+</main>
+
 <!-- ===== PATIČKA ===== -->
 <footer class="footer">
   <div class="container">
@@ -200,7 +239,7 @@
   </div>
 </footer>
 
-<script src="js/data.js?v=20260915i"></script>
-<script src="js/main.js?v=20260915i"></script>
+<script src="js/data.js?v=20260915j"></script>
+<script src="js/main.js?v=20260915j"></script>
 </body>
 </html>

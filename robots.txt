@@ -1,0 +1,3 @@
+# DOČASNĚ: náhled na GitHub Pages se nemá indexovat. Ostrou verzi zapne tools/set_domain.py.
+User-agent: *
+Disallow: /

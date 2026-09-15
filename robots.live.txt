@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /gdpr.html
+Disallow: /tools/
+
+Sitemap: https://DOPLNIT-DOMENA.cz/sitemap.xml

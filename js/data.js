@@ -9,8 +9,10 @@ const SITE = {
   volby: new Date("2026-10-09T14:00:00+02:00"),      // začátek voleb (pá 14:00)
   volbyKonec: new Date("2026-10-10T14:00:00+02:00"), // uzavření místností (so 14:00)
   volbyText: "9.–10. října 2026",
-  // Odkaz na výsledky – po sečtení sem dej přímý odkaz na Rajhradice na volby.cz
-  vysledkyUrl: "https://www.volby.cz/",
+  // Odkaz na výsledky – přímo obec Rajhradice na volby.cz (kód obce 583766, okres Brno-venkov 6203).
+  // Adresa je odvozená ze stejného formátu, jaký ČSÚ používal v letech 2014, 2018 a 2022 (jen "kv2022" → "kv2026").
+  // 10. 10. 2026 večer ověřit, že opravdu otevře Rajhradice; kdyby ne, kliknout na volby.cz → Zastupitelstva obcí 2026 → Brno-venkov → Rajhradice.
+  vysledkyUrl: "https://www.volby.cz/pls/kv2026/kv1111?xjazyk=CZ&xid=1&xdz=1&xnumnuts=6203&xobec=583766&xstat=0&xvyber=0",
   telefon: "732 760 085",
   telefonHref: "tel:+420732760085",
   email: "alternativaprorajhradice@gmail.com",

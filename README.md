@@ -12,10 +12,13 @@ Statický web, žádný build, žádný framework. Čisté HTML + CSS + JS.
 | `program.html` | celý text programového prohlášení |
 | `program.md` + `tools/build_program.py` | zdrojový text programu a skript, který z něj dělá `program.html` |
 | `gdpr.html` | ochrana osobních údajů + cookies (doplnit místa označená [DOPLNIT]) |
+| `404.html` | stránka „nenalezeno“ – Netlify i GitHub Pages ji berou automaticky |
+| `robots.txt`, `sitemap.xml` | pro vyhledávače (obsahují doménu – viz „Co doplnit“ bod 5) |
+| `tools/set_domain.py` | jednorázově doplní finální doménu do všech souborů |
 | `js/data.js` | **VŠECHNA DATA** – kandidáti, videa, odkazy na sítě, telefon, klíč formuláře |
 | `js/main.js` | logika (vykreslení seznamů, odpočet, formulář) |
 | `css/style.css` | styl – paleta a fonty z brand kitu videí |
-| `assets/` | logo, animace loga (webm s alfou), fotky týmu, medailonky, dokumenty (PDF) |
+| `assets/` | logo, fotky týmu, medailonky, mozaika do hero, dokumenty (PDF). Jen to, co web opravdu používá – zdrojové fotky jsou v `../medailonky/`, loga v `../Alternativa-logo/` |
 
 ## Co doplnit
 
@@ -28,7 +31,14 @@ Statický web, žádný build, žádný framework. Čisté HTML + CSS + JS.
    přijde Access Key → `SITE.formKey` v `js/data.js`. Do té doby formulář hlásí, že není zapojený.
 4. **Program** – text je v `program.md`; po změně spusť `python tools/build_program.py` (přegeneruje `program.html`).
    Časová osa na homepage bere kapitoly z `PROGRAM` v `js/data.js` – při přidání kapitoly doplnit i tam.
-   Obsah vpravo na stránce programu se staví automaticky z nadpisů.
+   Obsah vpravo na stránce programu se staví automaticky z nadpisů. Skript na konci zkontroluje,
+   že osa v `data.js` sedí na kapitoly (vypíše POZOR, když něco chybí nebo přebývá).
+5. **Doména** – jakmile je známá, spusť jednou `python tools/set_domain.py https://www.domena.cz`.
+   Nahradí placeholder `DOPLNIT-DOMENA.cz` v canonical/og tazích, sitemap, robots a JSON-LD.
+   Zároveň odstraní dočasné `noindex` a zapne ostrý `robots.txt` (do té doby Google web neindexuje – náhled na GitHub Pages).
+   Bez toho nefunguje náhled při sdílení na Facebooku (potřebuje absolutní adresu obrázku).
+6. **Po volbách** – `SITE.vysledkyUrl` míří rovnou na Rajhradice na volby.cz (formát z roku 2022);
+   večer 10. 10. ověřit, že odkaz opravdu otevře Rajhradice.
 
 Texty začínající slovem „Doplnit" (v `text`, `body`, `shrnuti`) se návštěvníkům nezobrazují –
 jsou to poznámky pro redakci.

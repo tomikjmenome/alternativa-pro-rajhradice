@@ -49,6 +49,18 @@ h1, h2, h3, h4, p { margin: 0; }
 
 ::selection { background: var(--brick); color: var(--cream); }
 
+/* --- přístupnost: viditelný fokus z klávesnice, odkaz "přeskočit na obsah" --- */
+:focus-visible { outline: 3px solid var(--brick); outline-offset: 3px; }
+.skip {
+  position: fixed; top: 12px; left: 12px; z-index: 100;
+  padding: 12px 18px; border-radius: var(--radius-s);
+  background: var(--dark); color: var(--cream); font-weight: 700; font-size: 15px;
+  transform: translateY(-200%); transition: transform .2s;
+}
+.skip:focus { transform: none; }
+#obsah { scroll-margin-top: var(--nav-h); }
+#obsah:focus { outline: 0; }
+
 .container { width: min(var(--container), 100% - 2 * var(--gutter)); margin-inline: auto; }
 
 /* --- typografie ---------------------------------------------------------- */

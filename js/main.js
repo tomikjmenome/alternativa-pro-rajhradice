@@ -27,13 +27,25 @@ const real = (arr) => (arr || []).filter((t) => t && !isDraft(t));
 const avatarHtml = (c, extra = "") =>
   `<div class="avatar ${extra}">${c.foto ? `<img src="${esc(c.foto)}" alt="${esc(c.jmeno)}" loading="lazy">` : esc(initials(c.jmeno))}</div>`;
 
+// strukturovaná data pro vyhledávače (jeden blok na stránku, při přepnutí položky se přepíše)
+function setJsonLd(data) {
+  let el = document.querySelector("#ld-detail");
+  if (!el) { el = document.createElement("script"); el.type = "application/ld+json"; el.id = "ld-detail"; document.head.appendChild(el); }
+  el.textContent = JSON.stringify({ "@context": "https://schema.org", ...data });
+}
+const absUrl = (rel) => new URL(rel, location.href).href;
+const isoDuration = (t) => { const [m, s] = String(t || "").split(":").map(Number); return m >= 0 && s >= 0 ? `PT${m}M${s}S` : undefined; };
+
 /* --- společné ------------------------------------------------------------ */
 
 function initNav() {
   const nav = document.querySelector(".nav");
   const burger = nav?.querySelector(".nav__burger");
-  burger?.addEventListener("click", () => nav.classList.toggle("is-open"));
-  nav?.querySelectorAll(".nav__links a").forEach((a) => a.addEventListener("click", () => nav.classList.remove("is-open")));
+  const setOpen = (open) => { nav.classList.toggle("is-open", open); burger.setAttribute("aria-expanded", String(open)); };
+  burger?.addEventListener("click", () => setOpen(!nav.classList.contains("is-open")));
+  nav?.querySelectorAll(".nav__links a").forEach((a) => a.addEventListener("click", () => setOpen(false)));
+  // Escape zavře rozbalené menu a vrátí fokus na tlačítko
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && nav?.classList.contains("is-open")) { setOpen(false); burger.focus(); } });
 
   // zvýraznění aktuální stránky
   const page = document.body.dataset.page;
@@ -83,27 +95,6 @@ function countdownState(now) {
   const diff = SITE.volby - now;
   const d = Math.floor(diff / 864e5), h = Math.floor(diff / 36e5) % 24, m = Math.floor(diff / 6e4) % 60;
   return { text: "Do voleb zbývá", html: [[d, "dní"], [h, "hod"], [m, "min"]].map(([v, l]) => `<div><b>${String(v).padStart(2, "0")}</b><small>${l}</small></div>`).join("") };
-}
-
-async function renderHeroVideo() {
-  const box = document.querySelector("#hero-video");
-  if (!box) return;
-  const known = Object.fromEntries(VIDEOS.map((v) => [v.yt, v]));
-  const live = await fetchLatestVideos(1);
-  let v;
-  if (live && live[0]) {
-    const k = known[live[0].yt];
-    v = k ? { yt: k.yt, titul: k.titul, label: videoLabel(k), sub: isDraft(k.shrnuti) ? "" : k.shrnuti, href: `videa.html?v=${k.id}` }
-          : { yt: live[0].yt, titul: cleanYtTitle(live[0].titul), label: ytLabelFromTitle(live[0].titul), sub: "", href: `videa.html?yt=${live[0].yt}` };
-  } else {
-    const k = [...VIDEOS].sort((a, b) => b.datum.localeCompare(a.datum))[0];
-    v = { yt: k.yt, titul: k.titul, label: videoLabel(k), sub: isDraft(k.shrnuti) ? "" : k.shrnuti, href: `videa.html?v=${k.id}` };
-  }
-  box.href = v.href;
-  box.querySelector(".hero__thumb").innerHTML = `<img src="${ytThumbHi(v.yt)}" onerror="this.onerror=null;this.src='${ytThumb(v.yt)}'" alt=""><span class="hero__play">${ICONS.play}</span>`;
-  box.querySelector(".hero__vtag").innerHTML = `<i class="mark"></i>Nejnovější video · ${esc(v.label)}`;
-  box.querySelector(".hero__vtitle").textContent = v.titul;
-  if (v.sub) box.querySelector(".hero__vinfo").insertAdjacentHTML("beforeend", `<span class="hero__vsub">${esc(v.sub)}</span>`);
 }
 
 /* --- homepage ------------------------------------------------------------ */
@@ -361,14 +352,14 @@ function initKandidati() {
   const show = (id, push = true) => {
     const i = Math.max(0, list.findIndex((c) => c.id === id));
     const c = list[i], prev = list[i - 1], next = list[i + 1];
-    side.querySelectorAll(".sidebar__item").forEach((b) => b.classList.toggle("is-active", b.dataset.id === c.id));
+    side.querySelectorAll(".sidebar__item").forEach((b) => { const on = b.dataset.id === c.id; b.classList.toggle("is-active", on); if (on) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current"); });
     detail.innerHTML = `
       <article class="detail__card">
         <div class="detail__top cand__top">
           ${avatarHtml(c)}
           <div>
             <div class="cand__num">${c.poradi === 1 ? "Lídr kandidátky" : "Kandidát č. " + c.poradi}</div>
-            <h1 class="cand__name">${esc(c.jmeno)}</h1>
+            <h2 class="cand__name">${esc(c.jmeno)}</h2>
             ${c.profese ? `<div class="cand__prof">${esc(c.profese)}${c.vek ? `, ${c.vek} let` : ""}</div>` : ""}
           </div>
         </div>
@@ -386,6 +377,8 @@ function initKandidati() {
         ${next ? `<button class="btn" data-go="${esc(next.id)}"><span>${esc(next.jmeno)}</span>${ICONS.arrow}</button>` : ""}
       </div>`;
     document.title = `${c.jmeno} · Kandidáti · ${SITE.nazev}`;
+    setJsonLd({ "@type": "Person", name: c.jmeno, jobTitle: c.profese || undefined, image: c.medailonek ? absUrl(c.medailonek) : undefined,
+      url: absUrl(`kandidati.html?k=${c.id}`), affiliation: { "@type": "Organization", name: SITE.nazev } });
     if (push) history.pushState({ id: c.id }, "", `?k=${c.id}`);
     const active = side.querySelector(".is-active");
     active?.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
@@ -425,7 +418,7 @@ function openLightbox(card) {
   if (document.querySelector(".lightbox")) return;
   const src = card.dataset.zoom, thumb = card.querySelector("img");
   const lb = document.createElement("div");
-  lb.className = "lightbox"; lb.setAttribute("role", "dialog"); lb.setAttribute("aria-label", "Zvětšený medailonek");
+  lb.className = "lightbox"; lb.setAttribute("role", "dialog"); lb.setAttribute("aria-modal", "true"); lb.setAttribute("aria-label", "Zvětšený medailonek");
   lb.innerHTML = `<img src="${esc(src)}" alt="${esc(thumb?.alt || "")}"><button class="lightbox__close" aria-label="Zavřít">×</button>`;
   const img = lb.querySelector("img");
   document.body.appendChild(lb); document.body.classList.add("has-lightbox");
@@ -496,12 +489,12 @@ function initVidea() {
     const group = list.filter((x) => x.typ === v.typ);
     const gi = group.findIndex((x) => x.id === v.id);
     const prev = group[gi - 1], next = group[gi + 1];
-    side.querySelectorAll(".sidebar__item").forEach((b) => b.classList.toggle("is-active", b.dataset.id === v.id));
+    side.querySelectorAll(".sidebar__item").forEach((b) => { const on = b.dataset.id === v.id; b.classList.toggle("is-active", on); if (on) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current"); });
     detail.innerHTML = `
       <article class="detail__card">
         <div class="detail__top">
           <div class="vid__num">${esc(videoLabel(v))}${v.datum ? ` · ${new Date(v.datum).toLocaleDateString("cs-CZ")}` : ""}</div>
-          <h1 class="vid__name">${esc(v.titul)}</h1>
+          <h2 class="vid__name">${esc(v.titul)}</h2>
           ${v.podtitul ? `<div class="vid__sub">${esc(v.podtitul)}</div>` : ""}
         </div>
         <div class="detail__body">
@@ -522,6 +515,9 @@ function initVidea() {
         ${next ? `<button class="btn" data-go="${esc(next.id)}"><span>${esc(next.titul)}</span>${ICONS.arrow}</button>` : ""}
       </div>`;
     document.title = `${v.titul} · Videa · ${SITE.nazev}`;
+    if (v.datum) setJsonLd({ "@type": "VideoObject", name: v.titul, description: v.shrnuti || v.podtitul || v.titul,
+      thumbnailUrl: [ytThumbHi(v.yt), ytThumb(v.yt)], uploadDate: v.datum, duration: isoDuration(v.delka),
+      embedUrl: ytEmbed(v.yt), url: absUrl(`videa.html?v=${v.id}`), publisher: { "@type": "Organization", name: SITE.nazev } });
     if (push) history.pushState({ id: v.id }, "", v.id.startsWith("yt-") ? `?yt=${v.yt}` : `?v=${v.id}`);
     side.querySelector(".is-active")?.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
   };
@@ -623,7 +619,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
 
   switch (document.body.dataset.page) {
-    case "home": renderHeroMosaic(); renderHeroVideo(); renderTeam(); renderProgramTimeline(); renderVideoTeasers(); initContact(); break;
+    case "home": renderHeroMosaic(); renderTeam(); renderProgramTimeline(); renderVideoTeasers(); initContact(); break;
     case "program": initProgramNav(); break;
     case "kandidati": initKandidati(); break;
     case "videa": initVidea(); break;

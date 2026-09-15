@@ -5,14 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kandidáti · Alternativa pro Rajhradice</title>
   <meta name="description" content="Kandidátka Alternativy pro Rajhradice pro komunální volby 2026 – kdo jsme a proč kandidujeme.">
+  <meta name="robots" content="noindex, nofollow"><!-- DOČASNĚ (náhled na GitHub Pages) – odstraní tools/set_domain.py při ostrém spuštění -->
+  <link rel="canonical" href="https://DOPLNIT-DOMENA.cz/kandidati.html">
+  <!-- Sdílení (Facebook, Messenger, WhatsApp, X) – adresy musí být absolutní, relativní FB neumí -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Alternativa pro Rajhradice">
+  <meta property="og:locale" content="cs_CZ">
+  <meta property="og:url" content="https://DOPLNIT-DOMENA.cz/kandidati.html">
+  <meta property="og:title" content="Kandidáti · Alternativa pro Rajhradice">
+  <meta property="og:description" content="Kandidátka Alternativy pro Rajhradice pro komunální volby 2026 – kdo jsme a proč kandidujeme.">
+  <meta property="og:image" content="https://DOPLNIT-DOMENA.cz/assets/img/og.png">
+  <meta property="og:image:width" content="1640">
+  <meta property="og:image:height" content="720">
+  <meta property="og:image:alt" content="Alternativa pro Rajhradice – komunální volby 2026">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#24252d">
   <link rel="icon" href="assets/img/Icon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260915i">
+  <link rel="stylesheet" href="css/style.css?v=20260915j">
 </head>
 <body data-page="kandidati">
+<a class="skip" href="#obsah">Přeskočit na obsah</a>
 
 <header class="nav">
   <div class="container nav__in">
@@ -20,17 +35,17 @@
       <img src="assets/img/Icon.svg" alt="">
       <span>Alternativa<small>pro Rajhradice</small></span>
     </a>
-    <nav class="nav__links">
+    <nav class="nav__links" id="hlavni-menu" aria-label="Hlavní">
       <a href="kandidati.html" data-nav="kandidati">Náš tým</a>
       <a href="program.html" data-nav="program">Program</a>
       <a href="videa.html" data-nav="videa">Videa</a>
       <a class="btn btn--brick" href="index.html#kontakt"><span>Napište nám</span></a>
     </nav>
-    <button class="nav__burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <button class="nav__burger" aria-label="Menu" aria-expanded="false" aria-controls="hlavni-menu"><span></span><span></span><span></span></button>
   </div>
 </header>
 
-<section class="page-head">
+<section class="page-head" id="obsah" tabindex="-1">
   <div class="container">
     <span class="kicker"><i class="mark"></i>Náš tým</span>
     <h1 class="h-l">Kandidátka <span class="brick">2026</span></h1>
@@ -43,7 +58,7 @@
     <div class="sidebar__title">Pořadí na kandidátce</div>
     <div class="sidebar__list" id="side-list"></div>
   </aside>
-  <main class="detail" id="detail"></main>
+  <main class="detail" id="detail"><noscript><div class="notice"><strong>Máte vypnutý JavaScript.</strong> <span>Seznam kandidátů se bez něj nenačte. Fotky celé kandidátky najdete na našem <a href="https://www.facebook.com/stolarstvimatl">Facebooku</a>.</span></div></noscript></main>
 </div>
 
 <footer class="footer">
@@ -73,7 +88,7 @@
   </div>
 </footer>
 
-<script src="js/data.js?v=20260915i"></script>
-<script src="js/main.js?v=20260915i"></script>
+<script src="js/data.js?v=20260915j"></script>
+<script src="js/main.js?v=20260915j"></script>
 </body>
 </html>
