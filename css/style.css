@@ -94,6 +94,11 @@ h1, h2, h3, h4, p { margin: 0; }
 
 .btn--brick { background: var(--brick); }
 .btn--brick::before { background: var(--dark); }
+/* na tmavém pozadí by tmavý hover splýval – tam se cihlové tlačítko přelije do krémové */
+.hero .btn--brick::before, .section--dark .btn--brick::before, .detail__top .btn--brick::before,
+.player__consent .btn--brick::before, .cookie .btn--brick::before, .footer .btn--brick::before, .form__done .btn--brick::before { background: var(--cream); }
+.hero .btn--brick:hover, .section--dark .btn--brick:hover, .detail__top .btn--brick:hover,
+.player__consent .btn--brick:hover, .cookie .btn--brick:hover, .footer .btn--brick:hover, .form__done .btn--brick:hover { color: var(--dark); }
 .btn--ghost { background: transparent; color: var(--dark); box-shadow: inset 0 0 0 2px var(--dark); }
 .btn--ghost:hover { color: var(--cream); }
 .btn--light { background: var(--cream); color: var(--dark); }
