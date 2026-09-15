@@ -52,15 +52,6 @@ function initNav() {
   nav?.querySelectorAll(".nav__links a[data-nav]").forEach((a) => a.classList.toggle("is-active", a.dataset.nav === page));
 }
 
-function initReveal() {
-  const els = document.querySelectorAll(".reveal");
-  if (!("IntersectionObserver" in window)) { els.forEach((e) => e.classList.add("is-in")); return; }
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); } });
-  }, { threshold: .12, rootMargin: "0px 0px -6% 0px" });
-  els.forEach((e) => io.observe(e));
-}
-
 function renderSocialLinks(container, compact = false, asList = false) {
   if (!container) return;
   container.innerHTML = SOCIALS.map((s) => {
@@ -132,7 +123,7 @@ function renderTeam() {
   grid.innerHTML = sorted.map((c, i) => {
     const lead = c.poradi === 1;
     return `
-    <a class="member ${lead ? "member--lead" : ""} reveal" data-delay="${(i % 3) + 1}" href="kandidati.html?k=${esc(c.id)}">
+    <a class="member ${lead ? "member--lead" : ""}" href="kandidati.html?k=${esc(c.id)}">
       <span class="member__num">${c.poradi}</span>
       ${avatarHtml(c)}
       <div>
@@ -266,7 +257,7 @@ async function renderVideoTeasers() {
   const list = [...all.filter((v) => v.typ === "prispevek"), ...all.filter((v) => v.typ !== "prispevek")].slice(0, n);
 
   grid.innerHTML = list.map((v, i) => `
-    <a class="vcard reveal" data-delay="${(i % 4) + 1}" href="${esc(v.href)}">
+    <a class="vcard" href="${esc(v.href)}">
       <div class="vcard__thumb">
         <img src="${ytThumbHi(v.yt)}" onerror="this.onerror=null;this.src='${ytThumb(v.yt)}'" alt="" loading="lazy">
         <div class="vcard__play"><i>${ICONS.play}</i></div>
@@ -278,7 +269,6 @@ async function renderVideoTeasers() {
         ${v.shrnuti && !isDraft(v.shrnuti) ? `<p class="vcard__sum">${esc(v.shrnuti)}</p>` : ""}
       </div>
     </a>`).join("");
-  initReveal();
 }
 
 function initContact() {
@@ -624,5 +614,4 @@ document.addEventListener("DOMContentLoaded", () => {
     case "kandidati": initKandidati(); break;
     case "videa": initVidea(); break;
   }
-  initReveal();
 });
