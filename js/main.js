@@ -178,10 +178,6 @@ function initProgramNav() {
   const heads = [...main.querySelectorAll("h2[id], h3[id]")];
   if (!heads.length) return;
 
-  // obsah textu zabalit, vedle něj dát postranní navigaci
-  const body = document.createElement("div"); body.className = "prose__body";
-  while (main.firstChild) body.appendChild(main.firstChild);
-  main.appendChild(body);
   const aside = document.createElement("aside");
   aside.className = "pnav"; aside.setAttribute("aria-label", "Obsah programu");
   aside.innerHTML = `
@@ -191,8 +187,7 @@ function initProgramNav() {
       ${heads.map((h) => `<li class="pnav__${h.tagName.toLowerCase()}"><a href="#${esc(h.id)}">${esc(h.querySelector("span")?.textContent || h.lastChild.textContent.trim())}</a></li>`).join("")}
     </ol>
     <a class="pnav__top" href="#uvod">↑ Zpět nahoru</a>`;
-  main.appendChild(aside);
-  main.classList.add("has-pnav");
+  document.body.appendChild(aside);
   const links = new Map([...aside.querySelectorAll("a[href^='#']")].map((a) => [a.getAttribute("href").slice(1), a]));
   const bar = aside.querySelector(".pnav__bar i");
 
@@ -205,8 +200,10 @@ function initProgramNav() {
     for (const h of heads) { if (h.getBoundingClientRect().top <= line) cur = h; else break; }
     links.forEach((a, id) => a.classList.toggle("is-active", id === cur.id));
     links.get(cur.id)?.scrollIntoView({ block: "nearest" });
-    const r = body.getBoundingClientRect();
+    const r = main.getBoundingClientRect();
     bar.style.transform = `scaleY(${Math.min(1, Math.max(0, (line - r.top) / r.height))})`;
+    // ukázat jen dokud je text programu na obrazovce (ne nad hlavičkou, ne přes patičku)
+    aside.classList.toggle("is-visible", r.top < line && r.bottom > innerHeight * 0.6);
   };
   addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
   addEventListener("resize", update);
