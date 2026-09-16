@@ -24,7 +24,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260915m">
+  <link rel="stylesheet" href="css/style.css?v=20260916k">
 </head>
 <body data-page="gdpr">
 <a class="skip" href="#obsah">Přeskočit na obsah</a>
@@ -39,7 +39,14 @@
       <a href="kandidati.html" data-nav="kandidati">Náš tým</a>
       <a href="program.html" data-nav="program">Program</a>
       <a href="videa.html" data-nav="videa">Videa</a>
+      <a href="jak-volit.html" data-nav="jak-volit">Jak volit</a>
       <a class="btn btn--brick" href="index.html#kontakt"><span>Napište nám</span></a>
+      <div class="nav__extra" aria-label="Kontakt">
+        <p class="nav__date">Komunální volby<br><b>9. a 10. října 2026</b></p>
+        <a class="nav__contact" href="tel:+420732760085"><small>Telefon</small><b data-phone>732 760 085</b></a>
+        <a class="nav__contact" href="mailto:alternativaprorajhradice@gmail.com"><small>E-mail</small><b data-email>alternativaprorajhradice@gmail.com</b></a>
+        <div class="nav__social footer__social" data-nav-social></div>
+      </div>
     </nav>
     <button class="nav__burger" aria-label="Menu" aria-expanded="false" aria-controls="hlavni-menu"><span></span><span></span><span></span></button>
   </div>
@@ -82,9 +89,19 @@
   <p>Při telefonátu zpracováváme vaše telefonní číslo jen po dobu vyřízení hovoru; žádnou databázi volajících nevedeme.</p>
 
   <h2 id="cookies"><span>03</span>Cookies</h2>
-  <p>Tento web <strong>nepoužívá žádné analytické ani marketingové cookies</strong>. Nemáme Google Analytics,
-  Facebook Pixel ani jiné sledovací nástroje.</p>
-  <p>Ve vašem prohlížeči ukládáme pouze:</p>
+  <p>Tento web <strong>nepoužívá žádné marketingové cookies</strong>. Nemáme Google Analytics ani Facebook Pixel.</p>
+  <p><strong>Počítadlo návštěv (GoatCounter).</strong> Kolik lidí web navštívilo a které stránky si prohlížely, měříme službou
+  <a href="https://www.goatcounter.com/" target="_blank" rel="noopener">GoatCounter</a>. Ta <strong>neukládá žádné cookies</strong>
+  a neuchovává IP adresu ani jiné údaje, podle kterých by šlo poznat konkrétního člověka – proto k ní není potřeba souhlas.
+  Zaznamenává se jen navštívená stránka, odkud jste přišli, typ zařízení a země.</p>
+  <p><strong>Měření používání stránky (Microsoft Clarity) – jen se souhlasem.</strong> Pokud v cookie liště zvolíte „Povolit vše“,
+  načte se nástroj <a href="https://clarity.microsoft.com/" target="_blank" rel="noopener">Microsoft Clarity</a>, který
+  anonymně zaznamenává, kam lidé klikají a jak stránkou procházejí (tzv. heatmapy). Ukládá cookies a zpracovává údaje podle
+  <a href="https://privacy.microsoft.com/cs-cz/privacystatement" target="_blank" rel="noopener">zásad ochrany soukromí Microsoftu</a>.
+  Text, který píšete do formuláře, se nezaznamenává. Data uchovává Microsoft Ireland Operations Ltd., mohou být zpracována
+  i na serverech v USA na základě rámce EU–US Data Privacy Framework. Bez souhlasu se nástroj vůbec nenačte; souhlas
+  můžete kdykoli odvolat tlačítkem níže.</p>
+  <p>Ve vašem prohlížeči dále ukládáme pouze:</p>
   <ul>
     <li><code>apr-consent</code> (localStorage) – vaše volba v cookie liště, abychom se neptali pořád dokola. Nezbytné, bez osobních údajů.</li>
     <li>dočasnou mezipaměť seznamu videí (sessionStorage) – smaže se zavřením prohlížeče. Bez osobních údajů.</li>
@@ -128,6 +145,7 @@
         <a href="kandidati.html">Náš tým</a>
         <a href="program.html">Program</a>
         <a href="videa.html">Videa</a>
+        <a href="jak-volit.html">Jak volit</a>
         <a href="index.html#kontakt">Napište nám</a>
       </nav>
       <div class="footer__social" id="footer-social"></div>
@@ -143,8 +161,8 @@
   </div>
 </footer>
 
-<script src="js/data.js?v=20260915m"></script>
-<script src="js/main.js?v=20260915m"></script>
+<script src="js/data.js?v=20260916k"></script>
+<script src="js/main.js?v=20260916k"></script>
 <script>
   document.querySelector("#reset-consent").addEventListener("click", () => {
     try { localStorage.removeItem("apr-consent"); } catch {}

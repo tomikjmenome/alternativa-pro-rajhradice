@@ -27,6 +27,12 @@ const SITE = {
   ytApiKey: "",
   // Kolik nejnovějších videí ukázat na homepage
   ytLatestCount: 4,
+  // Statistiky návštěvnosti – GoatCounter (goatcounter.com, zdarma, bez cookies → bez souhlasu).
+  // Založit účet, zvolit kód webu (např. "alternativa") a sem dát celou adresu: "https://alternativa.goatcounter.com/count"
+  goatcounter: "https://alternativaprorajhradice.goatcounter.com/count",
+  // Heatmapy a nahrávky – Microsoft Clarity (clarity.microsoft.com, zdarma). Ukládá cookies,
+  // proto se načte AŽ PO souhlasu v cookie liště ("Povolit vše"). Sem patří Project ID (10 znaků).
+  clarity: "yj41rf8rxu",
 };
 
 const SOCIALS = [

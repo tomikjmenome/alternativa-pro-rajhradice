@@ -10,6 +10,7 @@ const ICONS = {
   youtube: '<svg viewBox="0 0 24 24"><path d="M23 7.2s-.2-1.6-.9-2.3c-.9-.9-1.9-.9-2.3-1C16.5 3.7 12 3.7 12 3.7s-4.5 0-7.8.2c-.5.1-1.5.1-2.3 1C1.2 5.6 1 7.2 1 7.2S.8 9.1.8 11v1.8c0 1.9.2 3.8.2 3.8s.2 1.6.9 2.3c.9.9 2 .9 2.5 1 1.8.2 7.6.2 7.6.2s4.5 0 7.8-.2c.5-.1 1.5-.1 2.3-1 .7-.7.9-2.3.9-2.3s.2-1.9.2-3.8V11c0-1.9-.2-3.8-.2-3.8zM9.7 15V8.4l6.1 3.3L9.7 15z"/></svg>',
   play: '<svg viewBox="0 0 24 24"><path d="M6 3.8v16.4c0 .8.9 1.3 1.6.9l13-8.2c.6-.4.6-1.4 0-1.8l-13-8.2C6.9 2.5 6 3 6 3.8z"/></svg>',
   arrow: '<svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+  share: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 8l5-5 5 5M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>',
   phone: '<svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg>',
 };
 
@@ -41,7 +42,7 @@ const isoDuration = (t) => { const [m, s] = String(t || "").split(":").map(Numbe
 function initNav() {
   const nav = document.querySelector(".nav");
   const burger = nav?.querySelector(".nav__burger");
-  const setOpen = (open) => { nav.classList.toggle("is-open", open); burger.setAttribute("aria-expanded", String(open)); };
+  const setOpen = (open) => { nav.classList.toggle("is-open", open); burger.setAttribute("aria-expanded", String(open)); document.body.classList.toggle("has-menu", open); };
   burger?.addEventListener("click", () => setOpen(!nav.classList.contains("is-open")));
   nav?.querySelectorAll(".nav__links a").forEach((a) => a.addEventListener("click", () => setOpen(false)));
   // Escape zavře rozbalené menu a vrátí fokus na tlačítko
@@ -98,6 +99,7 @@ function renderHeroMosaic() {
   const tile = (c) => `assets/img/tym/mozaika/${String(c.poradi).padStart(2, "0")}-${c.id}.webp`;
   const build = () => {
     const sec = box.parentElement, W = sec.clientWidth, H = sec.clientHeight;
+    if (!W || !H) return; // sekce ještě nemá rozměry (skrytý panel/tab) – jinak vyjde nekonečný počet řádků
     // cca 4 sloupce na notebooku, 5–6 na velkém monitoru, 2 na mobilu
     const cols = Math.max(2, Math.round(W / 400)), cell = W / cols, rows = Math.ceil(H / (cell * 5 / 4));
     box.style.setProperty("--cols", cols); box.style.setProperty("--cell", cell + "px");
@@ -344,17 +346,13 @@ function initKandidati() {
     const c = list[i], prev = list[i - 1], next = list[i + 1];
     side.querySelectorAll(".sidebar__item").forEach((b) => { const on = b.dataset.id === c.id; b.classList.toggle("is-active", on); if (on) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current"); });
     detail.innerHTML = `
-      <article class="detail__card">
-        <div class="detail__top cand__top">
-          ${avatarHtml(c)}
-          <div>
-            <div class="cand__num">${c.poradi === 1 ? "Lídr kandidátky" : "Kandidát č. " + c.poradi}</div>
-            <h2 class="cand__name">${esc(c.jmeno)}</h2>
-            ${c.profese ? `<div class="cand__prof">${esc(c.profese)}${c.vek ? `, ${c.vek} let` : ""}</div>` : ""}
-          </div>
-        </div>
+      <article class="detail__card detail__card--bare">
+        <h2 class="sr-only">${c.poradi === 1 ? "Lídr kandidátky" : "Kandidát č. " + c.poradi}: ${esc(c.jmeno)}${c.profese ? `, ${esc(c.profese)}` : ""}${c.vek ? `, ${c.vek} let` : ""}</h2>
         <div class="detail__body cand__body">
-          ${c.medailonek ? `<figure class="cand__card" tabindex="0" role="button" aria-label="Zvětšit medailonek" data-zoom="${esc(c.medailonek)}"><img src="${esc(c.medailonek)}" width="900" height="1125" alt="Medailonek: ${esc(c.jmeno)}, kandidát č. ${c.poradi}" loading="lazy" decoding="async"></figure>` : ""}
+          ${c.medailonek ? `<div class="cand__media">
+            <figure class="cand__card" tabindex="0" role="button" aria-label="Zvětšit medailonek" data-zoom="${esc(c.medailonek)}"><img src="${esc(c.medailonek)}" width="900" height="1125" alt="Medailonek: ${esc(c.jmeno)}, kandidát č. ${c.poradi}" decoding="async"></figure>
+            <button class="share" type="button" data-share="${esc(c.id)}" title="Poslat odkaz na tohoto kandidáta">${ICONS.share}<span>Sdílet medailonek</span></button>
+          </div>` : ""}
           ${c.claim || real(c.text).length || c.temata?.length ? `<div class="cand__text">
             ${c.claim ? `<p class="cand__claim">„${esc(c.claim)}“</p>` : ""}
             ${real(c.text).map((p) => `<p>${esc(p)}</p>`).join("")}
@@ -363,13 +361,18 @@ function initKandidati() {
         </div>
       </article>
       <div class="detail__nav">
-        ${prev ? `<button class="btn btn--ghost" data-go="${esc(prev.id)}">← ${esc(prev.jmeno)}</button>` : "<span></span>"}
-        ${next ? `<button class="btn" data-go="${esc(next.id)}"><span>${esc(next.jmeno)}</span>${ICONS.arrow}</button>` : ""}
+        ${prev ? `<button class="btn btn--prev" data-go="${esc(prev.id)}" title="${esc(prev.jmeno)}">${ICONS.arrow}<span>Předchozí</span></button>` : "<span></span>"}
+        <span class="detail__count" title="Přepínat můžete i šipkami ← → na klávesnici">${i + 1} / ${list.length}<small>šipky ← →</small></span>
+        ${next ? `<button class="btn" data-go="${esc(next.id)}" title="${esc(next.jmeno)}"><span>Další</span>${ICONS.arrow}</button>` : "<span></span>"}
+      </div>
+      <div class="vote-tip">
+        <strong>Jak nám dát hlas?</strong>
+        <span>Nejjednodušší je jeden křížek u názvu <b>Alternativa pro Rajhradice</b> v záhlaví lístku – platí pro všech ${list.length} našich kandidátů najednou. Druhá možnost je křížkovat jednotlivá jména (naše i z ostatních kandidátek), dohromady nejvýš ${list.length} křížků.</span>
       </div>`;
     document.title = `${c.jmeno} · Kandidáti · ${SITE.nazev}`;
     setJsonLd({ "@type": "Person", name: c.jmeno, jobTitle: c.profese || undefined, image: c.medailonek ? absUrl(c.medailonek) : undefined,
       url: absUrl(`kandidati.html?k=${c.id}`), affiliation: { "@type": "Organization", name: SITE.nazev } });
-    if (push) history.pushState({ id: c.id }, "", `?k=${c.id}`);
+    if (push) { history.pushState({ id: c.id }, "", `?k=${c.id}`); trackPageview(); }
     const active = side.querySelector(".is-active");
     active?.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
   };
@@ -378,12 +381,29 @@ function initKandidati() {
   detail.addEventListener("click", (e) => {
     const z = e.target.closest("[data-zoom]");
     if (z) { openLightbox(z); return; }
+    const sh = e.target.closest("[data-share]");
+    if (sh) { shareCandidate(sh, list.find((c) => c.id === sh.dataset.share)); return; }
     const b = e.target.closest("[data-go]"); if (b) { show(b.dataset.go); scrollToDetail(); }
   });
   detail.addEventListener("keydown", (e) => { const z = e.target.closest("[data-zoom]"); if (z && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openLightbox(z); } });
   window.addEventListener("popstate", () => show(param("k") || list[0].id, false));
   show(param("k") || list[0].id, false);
   initListKeys(() => list.map((c) => c.id), () => side.querySelector(".is-active")?.dataset.id, show);
+}
+
+/* sdílení kandidáta: na mobilu systémové sdílení (WhatsApp, Messenger…), jinde zkopíruje odkaz */
+async function shareCandidate(btn, c) {
+  // sdílí se kandidat/<id>.html (generuje tools/build_kandidati.py) – má vlastní náhledový obrázek pro FB/WhatsApp
+  // a návštěvníka hned přesměruje na kandidati.html?k=id
+  const url = absUrl(`kandidat/${c.id}.html`);
+  const label = btn.querySelector("span"), orig = label.textContent;
+  const flash = (t) => { label.textContent = t; btn.classList.add("is-done"); setTimeout(() => { label.textContent = orig; btn.classList.remove("is-done"); }, 2200); };
+  if (navigator.share) {
+    try { await navigator.share({ title: `${c.jmeno} · ${SITE.nazev}`, text: `${c.jmeno} – kandidát č. ${c.poradi}, ${SITE.nazev}`, url }); } catch (_) { /* uživatel sdílení zavřel */ }
+    return;
+  }
+  try { await navigator.clipboard.writeText(url); flash("Odkaz zkopírován"); }
+  catch (_) { flash("Zkopírujte odkaz z adresního řádku"); } // stránka už má v adrese ?k=id
 }
 
 /* šipky na klávesnici: ←/↑ předchozí, →/↓ další položka v seznamu */
@@ -501,14 +521,15 @@ function initVidea() {
         </div>
       </article>
       <div class="detail__nav">
-        ${prev ? `<button class="btn btn--ghost" data-go="${esc(prev.id)}">← ${esc(prev.titul)}</button>` : "<span></span>"}
-        ${next ? `<button class="btn" data-go="${esc(next.id)}"><span>${esc(next.titul)}</span>${ICONS.arrow}</button>` : ""}
+        ${prev ? `<button class="btn btn--prev" data-go="${esc(prev.id)}" title="${esc(prev.titul)}">${ICONS.arrow}<span>Předchozí</span></button>` : "<span></span>"}
+        <span class="detail__count" title="Přepínat můžete i šipkami ← → na klávesnici">${gi + 1} / ${group.length}<small>šipky ← →</small></span>
+        ${next ? `<button class="btn" data-go="${esc(next.id)}" title="${esc(next.titul)}"><span>Další</span>${ICONS.arrow}</button>` : "<span></span>"}
       </div>`;
     document.title = `${v.titul} · Videa · ${SITE.nazev}`;
     if (v.datum) setJsonLd({ "@type": "VideoObject", name: v.titul, description: v.shrnuti || v.podtitul || v.titul,
       thumbnailUrl: [ytThumbHi(v.yt), ytThumb(v.yt)], uploadDate: v.datum, duration: isoDuration(v.delka),
       embedUrl: ytEmbed(v.yt), url: absUrl(`videa.html?v=${v.id}`), publisher: { "@type": "Organization", name: SITE.nazev } });
-    if (push) history.pushState({ id: v.id }, "", v.id.startsWith("yt-") ? `?yt=${v.yt}` : `?v=${v.id}`);
+    if (push) { history.pushState({ id: v.id }, "", v.id.startsWith("yt-") ? `?yt=${v.yt}` : `?v=${v.id}`); trackPageview(); }
     side.querySelector(".is-active")?.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
   };
 
@@ -539,7 +560,32 @@ const consent = {
   get: () => { try { return localStorage.getItem(CONSENT_KEY); } catch { return null; } },
   set: (v) => { try { localStorage.setItem(CONSENT_KEY, v); } catch {} },
   youtube: () => consent.get() === "all",
+  clarity: () => consent.get() === "all" && !!SITE.clarity,
 };
+
+/* --- statistiky návštěvnosti ---------------------------------------------
+   GoatCounter: bez cookies a bez osobních údajů, běží vždy (když je v data.js vyplněný).
+   Clarity: heatmapy, ukládá cookies → načte se jen po souhlasu "Povolit vše". */
+function initAnalytics() {
+  if (SITE.goatcounter && !document.querySelector("[data-goatcounter]")) {
+    // kandidáti a videa se přepínají bez načtení stránky – do cesty patří i ?k= / ?v=
+    window.goatcounter = { path: () => location.pathname + location.search };
+    const s = document.createElement("script");
+    s.async = true; s.src = "https://gc.zgo.at/count.js";
+    s.dataset.goatcounter = SITE.goatcounter;
+    document.head.appendChild(s);
+  }
+  if (consent.clarity() && !window.clarity) {
+    window.clarity = function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
+    const s = document.createElement("script");
+    s.async = true; s.src = "https://www.clarity.ms/tag/" + encodeURIComponent(SITE.clarity);
+    document.head.appendChild(s);
+  }
+}
+/* změna kandidáta/videa bez reloadu → zaznamenat jako další zobrazení */
+function trackPageview() {
+  window.goatcounter?.count?.({ path: location.pathname + location.search });
+}
 
 function playerHtml(yt, title) {
   if (consent.youtube()) {
@@ -575,9 +621,11 @@ function initConsent() {
   const bar = document.createElement("div");
   bar.className = "cookie"; bar.setAttribute("role", "dialog"); bar.setAttribute("aria-label", "Cookies");
   bar.innerHTML = `
-    <p><strong>Cookies.</strong> Tenhle web sám nic nesleduje. Jediná třetí strana je YouTube, ze kterého přehráváme videa – a ten si cookies ukládat může. Rozhodněte, jestli mu to dovolíte. <a href="gdpr.html">Podrobnosti</a></p>
+    <p><strong>Cookies.</strong> ${SITE.goatcounter ? "Návštěvnost měříme anonymním počítadlem bez cookies." : "Tenhle web sám nic nesleduje."} ${SITE.clarity
+      ? "Se souhlasem navíc měříme, jak se stránka používá (Microsoft Clarity), a načítáme přehrávač YouTube – oboje může ukládat cookies."
+      : "Jediná třetí strana je YouTube, ze kterého přehráváme videa – a ten si cookies ukládat může. Rozhodněte, jestli mu to dovolíte."} <a href="gdpr.html">Podrobnosti</a></p>
     <div class="cookie__btns">
-      <button class="btn btn--brick" data-consent="all"><span>Povolit i YouTube</span></button>
+      <button class="btn btn--brick" data-consent="all"><span>${SITE.clarity ? "Povolit vše" : "Povolit i YouTube"}</span></button>
       <button class="btn btn--ghost" data-consent="necessary"><span>Jen nezbytné</span></button>
     </div>`;
   bar.addEventListener("click", (e) => {
@@ -586,7 +634,7 @@ function initConsent() {
     consent.set(b.dataset.consent);
     bar.classList.remove("is-visible");
     setTimeout(() => bar.remove(), 500);
-    if (b.dataset.consent === "all") reloadPlayers();
+    if (b.dataset.consent === "all") { reloadPlayers(); initAnalytics(); }
   });
   document.body.appendChild(bar);
   requestAnimationFrame(() => setTimeout(() => bar.classList.add("is-visible"), 600));
@@ -597,9 +645,11 @@ function initConsent() {
 document.addEventListener("DOMContentLoaded", () => {
   initNav();
   initConsent();
+  initAnalytics();
   initCountdown();
   renderSocialLinks(document.querySelector("#social-list"));
   renderSocialLinks(document.querySelector("#footer-social"), true);
+  renderSocialLinks(document.querySelector("[data-nav-social]"), true);
   document.querySelectorAll("[data-phone]").forEach((el) => { el.textContent = SITE.telefon; el.closest("a") && (el.closest("a").href = SITE.telefonHref); });
   document.querySelectorAll("[data-email]").forEach((el) => {
     const a = el.closest("a") || el;

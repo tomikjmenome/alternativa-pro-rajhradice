@@ -11,10 +11,12 @@ Statický web, žádný build, žádný framework. Čisté HTML + CSS + JS.
 | `videa.html` | videoarchiv (levý seznam témat + shrnutí + YouTube), `?v=id` |
 | `program.html` | celý text programového prohlášení |
 | `program.md` + `tools/build_program.py` | zdrojový text programu a skript, který z něj dělá `program.html` |
+| `jak-volit.html` | návod, jak volit v komunálních volbách (kdy, kde, křížkování, platnost hlasu) |
 | `gdpr.html` | ochrana osobních údajů + cookies (doplnit místa označená [DOPLNIT]) |
 | `404.html` | stránka „nenalezeno“ – Netlify i GitHub Pages ji berou automaticky |
 | `robots.txt`, `sitemap.xml` | pro vyhledávače (obsahují doménu – viz „Co doplnit“ bod 5) |
 | `tools/set_domain.py` | jednorázově doplní finální doménu do všech souborů |
+| `kandidat/*.html` + `tools/build_kandidati.py` | sdílecí stránky kandidátů (vlastní náhledový obrázek pro FB/WhatsApp, hned přesměrují na `kandidati.html?k=id`) – generované, needitovat ručně |
 | `js/data.js` | **VŠECHNA DATA** – kandidáti, videa, odkazy na sítě, telefon, klíč formuláře |
 | `js/main.js` | logika (vykreslení seznamů, odpočet, formulář) |
 | `css/style.css` | styl – paleta a fonty z brand kitu videí |
@@ -22,9 +24,15 @@ Statický web, žádný build, žádný framework. Čisté HTML + CSS + JS.
 
 ## Co doplnit
 
+0. **Statistiky** – `SITE.goatcounter` (počítadlo bez cookies, běží hned) a `SITE.clarity` (heatmapy, jen po souhlasu
+   v cookie liště) v `js/data.js`. Postup je v komentářích u klíčů; text v `gdpr.html` je na obojí připravený.
+
 1. **Kandidáti** – `js/data.js` → `CANDIDATES`. Čtvercová fotka do seznamu je `foto` (`assets/img/tym/`),
    grafická karta 4:5 na podstránce je `medailonek` (`assets/img/tym/medailonek/`, WebP 900×1125).
    Bez fotky se ukáže monogram. Text v `text: []` je volitelný – zobrazí se vedle karty.
+   Po každé změně kandidátů nebo medailonků spusť `python tools/build_kandidati.py` – přegeneruje
+   `kandidat/<id>.html` a náhledy `assets/img/tym/og/<id>.jpg` (1200×630), aby sdílený odkaz na kandidáta
+   ukázal jeho medailonek. Tlačítko „Sdílet medailonek“ posílá právě tyhle adresy.
 2. **Videa** – `js/data.js` → `VIDEOS`. Nové video = nový objekt v poli, `yt` je ID z adresy `watch?v=XXXX`.
    PDF ke stažení pod videem: `dokumenty: [{ nazev, soubor, nahled, popis }]` (soubory do `assets/dokumenty/`).
 3. **Formulář** – zaregistruj e-mail na https://web3forms.com (zdarma, 250 zpráv/měsíc),
