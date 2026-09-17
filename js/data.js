@@ -215,32 +215,21 @@ const VIDEOS = [
     id: "vitr-do-plachet", yt: "Og7AbaCcnms", typ: "song",
     titul: "Vítr do plachet", podtitul: "Kampaňový song",
     delka: "2:34", datum: "2026-09-08",
-    shrnuti: "Song o společné plavbě: na loď, na kterou obec roky čeká, se dá přestat čekat a postavit si ji sami – všichni u vesel, jedno srdce pod plachtou.",
-    text: [
-      "Autorská písnička kampaně. Obraz je jednoduchý: vesnice u řeky, loď, na kterou se roky čeká, a rozhodnutí přestat čekat a postavit si ji vlastníma rukama. Refrén zve každého, ať vezme veslo a táhne s námi.",
-      "Druhá sloka je o tom, jak má vypadat vedení obce: kdo drží kormidlo, slouží všem a neporoučí. Ať je kam jít s dětmi, kde se sejít a na co být hrdý. Nový začátek není proti nikomu – je pro nás všechny i pro ty, kdo tu budou déle než my.",
-    ],
+    shrnuti: "", text: [],
     body: [],
   },
   {
     id: "chlapce-chlapce", yt: "U6VuY1Eh0FM", typ: "song",
     titul: "Chlapče, chlapče", podtitul: "Lidová v našem podání",
     delka: "1:20", datum: "2026-09-08",
-    shrnuti: "Lidová píseň v našem podání: když se ti něco zlomí, dej to spravit – a nauč se hospodařit. Přesně náš přístup k obecnímu majetku.",
-    text: [
-      "Zlidovělá píseň v podání našeho týmu. Otec se ptá syna, jak oral, a syn přiznává, že málo, protože se mu polámalo kolečko. Poučení je prosté: co se zlomí, má se dát spravit, a hospodařit se člověk musí naučit.",
-      "Vybrali jsme ji schválně – je to celý náš přístup k obci v jedné sloce: starat se o to, co máme, opravovat včas a rozumně hospodařit. Zazní i na konci videa o „nové“ škole.",
-    ],
+    shrnuti: "", text: [],
     body: [],
   },
   {
     id: "volebni-song", yt: "pmDTKAC59uc", typ: "song",
     titul: "Volební song", podtitul: "Znělka kampaně",
     delka: "1:31", datum: "2026-09-08",
-    shrnuti: "Oficiální znělka kampaně – zní na konci každého našeho videa.",
-    text: [
-      "Krátká znělka, kterou uslyšíte na konci každého kampaňového příspěvku. Její téma: společný hlas obce, který se nedá koupit; stát za svou obcí; dělat věci pro lidi, pro obec i pro kraj – a jít dál s čistým štítem, bez prázdných frází.",
-    ],
+    shrnuti: "", text: [],
     body: [],
   },
 ];

@@ -38,7 +38,7 @@ body {
   line-height: 1.6;
   color: var(--dark);
   background: var(--cream);
-  overflow-x: hidden;
+  /* overflow-x tady NE – udělalo by z body scroll kontejner a rozbilo sticky navbar; šířku hlídá html { overflow-x: clip } */
 }
 
 img, video, svg { display: block; max-width: 100%; }
@@ -581,6 +581,14 @@ body:has(.prose) .page-head .container { width: min(74ch, 100% - 2 * var(--gutte
 .prose ul { display: grid; gap: 8px; margin: 10px 0 18px; }
 .prose li { position: relative; padding-left: 22px; font-weight: 500; }
 .prose li::before { content: ""; position: absolute; left: 0; top: .6em; width: 8px; height: 8px; border-radius: 50%; background: var(--brick); }
+/* přehledy „štítek – hodnota“ (transparentnost kampaně) */
+.prose .facts { display: grid; gap: 0; margin: 12px 0 22px; border: 1px solid rgba(36,37,45,.12); border-radius: var(--radius-s); background: var(--white); overflow: hidden; }
+.prose .facts > div { display: grid; grid-template-columns: 130px 1fr; gap: 12px; padding: 11px 16px; font-size: 15px; }
+.prose .facts > div + div { border-top: 1px solid rgba(36,37,45,.08); }
+.prose .facts dt { font-size: 11.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--grey); padding-top: 3px; }
+.prose .facts dd { margin: 0; color: var(--dark-3); }
+.prose .facts dd strong { color: var(--dark); }
+@media (max-width: 520px) { .prose .facts > div { grid-template-columns: 1fr; gap: 2px; } }
 .notice { display: flex; gap: 14px; align-items: flex-start; padding: 16px 18px; border-radius: var(--radius-s); background: var(--cream-2); border: 1px solid rgba(36,37,45,.15); font-size: 14.5px; margin: 24px 0; }
 /* obsah programu – úplně vpravo u okraje okna, text si nechává celou šířku */
 .pnav {
