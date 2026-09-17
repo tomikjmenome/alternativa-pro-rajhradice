@@ -26,7 +26,7 @@ const isDraft = (t) => /^\s*doplnit\b/i.test(String(t || ""));
 const real = (arr) => (arr || []).filter((t) => t && !isDraft(t));
 
 const avatarHtml = (c, extra = "") =>
-  `<div class="avatar ${extra}">${c.foto ? `<img src="${esc(c.foto)}" alt="${esc(c.jmeno)}" loading="lazy">` : esc(initials(c.jmeno))}</div>`;
+  `<div class="avatar ${extra}${c.foto ? " ph ph--dark" : ""}">${c.foto ? `<img src="${esc(c.foto)}" alt="${esc(c.jmeno)}" loading="lazy">` : esc(initials(c.jmeno))}</div>`;
 
 // strukturovaná data pro vyhledávače (jeden blok na stránku, při přepnutí položky se přepíše)
 function setJsonLd(data) {
@@ -42,7 +42,16 @@ const isoDuration = (t) => { const [m, s] = String(t || "").split(":").map(Numbe
 function initNav() {
   const nav = document.querySelector(".nav");
   const burger = nav?.querySelector(".nav__burger");
-  const setOpen = (open) => { nav.classList.toggle("is-open", open); burger.setAttribute("aria-expanded", String(open)); document.body.classList.toggle("has-menu", open); };
+  // otevřené menu zamkne stránku: body dostane position:fixed (funguje i na iOS), pozici scrollu si pamatujeme a vracíme
+  let scrollY = 0;
+  const setOpen = (open) => {
+    if (open === nav.classList.contains("is-open")) return;
+    nav.classList.toggle("is-open", open); burger.setAttribute("aria-expanded", String(open));
+    if (open) { scrollY = window.scrollY; document.documentElement.style.setProperty("--scroll-y", scrollY + "px"); document.body.classList.add("has-menu"); }
+    else { document.body.classList.remove("has-menu"); window.scrollTo({ top: scrollY, behavior: "instant" }); }
+  };
+  // při přechodu na desktop (otočení tabletu) menu zavřít, aby stránka nezůstala zamčená
+  matchMedia("(min-width: 881px)").addEventListener("change", (e) => { if (e.matches) setOpen(false); });
   burger?.addEventListener("click", () => setOpen(!nav.classList.contains("is-open")));
   nav?.querySelectorAll(".nav__links a").forEach((a) => a.addEventListener("click", () => setOpen(false)));
   // Escape zavře rozbalené menu a vrátí fokus na tlačítko
@@ -108,7 +117,7 @@ function renderHeroMosaic() {
     box.dataset.key = key;
     box.innerHTML = Array.from({ length: cols * rows }, (_, i) => {
       const c = list[i % list.length];
-      return `<figure style="animation-delay:${(i % cols) * 50 + Math.floor(i / cols) * 90}ms"><img src="${esc(tile(c))}" width="480" height="600" alt="" ${i < cols * 2 ? 'fetchpriority="high"' : 'loading="lazy"'}></figure>`;
+      return `<figure class="ph ph--dark" style="animation-delay:${(i % cols) * 50 + Math.floor(i / cols) * 90}ms"><img src="${esc(tile(c))}" width="480" height="600" alt="" ${i < cols * 2 ? 'fetchpriority="high"' : 'loading="lazy"'}></figure>`;
     }).join("");
   };
   build();
@@ -260,7 +269,7 @@ async function renderVideoTeasers() {
 
   grid.innerHTML = list.map((v, i) => `
     <a class="vcard" href="${esc(v.href)}">
-      <div class="vcard__thumb">
+      <div class="vcard__thumb ph ph--dark">
         <img src="${ytThumbHi(v.yt)}" onerror="this.onerror=null;this.src='${ytThumb(v.yt)}'" alt="" loading="lazy">
         <div class="vcard__play"><i>${ICONS.play}</i></div>
         <span class="vcard__tag">${esc(v.label || videoLabel(v))}</span>
@@ -350,7 +359,7 @@ function initKandidati() {
         <h2 class="sr-only">${c.poradi === 1 ? "Lídr kandidátky" : "Kandidát č. " + c.poradi}: ${esc(c.jmeno)}${c.profese ? `, ${esc(c.profese)}` : ""}${c.vek ? `, ${c.vek} let` : ""}</h2>
         <div class="detail__body cand__body">
           ${c.medailonek ? `<div class="cand__media">
-            <figure class="cand__card" tabindex="0" role="button" aria-label="Zvětšit medailonek" data-zoom="${esc(c.medailonek)}"><img src="${esc(c.medailonek)}" width="900" height="1125" alt="Medailonek: ${esc(c.jmeno)}, kandidát č. ${c.poradi}" decoding="async"></figure>
+            <figure class="cand__card ph" tabindex="0" role="button" aria-label="Zvětšit medailonek" data-zoom="${esc(c.medailonek)}"><img src="${esc(c.medailonek)}" width="900" height="1125" alt="Medailonek: ${esc(c.jmeno)}, kandidát č. ${c.poradi}" decoding="async"></figure>
             <button class="share" type="button" data-share="${esc(c.id)}" title="Poslat odkaz na tohoto kandidáta">${ICONS.share}<span>Sdílet medailonek</span></button>
           </div>` : ""}
           ${c.claim || real(c.text).length || c.temata?.length ? `<div class="cand__text">
@@ -514,7 +523,7 @@ function initVidea() {
           ${real(v.body).length ? `<div><div class="points__title">Co navrhujeme</div><ul class="points">${real(v.body).map((b) => `<li>${esc(b)}</li>`).join("")}</ul></div>` : ""}
           ${v.dokumenty?.length ? `<div><div class="points__title">Ke stažení</div>${v.dokumenty.map((d) => `
             <a class="doc" href="${esc(d.soubor)}" target="_blank" rel="noopener">
-              <span class="doc__thumb">${d.nahled ? `<img src="${esc(d.nahled)}" alt="" loading="lazy">` : ""}</span>
+              <span class="doc__thumb${d.nahled ? " ph" : ""}">${d.nahled ? `<img src="${esc(d.nahled)}" alt="" loading="lazy">` : ""}</span>
               <span><span class="doc__kind">Celý návrh · PDF</span><span class="doc__name">${esc(d.nazev)}</span>${d.popis ? `<span class="doc__meta">${esc(d.popis)}</span>` : ""}</span>
               <span class="btn"><span>Otevřít</span>${ICONS.arrow}</span>
             </a>`).join("")}</div>` : ""}
@@ -555,12 +564,21 @@ function scrollToDetail() {
    (přehrávač). Bez souhlasu se místo přehrávače ukáže náhled s tlačítkem;
    kliknutím uživatel souhlasí s načtením obsahu z YouTube. */
 
-const CONSENT_KEY = "apr-consent";     // "all" | "necessary"
+const CONSENT_KEY = "apr-consent";     // JSON {youtube: bool, clarity: bool}; starší hodnoty "all" | "necessary"
 const consent = {
-  get: () => { try { return localStorage.getItem(CONSENT_KEY); } catch { return null; } },
-  set: (v) => { try { localStorage.setItem(CONSENT_KEY, v); } catch {} },
-  youtube: () => consent.get() === "all",
-  clarity: () => consent.get() === "all" && !!SITE.clarity,
+  get: () => {
+    try {
+      const v = localStorage.getItem(CONSENT_KEY);
+      if (!v) return null;
+      if (v === "all") return { youtube: true, clarity: true };
+      if (v === "necessary") return { youtube: false, clarity: false };
+      const o = JSON.parse(v);
+      return { youtube: !!o.youtube, clarity: !!o.clarity };
+    } catch { return null; }
+  },
+  set: (o) => { try { localStorage.setItem(CONSENT_KEY, JSON.stringify({ youtube: !!o.youtube, clarity: !!o.clarity })); } catch {} },
+  youtube: () => !!consent.get()?.youtube,
+  clarity: () => !!consent.get()?.clarity && !!SITE.clarity,
 };
 
 /* --- statistiky návštěvnosti ---------------------------------------------
@@ -608,11 +626,11 @@ function reloadPlayers() {
 }
 
 function initConsent() {
-  // kliknutí na "Přehrát video" = souhlas s YouTube
+  // kliknutí na "Přehrát video" = souhlas s YouTube (ostatní volby zůstávají)
   document.addEventListener("click", (e) => {
     const b = e.target.closest("[data-yt-consent]");
     if (!b) return;
-    consent.set("all");
+    consent.set({ ...(consent.get() || {}), youtube: true });
     document.querySelector(".cookie")?.remove();
     reloadPlayers();
   });
@@ -622,27 +640,61 @@ function initConsent() {
   bar.className = "cookie"; bar.setAttribute("role", "dialog"); bar.setAttribute("aria-label", "Cookies");
   bar.innerHTML = `
     <p><strong>Cookies.</strong> ${SITE.goatcounter ? "Návštěvnost měříme anonymním počítadlem bez cookies." : "Tenhle web sám nic nesleduje."} ${SITE.clarity
-      ? "Se souhlasem navíc měříme, jak se stránka používá (Microsoft Clarity), a načítáme přehrávač YouTube – oboje může ukládat cookies."
+      ? "Se souhlasem navíc měříme, jak se stránka používá (Microsoft Clarity), a načítáme přehrávač YouTube – oboje může ukládat cookies. Můžete povolit obojí, nic, nebo si vybrat."
       : "Jediná třetí strana je YouTube, ze kterého přehráváme videa – a ten si cookies ukládat může. Rozhodněte, jestli mu to dovolíte."} <a href="gdpr.html">Podrobnosti</a></p>
+    <div class="cookie__opts" id="cookie-opts" hidden>
+      <label class="cookie__opt"><input type="checkbox" checked disabled><span><b>Nezbytné</b><small>Jen uložení vaší volby v této liště. Bez nich to nejde.</small></span></label>
+      <label class="cookie__opt"><input type="checkbox" name="youtube"><span><b>Videa z YouTube</b><small>Načtení přehrávače YouTube (Google), který může ukládat cookies.</small></span></label>
+      ${SITE.clarity ? `<label class="cookie__opt"><input type="checkbox" name="clarity"><span><b>Měření používání stránky</b><small>Microsoft Clarity – anonymní heatmapy, kam lidé klikají. Ukládá cookies.</small></span></label>` : ""}
+    </div>
     <div class="cookie__btns">
       <button class="btn btn--brick" data-consent="all"><span>${SITE.clarity ? "Povolit vše" : "Povolit i YouTube"}</span></button>
       <button class="btn btn--ghost" data-consent="necessary"><span>Jen nezbytné</span></button>
+      <button class="btn btn--ghost" data-consent-open aria-expanded="false" aria-controls="cookie-opts"><span>Nastavit</span></button>
+      <button class="btn btn--brick" data-consent="custom" hidden><span>Uložit výběr</span></button>
     </div>`;
+  const opts = bar.querySelector(".cookie__opts");
+  const openBtn = bar.querySelector("[data-consent-open]"), saveBtn = bar.querySelector("[data-consent='custom']");
   bar.addEventListener("click", (e) => {
+    if (e.target.closest("[data-consent-open]")) {
+      const open = opts.hidden;
+      opts.hidden = !open; openBtn.hidden = open; saveBtn.hidden = !open; bar.classList.toggle("is-custom", open);
+      openBtn.setAttribute("aria-expanded", String(open));
+      return;
+    }
     const b = e.target.closest("[data-consent]");
     if (!b) return;
-    consent.set(b.dataset.consent);
+    const pick = (name) => !!bar.querySelector(`input[name="${name}"]`)?.checked;
+    const choice = b.dataset.consent === "all" ? { youtube: true, clarity: true }
+      : b.dataset.consent === "necessary" ? { youtube: false, clarity: false }
+      : { youtube: pick("youtube"), clarity: pick("clarity") };
+    consent.set(choice);
     bar.classList.remove("is-visible");
     setTimeout(() => bar.remove(), 500);
-    if (b.dataset.consent === "all") { reloadPlayers(); initAnalytics(); }
+    if (choice.youtube) reloadPlayers();
+    if (choice.clarity) initAnalytics();
   });
   document.body.appendChild(bar);
   requestAnimationFrame(() => setTimeout(() => bar.classList.add("is-visible"), 600));
 }
 
+/* --- placeholder obrázků ---------------------------------------------------
+   Kontejnery s třídou .ph mají pulzující podklad; jakmile se <img> uvnitř
+   načte, dostane is-loaded (plynule se objeví) a kontejner is-done. */
+function initImagePlaceholders() {
+  const done = (img, ok) => { if (ok) img.classList.add("is-loaded"); img.closest(".ph")?.classList.add("is-done"); };
+  document.addEventListener("load", (e) => { if (e.target.tagName === "IMG" && e.target.closest(".ph")) done(e.target, true); }, true);
+  document.addEventListener("error", (e) => { if (e.target.tagName === "IMG" && e.target.closest(".ph")) done(e.target, false); }, true);
+  // obrázky z cache mohou být hotové dřív, než se stihne pověsit posluchač
+  const sweep = () => document.querySelectorAll(".ph img:not(.is-loaded)").forEach((i) => { if (i.complete && i.naturalWidth) done(i, true); });
+  new MutationObserver(sweep).observe(document.body, { childList: true, subtree: true });
+  sweep();
+}
+
 /* --- start ---------------------------------------------------------------- */
 
 document.addEventListener("DOMContentLoaded", () => {
+  initImagePlaceholders();
   initNav();
   initConsent();
   initAnalytics();
