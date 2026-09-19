@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /gdpr
 Disallow: /gdpr.html
 Disallow: /tools/
 

@@ -114,7 +114,7 @@ main_new = f'''<!-- ============================================================
 
   <div class="notice" style="margin-top:44px">
     <strong>Máte k programu připomínku?</strong>
-    <span>Přesně to chceme slyšet. <a href="index.html#kontakt" style="color:var(--brick);text-decoration:underline">Napište nám</a> nebo zavolejte na <a href="tel:+420732760085" style="color:var(--brick);text-decoration:underline">732 760 085</a>.</span>
+    <span>Přesně to chceme slyšet. <a href="/#kontakt" style="color:var(--brick);text-decoration:underline">Napište nám</a> nebo zavolejte na <a href="tel:+420732760085" style="color:var(--brick);text-decoration:underline">732 760 085</a>.</span>
   </div>
 </main>'''
 s = s.replace(main_old, main_new)

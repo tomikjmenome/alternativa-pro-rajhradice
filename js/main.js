@@ -134,7 +134,7 @@ function renderTeam() {
   grid.innerHTML = sorted.map((c, i) => {
     const lead = c.poradi === 1;
     return `
-    <a class="member ${lead ? "member--lead" : ""}" href="kandidati.html?k=${esc(c.id)}">
+    <a class="member ${lead ? "member--lead" : ""}" href="/kandidati?k=${esc(c.id)}">
       <span class="member__num">${c.poradi}</span>
       ${avatarHtml(c)}
       <div>
@@ -157,8 +157,8 @@ function renderProgramTimeline() {
       <div class="tl__year"><small>Část ${i + 1}</small>Rajhradice ${esc(p.roky)}</div>
       <div class="tl__sub">${esc(p.sub)}</div>
       <div class="tl__list">
-        ${p.kapitoly.slice(0, 5).map(([id, n]) => `<a href="program.html#${esc(id)}">${esc(n)}</a>`).join("")}
-        ${p.kapitoly.length > 5 ? `<a class="more" href="program.html#${esc(p.id)}">+ dalších ${p.kapitoly.length - 5}</a>` : ""}
+        ${p.kapitoly.slice(0, 5).map(([id, n]) => `<a href="/program#${esc(id)}">${esc(n)}</a>`).join("")}
+        ${p.kapitoly.length > 5 ? `<a class="more" href="/program#${esc(p.id)}">+ dalších ${p.kapitoly.length - 5}</a>` : ""}
       </div>
     </div>`).join("");
 }
@@ -271,10 +271,10 @@ async function renderVideoTeasers() {
     ? live.map((it) => {
         const v = known[it.yt];
         return v
-          ? { ...v, href: `videa.html?v=${v.id}` }
-          : { yt: it.yt, titul: cleanYtTitle(it.titul), typ: ytLabelFromTitle(it.titul) === "Video" ? "ostatni" : "prispevek", shrnuti: "", delka: "", label: ytLabelFromTitle(it.titul), href: `videa.html?yt=${it.yt}` };
+          ? { ...v, href: `/videa?v=${v.id}` }
+          : { yt: it.yt, titul: cleanYtTitle(it.titul), typ: ytLabelFromTitle(it.titul) === "Video" ? "ostatni" : "prispevek", shrnuti: "", delka: "", label: ytLabelFromTitle(it.titul), href: `/videa?yt=${it.yt}` };
       })
-    : [...VIDEOS].sort((a, b) => b.datum.localeCompare(a.datum)).map((v) => ({ ...v, href: `videa.html?v=${v.id}` }));
+    : [...VIDEOS].sort((a, b) => b.datum.localeCompare(a.datum)).map((v) => ({ ...v, href: `/videa?v=${v.id}` }));
   // přednostně kampaňové příspěvky (songy mají všechny stejný náhled), zbytek jen na doplnění
   const list = [...all.filter((v) => v.typ === "prispevek"), ...all.filter((v) => v.typ !== "prispevek")].slice(0, n);
 
@@ -391,7 +391,7 @@ function initKandidati() {
       </div>`;
     document.title = `${c.jmeno} · Kandidáti · ${SITE.nazev}`;
     setJsonLd({ "@type": "Person", name: c.jmeno, jobTitle: c.profese || undefined, image: c.medailonek ? absUrl(c.medailonek) : undefined,
-      url: absUrl(`kandidati.html?k=${c.id}`), affiliation: { "@type": "Organization", name: SITE.nazev } });
+      url: absUrl(`kandidati?k=${c.id}`), affiliation: { "@type": "Organization", name: SITE.nazev } });
     if (push) { history.pushState({ id: c.id }, "", `?k=${c.id}`); trackPageview(); }
     const active = side.querySelector(".is-active");
     active?.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
@@ -415,7 +415,7 @@ function initKandidati() {
 async function shareCandidate(btn, c) {
   // sdílí se kandidat/<id>.html (generuje tools/build_kandidati.py) – má vlastní náhledový obrázek pro FB/WhatsApp
   // a návštěvníka hned přesměruje na kandidati.html?k=id
-  const url = absUrl(`kandidat/${c.id}.html`);
+  const url = absUrl(`kandidat/${c.id}`);
   const label = btn.querySelector("span"), orig = label.textContent;
   const flash = (t) => { label.textContent = t; btn.classList.add("is-done"); setTimeout(() => { label.textContent = orig; btn.classList.remove("is-done"); }, 2200); };
   if (navigator.share) {
@@ -548,7 +548,7 @@ function initVidea() {
     document.title = `${v.titul} · Videa · ${SITE.nazev}`;
     if (v.datum) setJsonLd({ "@type": "VideoObject", name: v.titul, description: v.shrnuti || v.podtitul || v.titul,
       thumbnailUrl: [ytThumbHi(v.yt), ytThumb(v.yt)], uploadDate: v.datum, duration: isoDuration(v.delka),
-      embedUrl: ytEmbed(v.yt), url: absUrl(`videa.html?v=${v.id}`), publisher: { "@type": "Organization", name: SITE.nazev } });
+      embedUrl: ytEmbed(v.yt), url: absUrl(`videa?v=${v.id}`), publisher: { "@type": "Organization", name: SITE.nazev } });
     if (push) { history.pushState({ id: v.id }, "", v.id.startsWith("yt-") ? `?yt=${v.yt}` : `?v=${v.id}`); trackPageview(); }
     side.querySelector(".is-active")?.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
   };
@@ -626,7 +626,7 @@ function playerHtml(yt, title) {
       <div>
         <i class="mark" style="width:36px;height:36px"></i>
         <strong>Video se přehrává z YouTube</strong>
-        <p>Po kliknutí se načte přehrávač YouTube (Google), který může ukládat cookies. <a href="gdpr.html" style="color:var(--brick);text-decoration:underline">Více informací</a></p>
+        <p>Po kliknutí se načte přehrávač YouTube (Google), který může ukládat cookies. <a href="/gdpr" style="color:var(--brick);text-decoration:underline">Více informací</a></p>
         <button class="btn btn--brick" data-yt-consent><span>Přehrát video</span></button>
       </div>
     </div>`;
@@ -652,7 +652,7 @@ function initConsent() {
   bar.innerHTML = `
     <p><strong>Cookies.</strong> ${SITE.goatcounter ? "Návštěvnost měříme anonymním počítadlem bez cookies." : "Tenhle web sám nic nesleduje."} ${SITE.clarity
       ? "Se souhlasem navíc měříme, jak se stránka používá (Microsoft Clarity), a načítáme přehrávač YouTube – oboje může ukládat cookies. Můžete povolit obojí, nic, nebo si vybrat."
-      : "Jediná třetí strana je YouTube, ze kterého přehráváme videa – a ten si cookies ukládat může. Rozhodněte, jestli mu to dovolíte."} <a href="gdpr.html">Podrobnosti</a></p>
+      : "Jediná třetí strana je YouTube, ze kterého přehráváme videa – a ten si cookies ukládat může. Rozhodněte, jestli mu to dovolíte."} <a href="/gdpr">Podrobnosti</a></p>
     <div class="cookie__opts" id="cookie-opts" hidden>
       <label class="cookie__opt"><input type="checkbox" checked disabled><span><b>Nezbytné</b><small>Jen uložení vaší volby v této liště. Bez nich to nejde.</small></span></label>
       <label class="cookie__opt"><input type="checkbox" name="youtube"><span><b>Videa z YouTube</b><small>Načtení přehrávače YouTube (Google), který může ukládat cookies.</small></span></label>
