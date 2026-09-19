@@ -739,7 +739,7 @@ body:has(.prose) .page-head .container { width: min(74ch, 100% - 2 * var(--gutte
 .vote__hours dd { margin: 0; font-size: 1.6rem; font-weight: 900; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
 .vote__way { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 32px; align-items: start; margin: 8px 0 12px; }
 .vote__way h3 { margin-top: 24px; }
-.vote__best { margin: 20px 0 8px; padding: 18px 22px; border-radius: var(--radius); background: var(--brick); color: var(--cream); border-left: 6px solid var(--dark); }
+.vote__best { grid-column: 1 / -1; margin: 4px 0 8px; padding: 20px 24px; border-radius: var(--radius); background: var(--brick); color: var(--cream); }
 .vote__best strong { display: block; font-size: 12px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 6px; }
 .vote__best p { margin: 0; color: var(--cream); font-weight: 600; }
 .vote__best b { font-weight: 900; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 2px; }
