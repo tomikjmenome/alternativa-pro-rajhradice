@@ -89,6 +89,22 @@ const CANDIDATES = [
    ------------------------------------------------------------------------ */
 const VIDEOS = [
   {
+    id: "spolky", yt: "MrJFwcPxU6E", typ: "prispevek", cislo: 8,
+    titul: "Spolky", podtitul: "Tradice a spolky, které drží obec pohromadě",
+    delka: "2:54", datum: "2026-09-18",
+    shrnuti: "Hrkač, který před 28 lety vyrobil táta, jako připomínka, jak hluboko sahají rajhradické tradice. Spolky a sdružení chceme podporovat podle toho, co skutečně dělají a potřebují.",
+    text: [
+      "Ať jde o tradice jako hrkání a vynášení morény, nebo o spolky – stárci a stárky, chasa, rajhradické baby, fotbal, rybáři, Sokol, včelaři, vodáci, myslivci či senioři – všichni si zaslouží podporu obce, zastupitelstva i každého, kdo je ochotný přiložit ruku k dílu.",
+      "Neříkáme, že obec spolky dosud nepodporovala – to rozhodně ne. Chceme se ale v dalším volebním období podívat, jak se jednotlivým spolkům vyvíjí členská základna, co potřebují ke své činnosti a jaké mají nároky – a podle toho je dotovat a pomáhat jim. Pokud jsme na někoho ve videu zapomněli, omlouváme se; myslíme i na něj.",
+    ],
+    body: [
+      "Podpora tradic – hrkání, vynášení morény a dalších zvyků",
+      "Podpora všech rajhradických spolků a sdružení ze strany obce",
+      "Zjistit, jak se spolkům vyvíjí členská základna a co ke své činnosti potřebují",
+      "Dotace rozdělovat podle skutečné činnosti a potřeb spolků",
+    ],
+  },
+  {
     id: "chodniky", yt: "GzWIg-RnGag", typ: "prispevek", cislo: 7,
     titul: "Chodníky", podtitul: "Známkujeme stav – od 1 do 5",
     delka: "4:08", datum: "2026-09-11",
@@ -240,31 +256,31 @@ const VIDEOS = [
 const PROGRAM = [
   { id: "obdobi-1", roky: "2026–2030", sub: "Co chceme udělat a začít řešit", kapitoly: [
     ["otevrena-radnice-halo-radnice", "Otevřená radnice – „Haló, radnice“"],
-    ["efektivni-hospodareni-nejdriv-musime-ved", "Efektivní hospodaření"],
+    ["prehledne-hospodareni", "Přehledné hospodaření"],
+    ["dlouhodobe-udrzitelne-investice", "Dlouhodobě udržitelné investice"],
+    ["transparentni-odmenovani-zastupitelu", "Transparentní odměňování zastupitelů"],
+    ["pece-o-obecni-majetek", "Péče o obecní majetek"],
     ["bezpecnejsi-doprava-a-omezeni-tranzitu", "Bezpečnější doprava a omezení tranzitu"],
-    ["odpovedne-a-dlouhodobe-udrzitelne-hospod", "Dlouhodobě udržitelné hospodaření"],
+    ["ulice-ktere-funguji", "Ulice, které fungují"],
     ["most-pres-svratku-a-bezpecnejsi-cesta-do", "Most přes Svratku"],
-    ["parkovani-na-ulici-hlavni", "Parkování na ulici Hlavní"],
-    ["bezpecne-a-funkcni-ulice-v-celych-rajhra", "Bezpečné a funkční ulice"],
-    ["bezpecne-a-dustojne-okoli-materske-skoly", "Okolí mateřské školy"],
-    ["na-vaze-z-nevyreseneho-mista-funkcni-pro", "„Na Váze“ – funkční prostor"],
-    ["starat-se-o-to-co-uz-mame", "Starat se o to, co už máme"],
+    ["materska-skola-a-jeji-okoli", "Mateřská škola a její okolí"],
+    ["zakladni-skola-dalsi-rozvoj", "Základní škola – další rozvoj"],
     ["spolky-hriste-a-ziva-obec", "Spolky, hřiště a živá obec"],
-    ["misto-pro-seniory-a-kazdodenni-setkavani", "Místo pro seniory"],
     ["reuse-centrum-dejme-vecem-druhou-sanci", "Reuse centrum"],
-    ["druhy-stupen-zs-ted-zajistit-jeho-dlouho", "Druhý stupeň ZŠ"],
-    ["pripravena-obec-vlastni-krizove-a-hmotne", "Připravená obec – krizové rezervy"],
-    ["zadne-mimoradne-odmeny-pro-vedeni-obce", "Žádné mimořádné odměny pro vedení obce"],
+    ["krizove-a-hmotne-rezervy-obce", "Krizové a hmotné rezervy obce"],
+    ["promena-prostoru-na-vaze", "Proměna prostoru Na Váze"],
+    ["misto-pro-seniory-a-setkavani", "Místo pro seniory a setkávání"],
   ] },
   { id: "obdobi-2", roky: "2030–2038", sub: "Co musíme začít připravovat", kapitoly: [
-    ["nove-centrum-rajhradic-radnice-sal-i-mis", "Nové centrum Rajhradic"],
-    ["dum-pro-seniory-zacit-driv-nez-ho-budeme", "Dům pro seniory"],
-    ["plan-ktery-prezije-jedny-volby", "Plán, který přežije jedny volby"],
+    ["investicni-plan-pro-dalsi-desetileti", "Investiční plán pro další desetiletí"],
+    ["centrum-obce-pro-dalsi-generace", "Centrum obce pro další generace"],
+    ["pece-o-seniory-nove-sluzby", "Péče o seniory – nové služby"],
   ] },
   { id: "obdobi-3", roky: "2040+", sub: "Kam chceme Rajhradice dlouhodobě směřovat", kapitoly: [
-    ["vlastni-cistirna-odpadnich-vod", "Vlastní čistírna odpadních vod"],
-    ["voda-a-protipovodnova-ochrana-neznaji-hr", "Voda a protipovodňová ochrana"],
-    ["rajhradice-nejsou-ostrov", "Rajhradice nejsou ostrov"],
+    ["vize-pro-dalsi-generace", "Vize pro další generace"],
+    ["spoluprace-v-regionu", "Spolupráce v regionu"],
+    ["voda-v-krajine-a-bezpeci-obce", "Voda v krajině a bezpečí obce"],
+    ["cistirna-odpadnich-vod", "Čistírna odpadních vod"],
   ] },
 ];
 

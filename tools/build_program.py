@@ -1,20 +1,27 @@
 """Převede program.md (prostý text z Wordu) do program.html.
 Spustit z WEB/:  python tools/build_program.py
-Nadpisy = řádky verzálkami, části = "1. RAJHRADICE V OBDOBÍ ...", odrážky = "·".
+Formát program.md (verze „Alternativa_program_konec.docx“):
+  řádek 1 titul, 2 podtitul, 3 „Motto: …“ (motto je v hlavičce stránky, do textu se nedává)
+  „1. RAJHRADICE 2026–2030“   = část (h2)
+  „• NADPIS VERZÁLKAMI“       = kapitola (h3)
+  „NÁŠ ZÁVAZEK“               = závěrečná část
+  verzálkové řádky v úvodu    = základní pravidla (odrážky)
+  „2026–2030 – …“             = seznam etap
+  „Že …“                      = odrážky závazku
 Po spuštění zkontroluj velká písmena v nadpisech (skript je převádí na věty).
 """
-import os, re, html
+import os, re, html, unicodedata
 os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 E = html.escape
-# ---------- 5) program.html z program.md ----------
-lines = [l.strip().replace("\u00a0", " ") for l in open("program.md", encoding="utf-8").read().splitlines()]
+
+lines = [re.sub(r"[ \t ]+", " ", l).strip() for l in open("program.md", encoding="utf-8").read().splitlines()]
 lines = [l for l in lines if l]
-# rovné uvozovky z Wordu („takhle") → typografické („takhle“)
+# rovné uvozovky z Wordu („takhle") → typografické („takhle“); spojovník s mezerami → pomlčka
 lines = [re.sub(r'„([^"„“]*)"', lambda m: "„" + m.group(1) + "“", l) for l in lines]
-E = html.escape
+lines = [l.replace(" - ", " – ") for l in lines]
 
 # vlastní jména, která mají v nadpisech zůstat s velkým písmenem
-PROPER = ["Rajhradice", "Rajhradic", "Rajhradicích", "Rajhradu", "Svratku", "Svratka", "Hlavní", "Na Váze", "ZŠ", "Haló"]
+PROPER = ["Rajhradice", "Rajhradic", "Rajhradicích", "Rajhradu", "Svratku", "Svratka", "Hlavní", "Na Váze", "ZŠ", "Haló", "Reuse", "Alternativa"]
 def sentence_case(t):
     """VERZÁLKOVÝ NADPIS → Verzálkový nadpis (vlastní jména z PROPER zůstávají)."""
     t = t.lower()
@@ -25,30 +32,33 @@ def sentence_case(t):
 
 def is_upper(l):
     letters = [c for c in l if c.isalpha()]
-    return letters and all(c.isupper() for c in letters)
+    return bool(letters) and all(c.isupper() for c in letters)
 
 def slug(t):
-    import unicodedata
     t = unicodedata.normalize("NFKD", t).encode("ascii", "ignore").decode()
     t = re.sub(r"[^a-z0-9]+", "-", t.lower()).strip("-")
     return t[:40]
 
-out = []; toc = []
-i = 0
-# titul + podtitul
-title = lines[0]; sub = lines[1]; i = 2
-part_re = re.compile(r"^(\d)\.\s+RAJHRADICE V OBDOBÍ (.+)$")
+title, sub, motto = lines[0], lines[1], lines[2]
+lines = lines[3:]
+
+part_re = re.compile(r"^(\d)\.\s+RAJHRADICE (.+)$")
 part_leads = {"1": "Co chceme udělat a začít řešit", "2": "Co musíme začít připravovat", "3": "Kam chceme Rajhradice dlouhodobě směřovat"}
-in_ul = False
+FINAL_START = "Chceme, aby Rajhradice rozumně hospodařily"
+
+out = []; toc = []; in_ul = None; in_intro = True; in_final = False
 def close_ul():
     global in_ul
-    if in_ul: out.append("  </ul>"); in_ul = False
+    if in_ul: out.append("  </ul>"); in_ul = None
+def open_ul(cls=""):
+    global in_ul
+    if in_ul != (cls or "plain"):
+        close_ul(); out.append(f'  <ul class="{cls}">' if cls else "  <ul>"); in_ul = cls or "plain"
 
-while i < len(lines):
-    l = lines[i]
+for l in lines:
     m = part_re.match(l)
     if m:
-        close_ul()
+        close_ul(); in_intro = False
         pid = "obdobi-" + m.group(1)
         out.append(f'\n  <h2 id="{pid}"><small>Část {m.group(1)}</small>Rajhradice {E(m.group(2))}</h2>')
         out.append(f'  <p class="part-lead">{E(part_leads[m.group(1)])}</p>')
@@ -57,38 +67,39 @@ while i < len(lines):
         close_ul()
         out.append('\n  <h2 id="zavazek"><small>Na závěr</small>Náš závazek</h2>')
         toc.append(("zavazek", "Náš závazek"))
-    elif l.startswith("·"):
-        if not in_ul: out.append('  <ul class="rules">'); in_ul = True
-        out.append(f"    <li>{E(l.lstrip('· ').strip())}</li>")
-    elif re.match(r"^\d\.\s+Období", l):
-        if not in_ul: out.append("  <ul>"); in_ul = True
-        out.append(f"    <li>{E(re.sub(r'^\d\.\s+', '', l))}</li>")
-    elif l.startswith("Že ") or l == "Slibujeme něco jiného.":
-        if l == "Slibujeme něco jiného.":
-            close_ul(); out.append(f'  <p class="claim">{E(l)}</p>')
-        else:
-            if not in_ul: out.append("  <ul>"); in_ul = True
-            out.append(f"    <li>{E(l)}</li>")
+    elif l.startswith("•"):
+        close_ul()
+        t = l.lstrip("• ").strip()
+        out.append(f'\n  <h3 id="{slug(t)}"><span>{E(sentence_case(t))}</span></h3>')
+    elif in_intro and is_upper(l):
+        open_ul("rules"); out.append(f"    <li>{E(l)}</li>")
+    elif re.match(r"^\d{4}", l) and " – " in l:
+        open_ul(); out.append(f"    <li>{E(l)}</li>")
+    elif l.startswith("Že "):
+        open_ul(); out.append(f"    <li>{E(l)}</li>")
+    elif l == "Slibujeme něco jiného.":
+        close_ul(); out.append(f'  <p class="claim">{E(l)}</p>')
+    elif l.startswith(FINAL_START):
+        close_ul(); in_final = True
+        out.append('  <div class="final">')
+        out.append(f'    <p class="final__claim">{E(l)}</p>')
+    elif in_final:
+        if is_upper(l): out.append(f'    <span class="final__brand">{E(l)}</span>')
+        elif l.endswith("odpovědnost."): out.append(f'    <span class="final__offer">{E(l)}</span>')
+        else: out.append(f"    <p>{E(l)}</p>")
     elif is_upper(l) and len(l) < 90:
-        close_ul()
-        # závěrečné čtyři hesla
-        if l in ("ROZUMNĚ HOSPODAŘIT.", "OTEVŘENĚ ROZHODOVAT.", "MYSLET NA BUDOUCNOST.", "PRACOVAT ZKUŠENĚ A ODPOVĚDNĚ."):
-            if l == "ROZUMNĚ HOSPODAŘIT.": out.append('  <div class="final">')
-            out.append(f"    <span>{E(sentence_case(l))}</span>")
-            if l == "PRACOVAT ZKUŠENĚ A ODPOVĚDNĚ.": out.append("  </div>")
-        else:
-            out.append(f'\n  <h3 id="{slug(l)}"><span>{E(sentence_case(l))}</span></h3>')
+        # zvýrazněná otázka / heslo uprostřed textu
+        close_ul(); out.append(f'  <p class="claim">{E(l)}</p>')
     else:
-        close_ul()
-        out.append(f"  <p>{E(l)}</p>")
-    i += 1
+        close_ul(); out.append(f"  <p>{E(l)}</p>")
 close_ul()
+if in_final: out.append("  </div>")
 body = "\n".join(out)
 
 p = "program.html"; s = open(p, encoding="utf-8").read()
 h1i = s.index('<h1 class="h-l">'); head_old = s[h1i:s.index("</nav>", h1i) + 6]
 head_new = f'''<h1 class="h-l">Rozumně hospodařit.<br>Otevřeně rozhodovat.<br><span class="brick">Myslet na budoucnost.</span></h1>
-    <p class="lead">Volební program pro komunální volby 2026. Záleží nám na tom, jakým směrem se budou Rajhradice v příštích letech ubírat.</p>
+    <p class="lead">{E(sub)}. Záleží nám na tom, jakým směrem se budou Rajhradice v příštích letech ubírat.</p>
     <nav class="toc" aria-label="Obsah">
       <a href="#uvod">Úvod</a>
 ''' + "\n".join(f'      <a href="#{pid}">{E(t)}</a>' for pid, t in toc) + "\n    </nav>"
@@ -107,9 +118,8 @@ main_new = f'''<!-- ============================================================
   </div>
 </main>'''
 s = s.replace(main_old, main_new)
-s = s.replace('<span class="kicker">Programové prohlášení</span>', '<span class="kicker">Volební program 2026</span>')
 open(p, "w", encoding="utf-8").write(s)
-print("ok", len(toc), "částí")
+print("ok", len(toc), "částí,", body.count("<h3 "), "kapitol")
 
 # ---------- kontrola: časová osa na homepage (PROGRAM v js/data.js) musí sedět na kapitoly ----------
 # Krátké názvy kapitol pro osu se píšou ručně (dlouhé nadpisy by se tam nevešly),

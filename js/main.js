@@ -185,18 +185,29 @@ function initProgramNav() {
   const bar = aside.querySelector(".pnav__bar i");
 
   // aktivní kapitola = poslední nadpis nad třetinou obrazovky; průběh čtení = pruh
-  let ticking = false;
+  let ticking = false, lastId = null;
   const update = () => {
     ticking = false;
     const line = innerHeight * 0.33;
     let cur = heads[0];
     for (const h of heads) { if (h.getBoundingClientRect().top <= line) cur = h; else break; }
     links.forEach((a, id) => a.classList.toggle("is-active", id === cur.id));
-    links.get(cur.id)?.scrollIntoView({ block: "nearest" });
+    // při změně kapitoly ji posunout do dohledu – roluje se jen seznam, ne stránka
+    // (a jen při změně, aby to nepřebíjelo ruční rolování seznamu kolečkem)
+    if (cur.id !== lastId) {
+      lastId = cur.id;
+      const a = links.get(cur.id), list = a?.closest(".pnav__list");
+      if (a && list) {
+        const top = a.offsetTop, bottom = top + a.offsetHeight;
+        if (top < list.scrollTop) list.scrollTop = top;
+        else if (bottom > list.scrollTop + list.clientHeight) list.scrollTop = bottom - list.clientHeight;
+      }
+    }
     const r = main.getBoundingClientRect();
     bar.style.transform = `scaleY(${Math.min(1, Math.max(0, (line - r.top) / r.height))})`;
-    // ukázat jen dokud je text programu na obrazovce (ne nad hlavičkou, ne přes patičku)
-    aside.classList.toggle("is-visible", r.top < line && r.bottom > innerHeight * 0.6);
+    // ukázat jen dokud je text programu na obrazovce – schovat, jakmile by se obsah dole potkal s patičkou
+    const asideBottom = aside.getBoundingClientRect().bottom || innerHeight;
+    aside.classList.toggle("is-visible", r.top < line && r.bottom > asideBottom);
   };
   addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
   addEventListener("resize", update);
