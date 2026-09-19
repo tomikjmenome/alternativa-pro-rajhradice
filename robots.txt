@@ -1,3 +1,6 @@
-# DOČASNĚ: náhled na GitHub Pages se nemá indexovat. Ostrou verzi zapne tools/set_domain.py.
 User-agent: *
-Disallow: /
+Allow: /
+Disallow: /gdpr.html
+Disallow: /tools/
+
+Sitemap: https://www.alternativaprorajhradice.cz/sitemap.xml
