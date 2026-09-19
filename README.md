@@ -2,6 +2,9 @@
 
 Statický web, žádný build, žádný framework. Čisté HTML + CSS + JS.
 
+Odkazy jsou bez `.html` (`/program`, `/kandidati?k=id`, `/kandidat/<id>`) – GitHub Pages si soubor domyslí.
+Lokálně proto spouštěj `python tools/serve.py`, ne `python -m http.server` (ten čisté adresy neumí).
+
 ## Struktura
 
 | soubor | co je |
@@ -16,6 +19,7 @@ Statický web, žádný build, žádný framework. Čisté HTML + CSS + JS.
 | `404.html` | stránka „nenalezeno“ – Netlify i GitHub Pages ji berou automaticky |
 | `robots.txt`, `sitemap.xml` | pro vyhledávače (obsahují doménu – viz „Co doplnit“ bod 5) |
 | `tools/set_domain.py` | jednorázově doplní finální doménu do všech souborů |
+| `tools/serve.py` | lokální náhled (`python tools/serve.py`, http://localhost:4000) – umí čisté adresy bez `.html` jako GitHub Pages |
 | `kandidat/*.html` + `tools/build_kandidati.py` | sdílecí stránky kandidátů (vlastní náhledový obrázek pro FB/WhatsApp, hned přesměrují na `kandidati.html?k=id`) – generované, needitovat ručně |
 | `js/data.js` | **VŠECHNA DATA** – kandidáti, videa, odkazy na sítě, telefon, klíč formuláře |
 | `js/main.js` | logika (vykreslení seznamů, odpočet, formulář) |

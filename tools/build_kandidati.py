@@ -21,7 +21,7 @@ except (OSError, subprocess.CalledProcessError) as e:
 data = json.loads(out)
 SITE, CANDIDATES = data["SITE"], sorted(data["CANDIDATES"], key=lambda c: c["poradi"])
 
-m = re.search(r'<link rel="canonical" href="(https://[^/"]+)/kandidati\.html">', open("kandidati.html", encoding="utf-8").read())
+m = re.search(r'<link rel="canonical" href="(https://[^/"]+)/kandidati">', open("kandidati.html", encoding="utf-8").read())
 if not m:
     sys.exit("V kandidati.html chybí canonical s doménou – nejdřív spustit tools/set_domain.py")
 DOMAIN = m.group(1)
@@ -57,11 +57,11 @@ PAGE = """<!DOCTYPE html>
   <title>{jmeno} · Kandidáti · {site}</title>
   <meta name="description" content="{popis}">
   <meta name="robots" content="noindex, follow"><!-- jen sdílecí stránka, do vyhledávačů patří kandidati.html -->
-  <link rel="canonical" href="{domain}/kandidati.html?k={id}">
+  <link rel="canonical" href="{domain}/kandidati?k={id}">
   <meta property="og:type" content="profile">
   <meta property="og:site_name" content="{site}">
   <meta property="og:locale" content="cs_CZ">
-  <meta property="og:url" content="{domain}/kandidat/{id}.html">
+  <meta property="og:url" content="{domain}/kandidat/{id}">
   <meta property="og:title" content="{jmeno} – kandidát č. {poradi}">
   <meta property="og:description" content="{popis}">
   <meta property="og:image" content="{domain}/assets/img/tym/og/{id}.jpg">
@@ -71,11 +71,11 @@ PAGE = """<!DOCTYPE html>
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#24252d">
   <link rel="icon" href="../assets/img/Icon.svg" type="image/svg+xml">
-  <script>location.replace("../kandidati.html?k={id}");</script>
+  <script>location.replace("/kandidati?k={id}");</script>
   <style>body{{margin:0;min-height:100vh;display:grid;place-items:center;background:#f2ebe1;color:#24252d;font:500 16px/1.5 system-ui,sans-serif;text-align:center;padding:24px}}a{{color:#c8502f}}</style>
 </head>
 <body>
-  <p><strong>{jmeno}</strong> – kandidát č. {poradi}<br><a href="../kandidati.html?k={id}">Zobrazit medailonek →</a></p>
+  <p><strong>{jmeno}</strong> – kandidát č. {poradi}<br><a href="/kandidati?k={id}">Zobrazit medailonek →</a></p>
 </body>
 </html>
 """
