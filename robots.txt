@@ -1,2 +1,6 @@
 User-agent: *
-Disallow: /
+Allow: /
+Disallow: /gdpr.html
+Disallow: /tools/
+
+Sitemap: https://www.alternativaprorajhradice.cz/sitemap.xml

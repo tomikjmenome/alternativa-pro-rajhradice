@@ -3,38 +3,245 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex, nofollow">
-  <title>Alternativa pro Rajhradice – web připravujeme</title>
-  <meta name="description" content="Alternativa pro Rajhradice – komunální volby 2026. Web připravujeme.">
+  <title>Alternativa pro Rajhradice · Komunální volby 2026</title>
+  <meta name="description" content="Máme tým, máme plán, máme sílu věci měnit. Alternativa pro Rajhradice – kandidátka do komunálních voleb 9.–10. října 2026.">
+  <link rel="canonical" href="https://www.alternativaprorajhradice.cz/">
+  <!-- Sdílení (Facebook, Messenger, WhatsApp, X) – adresy musí být absolutní, relativní FB neumí -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Alternativa pro Rajhradice">
+  <meta property="og:locale" content="cs_CZ">
+  <meta property="og:url" content="https://www.alternativaprorajhradice.cz/">
+  <meta property="og:title" content="Alternativa pro Rajhradice">
+  <meta property="og:description" content="Není na čase zvolit alternativní cestu? My myslíme, že ano. Komunální volby 9.–10. října 2026.">
+  <meta property="og:image" content="https://www.alternativaprorajhradice.cz/assets/img/og.png">
+  <meta property="og:image:width" content="1640">
+  <meta property="og:image:height" content="720">
+  <meta property="og:image:alt" content="Alternativa pro Rajhradice – komunální volby 2026">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#24252d">
   <link rel="icon" href="assets/img/Icon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
-  <style>
-    :root { --cream: #f2ebe1; --dark: #24252d; --dark-2: #2f313b; --brick: #e2694a; }
-    *, *::before, *::after { box-sizing: border-box; }
-    html, body { height: 100%; margin: 0; }
-    body {
-      display: flex; align-items: center; justify-content: center;
-      padding: 24px;
-      background: radial-gradient(ellipse at 50% 40%, var(--dark-2) 0%, var(--dark) 70%);
-      color: var(--cream);
-      font-family: "Montserrat", "Segoe UI", system-ui, sans-serif;
-      text-align: center;
-    }
-    main { max-width: 640px; width: 100%; }
-    .logo { width: min(100%, 520px); height: auto; display: block; margin: 0 auto 36px; }
-    h1 { font-size: clamp(22px, 4vw, 32px); font-weight: 700; margin: 0 0 12px; letter-spacing: .02em; }
-    p { font-size: clamp(15px, 2.2vw, 18px); font-weight: 500; margin: 0; opacity: .85; }
-    .line { width: 56px; height: 4px; background: var(--brick); margin: 28px auto 0; border-radius: 2px; }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=20260919b">
+  <!-- Strukturovaná data pro vyhledávače (Google zobrazí logo, sítě a kontakt u výsledku) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Alternativa pro Rajhradice",
+    "url": "https://www.alternativaprorajhradice.cz/",
+    "logo": "https://www.alternativaprorajhradice.cz/assets/img/og.png",
+    "description": "Kandidátka do komunálních voleb 2026 v obci Rajhradice.",
+    "email": "alternativaprorajhradice@gmail.com",
+    "telephone": "+420732760085",
+    "areaServed": { "@type": "City", "name": "Rajhradice" },
+    "sameAs": [
+      "https://www.facebook.com/stolarstvimatl",
+      "https://www.instagram.com/alternativa_pro_rajhradice/",
+      "https://www.youtube.com/@AlternativaProRajhradice"
+    ]
+  }
+  </script>
 </head>
-<body>
-  <main>
-    <img class="logo" src="assets/img/normal-darkBG.svg" alt="Alternativa pro Rajhradice">
-    <h1>Web připravujeme</h1>
-    <p>Komunální volby 2026 · Rajhradice</p>
-    <div class="line" aria-hidden="true"></div>
-  </main>
+<body data-page="home">
+<a class="skip" href="#obsah">Přeskočit na obsah</a>
+
+<!-- ===== NAVIGACE ===== -->
+<header class="nav">
+  <div class="container nav__in">
+    <a class="nav__logo" href="index.html">
+      <img src="assets/img/Icon.svg" alt="">
+      <span>Alternativa<small>pro Rajhradice</small></span>
+    </a>
+    <nav class="nav__links" id="hlavni-menu" aria-label="Hlavní">
+      <a href="#tym" data-nav="kandidati">Náš tým</a>
+      <a href="#program" data-nav="program">Program</a>
+      <a href="#videa" data-nav="videa">Videa</a>
+      <a href="jak-volit.html" data-nav="jak-volit">Jak volit</a>
+      <a class="btn btn--brick" href="#kontakt"><span>Napište nám</span></a>
+      <div class="nav__extra" aria-label="Kontakt">
+        <p class="nav__date">Komunální volby<br><b>9. a 10. října 2026</b></p>
+        <a class="nav__contact" href="tel:+420732760085"><small>Telefon</small><b data-phone>732 760 085</b></a>
+        <a class="nav__contact" href="mailto:alternativaprorajhradice@gmail.com"><small>E-mail</small><b data-email>alternativaprorajhradice@gmail.com</b></a>
+        <div class="nav__social footer__social" data-nav-social></div>
+      </div>
+    </nav>
+    <button class="nav__burger" aria-label="Menu" aria-expanded="false" aria-controls="hlavni-menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- ===== HERO – mozaika kandidátů (běží i pod pruhem s odpočtem a sítěmi) ===== -->
+<main id="obsah" tabindex="-1">
+<div class="hero-wrap">
+  <div class="hero__mosaic" id="hero-mosaic" aria-hidden="true"></div>
+  <div class="hero__tint"></div>
+  <div class="hero__shade"></div>
+<section class="hero">
+  <div class="container hero__in">
+    <h1 class="hero__title">
+      <span>Máme tým.</span>
+      <span class="brick">Máme plán.</span>
+      <span>Máme sílu věci měnit.</span>
+    </h1>
+    <p class="lead">
+      Chodníky, které známkujeme jako ve škole. Most přes Svratku, kde chodci balancují
+      mezi kamiony. Ranní chaos před školou a plot školky, který nic nechrání. Nejsou to
+      velké vize – jsou to věci, kolem kterých v Rajhradicích chodíte každý den. A přesně
+      od nich chceme začít.
+    </p>
+    <div class="hero__cta">
+      <a class="btn btn--brick" href="program.html"><span>Přečíst program</span><svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="link-more" href="#tym">Poznat tým</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SOCIÁLNÍ SÍTĚ ===== -->
+<section class="strip" id="socialni-site">
+  <div class="container strip__in">
+    <div class="strip__count">
+      <div class="strip__label">Do voleb zbývá</div>
+      <div class="countdown" aria-label="Odpočet do voleb"></div>
+      <div class="strip__date">pátek 9. a sobota 10. října 2026</div>
+    </div>
+    <div class="strip__social">
+      <div class="strip__label">Sledujte nás</div>
+      <div class="social__list" id="social-list"></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<noscript>
+  <div class="container"><div class="notice"><strong>Máte vypnutý JavaScript.</strong>
+  <span>Seznam kandidátů, časová osa programu a videa se bez něj nenačtou. Program si přečtete na <a href="program.html">samostatné stránce</a>; napsat nám můžete na <a href="mailto:alternativaprorajhradice@gmail.com">alternativaprorajhradice@gmail.com</a> nebo zavolat na <a href="tel:+420732760085">732 760 085</a>.</span></div></div>
+</noscript>
+
+<!-- ===== TÝM ===== -->
+<section class="section" id="tym">
+  <div class="container">
+    <div class="section__head">
+      <h2 class="h-l">Lidé, kteří to<br>chtějí <span class="brick">dotáhnout</span></h2>
+      <p class="lead">Patnáct lidí z Rajhradic – podnikatelé, zámečníci, truhlář, projektant, student i důchodce. Nejmladšímu je 20, nejstaršímu 67. Pokríváme všechny generace.</p>
+    </div>
+    <div class="team__head"><span>#</span><span></span><span>Jméno</span><span class="hide-m">Profese</span><span class="hide-m">Věk</span><span></span></div>
+    <div class="team" id="team-grid" data-limit="5"></div>
+    <div class="section__foot">
+      <a class="btn" href="kandidati.html"><span data-team-rest>Celá kandidátka</span></a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== PROGRAM ===== -->
+<section class="section section--dark" id="program">
+  <div class="container program-hero">
+    <div>
+      <span class="kicker">Programové prohlášení</span>
+      <h2 class="h-l" style="margin-top:14px">Náš <span class="brick">plán</span></h2>
+      <p class="lead" style="margin-top:18px">
+        Máme 22 konkrétních témat rozdělených do tří období –
+        co uděláme hned, co musíme začít připravovat a kam chceme Rajhradice směřovat dlouhodobě.
+      </p>
+      <ol class="rules-grid" aria-label="Naše základní pravidlo">
+        <li><b>Znát skutečný stav</b><small>audit majetku a hospodaření</small></li>
+        <li><b>Určit a zveřejnit priority</b><small>co hoří a co počká – veřejně</small></li>
+        <li><b>Kvalitně připravit</b><small>projekty a dotace předem</small></li>
+        <li><b>Investovat</b><small>s ohledem na budoucí provoz</small></li>
+      </ol>
+      <a class="btn btn--brick" href="program.html"><span>Přečíst celý program</span><svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+    <div class="tl" id="program-timeline"></div>
+  </div>
+</section>
+
+
+<!-- ===== VIDEA ===== -->
+<section class="section" id="videa">
+  <div class="container">
+    <div class="section__head">
+      <span class="kicker">Videoarchiv</span>
+      <h2 class="h-l">Neslibujeme.<br><span class="brick">Ukazujeme.</span></h2>
+      <p class="lead">V naší sérii videí najdete návrhy a možnosti jak chceme Rajhradice v příštím volebním období rozvíjet a posouvat dál. <br> Tady jsou čtyři nejnovější díly.</p>
+    </div>
+    <div class="videos" id="video-grid"></div>
+    <div class="section__foot">
+      <a class="btn" href="videa.html"><span>Všechna videa a témata</span></a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== KONTAKT ===== -->
+<section class="section section--contact" id="kontakt">
+  <div class="container contact">
+    <div>
+      <h2 class="h-l">Napište<br>nám</h2>
+      <p class="lead" style="margin-top:18px">
+        Chcete se svěřit s nějakým problémem? Máte lepší variantu, než navrhujeme? Přesně to chceme slyšet.
+        Napište, nebo rovnou zavolejte :)
+      </p>
+      <div class="contact__lines">
+        <a class="contact__line" href="tel:+420732760085"><small>Telefon</small><b data-phone>732 760 085</b></a>
+        <a class="contact__line contact__line--mail" href="mailto:alternativaprorajhradice@gmail.com"><small>E-mail</small><b data-email>alternativaprorajhradice@gmail.com</b></a>
+      </div>
+    </div>
+
+    <form class="form" id="contact-form" novalidate>
+      <input type="hidden" name="access_key" value="">
+      <input type="hidden" name="subject" value="Nová zpráva z webu Alternativa pro Rajhradice">
+      <input type="hidden" name="from_name" value="Web Alternativa pro Rajhradice">
+      <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
+      <div class="form__row">
+        <div class="field"><label for="f-name">Jméno <small>(ať víme, jak vás oslovit)</small></label><input id="f-name" name="name" type="text" required autocomplete="name"></div>
+        <div class="field"><label for="f-email">E-mail <small>(ať vám můžeme odpovědět)</small></label><input id="f-email" name="email" type="email" required autocomplete="email"></div>
+      </div>
+      <div class="field"><label for="f-msg">Váš nápad nebo dotaz</label><textarea id="f-msg" name="message" required></textarea></div>
+      <div class="form__foot">
+        <div class="form__note">Odesláním souhlasíte, že vás můžeme kontaktovat zpět na uvedený e-mail.</div>
+        <button class="btn btn--brick" type="submit"><span>Odeslat zprávu</span><svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+      <div class="form__status" role="status"></div>
+      <!-- překryv po odeslání (červený) / při vyčerpání limitu (černý) – naplní JS -->
+      <div class="form__done" aria-live="polite" hidden></div>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- ===== PATIČKA ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__cta">
+      <p class="footer__date">Komunální volby 9. a 10. října 2026</p>
+      <h2 class="footer__headline">Není na čase zvolit<br><span class="brick">alternativní cestu?</span></h2>
+    </div>
+    <div class="footer__bar">
+      <nav class="footer__nav" aria-label="Patička">
+        <a href="index.html">Úvod</a>
+        <a href="kandidati.html">Náš tým</a>
+        <a href="program.html">Program</a>
+        <a href="videa.html">Videa</a>
+        <a href="jak-volit.html">Jak volit</a>
+        <a href="index.html#kontakt">Napište nám</a>
+      </nav>
+      <div class="footer__social" id="footer-social"></div>
+    </div>
+    <div class="footer__bottom">
+      <div class="footer__legal">
+        <span>© <span data-year>2026</span> Alternativa pro Rajhradice</span>
+        <span>Zadavatel: Alternativa pro Rajhradice · Zpracovatel: Tomáš Hájek</span>
+        <a href="transparentnost.html">Financování kampaně</a>
+        <a href="gdpr.html">Osobní údaje a cookies</a>
+      </div>
+      <a class="footer__credit" href="https://tomikjmenome.github.io/portfolio/" target="_blank" rel="noopener author" title="Portfolio Tomáše Hájka"><span>Web vytvořil</span><img src="assets/img/th-logo.svg" alt="TH. – Tomáš Hájek"></a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/data.js?v=20260919b"></script>
+<script src="js/main.js?v=20260919b"></script>
 </body>
 </html>
