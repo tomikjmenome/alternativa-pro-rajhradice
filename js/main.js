@@ -21,6 +21,8 @@ const ytThumbHi = (id) => `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
 const ytEmbed = (id) => `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1&color=white`;
 const param = (k) => new URLSearchParams(location.search).get(k);
 const videoLabel = (v) => (v.typ === "prispevek" ? `Příspěvek č. ${v.cislo}` : VIDEO_TYPY[v.typ] || "");
+// "kandidátka č. 2" u žen – pozná se podle role v data.js ("Kandidátka č. …")
+const candLabel = (c) => `${/^kandidátka/i.test(c.role || "") ? "kandidátka" : "kandidát"} č. ${c.poradi}`;
 // texty začínající "Doplnit" jsou poznámky pro redakci, návštěvník je nevidí
 const isDraft = (t) => /^\s*doplnit\b/i.test(String(t || ""));
 const real = (arr) => (arr || []).filter((t) => t && !isDraft(t));
@@ -367,10 +369,10 @@ function initKandidati() {
     side.querySelectorAll(".sidebar__item").forEach((b) => { const on = b.dataset.id === c.id; b.classList.toggle("is-active", on); if (on) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current"); });
     detail.innerHTML = `
       <article class="detail__card detail__card--bare">
-        <h2 class="sr-only">${c.poradi === 1 ? "Lídr kandidátky" : "Kandidát č. " + c.poradi}: ${esc(c.jmeno)}${c.profese ? `, ${esc(c.profese)}` : ""}${c.vek ? `, ${c.vek} let` : ""}</h2>
+        <h2 class="sr-only">${c.poradi === 1 ? "Lídr kandidátky" : candLabel(c).replace(/^k/, "K")}: ${esc(c.jmeno)}${c.profese ? `, ${esc(c.profese)}` : ""}${c.vek ? `, ${c.vek} let` : ""}</h2>
         <div class="detail__body cand__body">
           ${c.medailonek ? `<div class="cand__media">
-            <figure class="cand__card ph" tabindex="0" role="button" aria-label="Zvětšit medailonek" data-zoom="${esc(c.medailonek)}"><img src="${esc(c.medailonek)}" width="900" height="1125" alt="Medailonek: ${esc(c.jmeno)}, kandidát č. ${c.poradi}" decoding="async"></figure>
+            <figure class="cand__card ph" tabindex="0" role="button" aria-label="Zvětšit medailonek" data-zoom="${esc(c.medailonek)}"><img src="${esc(c.medailonek)}" width="900" height="1125" alt="Medailonek: ${esc(c.jmeno)}, ${candLabel(c)}" decoding="async"></figure>
             <button class="share" type="button" data-share="${esc(c.id)}" title="Poslat odkaz na tohoto kandidáta">${ICONS.share}<span>Sdílet medailonek</span></button>
           </div>` : ""}
           ${c.claim || real(c.text).length || c.temata?.length ? `<div class="cand__text">
@@ -419,7 +421,7 @@ async function shareCandidate(btn, c) {
   const label = btn.querySelector("span"), orig = label.textContent;
   const flash = (t) => { label.textContent = t; btn.classList.add("is-done"); setTimeout(() => { label.textContent = orig; btn.classList.remove("is-done"); }, 2200); };
   if (navigator.share) {
-    try { await navigator.share({ title: `${c.jmeno} · ${SITE.nazev}`, text: `${c.jmeno} – kandidát č. ${c.poradi}, ${SITE.nazev}`, url }); } catch (_) { /* uživatel sdílení zavřel */ }
+    try { await navigator.share({ title: `${c.jmeno} · ${SITE.nazev}`, text: `${c.jmeno} – ${candLabel(c)}, ${SITE.nazev}`, url }); } catch (_) { /* uživatel sdílení zavřel */ }
     return;
   }
   try { await navigator.clipboard.writeText(url); flash("Odkaz zkopírován"); }

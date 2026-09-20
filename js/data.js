@@ -94,11 +94,11 @@ const VIDEOS = [
     delka: "2:54", datum: "2026-09-18",
     shrnuti: "Hrkač, který před 28 lety vyrobil táta, jako připomínka, jak hluboko sahají rajhradické tradice. Spolky a sdružení chceme podporovat podle toho, co skutečně dělají a potřebují.",
     text: [
-      "Ať jde o tradice jako hrkání a vynášení morény, nebo o spolky – stárci a stárky, chasa, rajhradické baby, fotbal, rybáři, Sokol, včelaři, vodáci, myslivci či senioři – všichni si zaslouží podporu obce, zastupitelstva i každého, kdo je ochotný přiložit ruku k dílu.",
+      "Ať jde o tradice jako hrkání a vynášení Morény, nebo o spolky – stárci a stárky, chasa, rajhradické baby, fotbal, rybáři, Sokol, včelaři, vodáci, myslivci či senioři – všichni si zaslouží podporu obce, zastupitelstva i každého, kdo je ochotný přiložit ruku k dílu.",
       "Neříkáme, že obec spolky dosud nepodporovala – to rozhodně ne. Chceme se ale v dalším volebním období podívat, jak se jednotlivým spolkům vyvíjí členská základna, co potřebují ke své činnosti a jaké mají nároky – a podle toho je dotovat a pomáhat jim. Pokud jsme na někoho ve videu zapomněli, omlouváme se; myslíme i na něj.",
     ],
     body: [
-      "Podpora tradic – hrkání, vynášení morény a dalších zvyků",
+      "Podpora tradic – hrkání, vynášení Morény a dalších zvyků",
       "Podpora všech rajhradických spolků a sdružení ze strany obce",
       "Zjistit, jak se spolkům vyvíjí členská základna a co ke své činnosti potřebují",
       "Dotace rozdělovat podle skutečné činnosti a potřeb spolků",
