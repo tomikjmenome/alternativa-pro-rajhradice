@@ -90,7 +90,7 @@ Nová stavba je vidět. Dobře udržovaný majetek se často bere jako samozřej
 
 My ho za samozřejmost nepovažujeme.
 
-Sekání trávy, péče o zeleň, údržba chodníků, zimní úklid, veřejná prostranství, lavičky, hřiště a další obecní majetek potřebuje pravidelnou péči a kontrolu.
+Sekání trávy, péče o zeleň, údržba chodníků, zimní úklid, veřejná prostranství, lavičky, hřiště a další obecní majetek potřebují pravidelnou péči a kontrolu.
 
 Tam, kde současný systém funguje, na něj navážeme. Tam, kde jsou nedostatky, nastavíme jasnější odpovědnost a kontrolu kvality.
 

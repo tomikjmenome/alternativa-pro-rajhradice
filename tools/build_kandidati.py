@@ -62,20 +62,23 @@ PAGE = """<!DOCTYPE html>
   <meta property="og:site_name" content="{site}">
   <meta property="og:locale" content="cs_CZ">
   <meta property="og:url" content="{domain}/kandidat/{id}">
-  <meta property="og:title" content="{jmeno} – kandidát č. {poradi}">
+  <meta property="og:title" content="{jmeno} – {kdo} č. {poradi}">
   <meta property="og:description" content="{popis}">
   <meta property="og:image" content="{domain}/assets/img/tym/og/{id}.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Medailonek: {jmeno}, kandidát č. {poradi}">
+  <meta property="og:image:alt" content="Medailonek: {jmeno}, {kdo} č. {poradi}">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#24252d">
-  <link rel="icon" href="../assets/img/Icon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/assets/img/favicon-192.png" type="image/png" sizes="192x192">
+  <link rel="icon" href="/assets/img/Icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
   <script>location.replace("/kandidati?k={id}");</script>
   <style>body{{margin:0;min-height:100vh;display:grid;place-items:center;background:#f2ebe1;color:#24252d;font:500 16px/1.5 system-ui,sans-serif;text-align:center;padding:24px}}a{{color:#c8502f}}</style>
 </head>
 <body>
-  <p><strong>{jmeno}</strong> – kandidát č. {poradi}<br><a href="/kandidati?k={id}">Zobrazit medailonek →</a></p>
+  <p><strong>{jmeno}</strong> – {kdo} č. {poradi}<br><a href="/kandidati?k={id}">Zobrazit medailonek →</a></p>
 </body>
 </html>
 """
@@ -85,9 +88,11 @@ for c in CANDIDATES:
     if not c.get("medailonek"):
         print("bez medailonku, přeskočeno:", c["id"]); continue
     og_image(c["medailonek"], f"assets/img/tym/og/{c['id']}.jpg")
-    popis = f"{c['jmeno']}" + (f", {c['vek']} let" if c.get("vek") else "") + (f", {c['profese']}" if c.get("profese") else "") \
-            + f". Kandidát č. {c['poradi']} – {SITE['nazev']}, komunální volby {SITE['volbyText']}."
-    html = PAGE.format(id=c["id"], jmeno=c["jmeno"], poradi=c["poradi"], popis=popis.replace('"', "&quot;"), site=SITE["nazev"], domain=DOMAIN)
+    # "kandidátka" u žen – pozná se podle role v data.js ("Kandidátka č. …")
+    kdo = "kandidátka" if c.get("role", "").lower().startswith("kandidátka") else "kandidát"
+    popis = f"{c['jmeno']}" + (f", {c['vek']} let" if c.get("vek") else "") + (f". {c['profese']}" if c.get("profese") else "") \
+            + f". {kdo.capitalize()} č. {c['poradi']} – {SITE['nazev']}, komunální volby {SITE['volbyText']}."
+    html = PAGE.format(id=c["id"], jmeno=c["jmeno"], poradi=c["poradi"], kdo=kdo, popis=popis.replace('"', "&quot;"), site=SITE["nazev"], domain=DOMAIN)
     open(f"kandidat/{c['id']}.html", "w", encoding="utf-8", newline="\n").write(html)
     n += 1
 
