@@ -116,7 +116,7 @@ Nechceme pouze další značky u silnice. Usilujeme o opatření, která budou m
 
 Zaměříme se na systematické řešení stavu místních komunikací, chodníků a související infrastruktury v celé obci.
 
-Zmapujeme stav komunikací, chodníků a infrastruktury v celých Rajhradicích a vytvoříme veřejně dostupný plán postupných oprav a úprav. Priority budou vycházet z technického stavu, bezpečnosti, naléhavosti a finančních možností obce.
+Zmapujeme stav a vytvoříme veřejně dostupný plán postupných oprav a úprav. Priority budou vycházet z technického stavu, bezpečnosti, naléhavosti a finančních možností obce.
 
 U komunikací, které Rajhradicím nepatří, budeme opravy aktivně prosazovat u příslušných vlastníků a správců. Tam, kde je nutná jejich součinnost, budeme jednat o dlouhodobě funkčním řešení.
 
@@ -146,19 +146,15 @@ Bezpečnost dětí je základní povinnost obce.
 
 • ZÁKLADNÍ ŠKOLA – DALŠÍ ROZVOJ
 
-Druhý stupeň základní školy v Rajhradicích je realitou. Je však teprve v prvních letech svého fungování a jeho další rozvoj si vyžádá významné investice.
+Úplná základní škola v Rajhradicích je realitou. Je však teprve v prvních letech svého fungování.
 
-Nechceme otevírat otázku, zda druhý stupeň měl či neměl vzniknout. Soustředíme se na to, jak zajistit jeho kvalitní a dlouhodobě udržitelné fungování.
-
-Potřebujeme znát skutečné náklady na další rozvoj školy, potřebné investice do budov a vybavení, budoucí personální a provozní výdaje, demografický vývoj i očekávaný počet žáků v dalších letech.
+Potřebujeme znát skutečné náklady na další rozvoj školy, potřebné investice do budov a vybavení, budoucí personální a provozní výdaje i demografické trendy, které ovlivní počet žáků v následujících letech.
 
 Součástí musí být také odborné posouzení technického stavu školních budov a přehled investic potřebných v krátkodobém i dlouhodobém horizontu.
 
-Naším cílem je kvalitní škola, která bude dobře sloužit dětem a rodinám z Rajhradic.
-
 Zároveň musí být její další rozvoj nastaven tak, aby jej dlouhodobě unesl obecní rozpočet a aby obec mohla nadále investovat také do komunikací, veřejných prostor, služeb, péče o seniory a dalších potřebných oblastí.
 
-Druhý stupeň už máme. Teď musíme zajistit, aby škola dobře fungovala nejen dnes, ale i za deset a dvacet let.
+Naším cílem je vytvořit takové podmínky, aby škola mohla dlouhodobě poskytovat kvalitní vzdělávání dětem a rodinám z Rajhradic – nejen dnes, ale i za deset a dvacet let.
 
 • SPOLKY, HŘIŠTĚ A ŽIVÁ OBEC
 
@@ -254,7 +250,7 @@ Jednou z možností, kterou chceme prověřit, je prostor bývalé sokolovny.
 
 Naší představou není pouze nová budova obecního úřadu.
 
-V jednom místě by mohly vzniknout MULTIFUNKČNÍ prostory pro služby radnice, moderní obecní sál a příjemné místo pro každodenní setkávání lidí – například kavárna, restaurace nebo aktivity obecních spolků.
+V jednom místě by mohly vzniknout multifunkční prostory pro služby radnice, moderní obecní sál a příjemné místo pro každodenní setkávání lidí – například kavárna, restaurace nebo aktivity obecních spolků.
 
 Takové centrum by nemělo ožívat jen při zasedání zastupitelstva, plese nebo jiné jednorázové akci. Chceme místo, kde se lidé mohou přirozeně potkávat i během obyčejného dne.
 
@@ -276,7 +272,7 @@ Takový projekt vyžaduje vhodné místo, projektovou přípravu, financování,
 
 Proto je potřeba začít včas, než ho budeme akutně potřebovat.
 
-Naším cílem je, aby starší obyvatelé Rajhradic měli v budoucnu možnost zůstat co nejblíže místu, kde prožili svůj život, své rodině a lidem, které znají. Denní stacionář může zároveň pomoci rodinám, které se o své blízké starají, a umožnit seniorům zůstat co nejdéle doma.
+Naším cílem je, aby starší obyvatelé Rajhradic měli v budoucnu možnost zůstat co nejblíže místu, kde prožili svůj život, své rodině a lidem, které znají. Denní stacionář může zároveň pomoci rodinám, které se o své blízké starají, a umožnit seniorům zůstat co nejdéle ve známém prostředí.
 
 3. RAJHRADICE 2040+
 
@@ -306,7 +302,7 @@ Důležité je, aby měli naši občané kvalitní služby skutečně dostupné.
 
 Povodně ani voda v krajině nezačínají a nekončí u cedule Rajhradice.
 
-Účinná ochrana proto vyžaduje spolupráci s Rajhradem, okolními obcemi, správci vodních toků a dalšími institucemi.
+Účinná ochrana proto vyžaduje spolupráci s okolními obcemi, správci vodních toků a dalšími institucemi.
 
 Plánujeme podporovat a připravovat opatření, která pomohou lépe pracovat s vodou v krajině a zvýší ochranu Rajhradic před povodněmi a dalšími extrémními projevy počasí.
 
@@ -316,7 +312,7 @@ Dlouhodobá ochrana a okamžitá připravenost musí jít ruku v ruce.
 
 • ČISTÍRNA ODPADNÍCH VOD
 
-Plánujeme odborně prověřit možnost vlastní čistírny odpadních vod pro Rajhradice.
+Plánujeme odborně prověřit možnost vlastní čistírny odpadních vod.
 
 Pokud se ukáže jako technicky realizovatelná a dlouhodobě ekonomicky výhodná, měla by obec včas začít připravovat podmínky pro její případnou budoucí realizaci.
 
