@@ -603,6 +603,8 @@ body:has(.prose) .page-head .container { width: min(74ch, 100% - 2 * var(--gutte
 .prose h3 { position: relative; padding-left: 22px; font-size: 1.25rem; font-weight: 800; margin: 44px 0 12px; line-height: 1.25; }
 .prose h3::before { content: ""; position: absolute; left: 0; top: .32em; width: 10px; height: 10px; border-radius: 3px; background: var(--brick); }
 .prose p { margin: 0 0 14px; color: var(--dark-3); }
+.prose .doc-link { color: var(--brick); font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.prose .doc-link:hover { color: var(--dark); }
 .prose .rules { margin: 18px 0 26px; }
 .prose .rules li { font-weight: 800; }
 .prose .claim { font-size: clamp(1.15rem, 2vw, 1.5rem); font-weight: 800; line-height: 1.3; padding-left: 20px; border-left: 5px solid var(--brick); margin: 24px 0; color: var(--dark); }
