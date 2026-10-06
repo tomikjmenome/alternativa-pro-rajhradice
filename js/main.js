@@ -273,15 +273,15 @@ async function renderVideoTeasers() {
     ? live.map((it) => {
         const v = known[it.yt];
         return v
-          ? { ...v, href: `/videa?v=${v.id}` }
-          : { yt: it.yt, titul: cleanYtTitle(it.titul), typ: ytLabelFromTitle(it.titul) === "Video" ? "ostatni" : "prispevek", shrnuti: "", delka: "", label: ytLabelFromTitle(it.titul), href: `/videa?yt=${it.yt}` };
+          ? { ...v, cas: it.datum, href: `/videa?v=${v.id}` }
+          : { yt: it.yt, titul: cleanYtTitle(it.titul), typ: ytLabelFromTitle(it.titul) === "Video" ? "ostatni" : "prispevek", shrnuti: "", delka: "", label: ytLabelFromTitle(it.titul), cas: it.datum, href: `/videa?yt=${it.yt}` };
       })
     : [];
-  // RSS vrací jen posledních ~10 videí – doplnit o starší záznamy z data.js
+  // RSS vrací jen posledních ~10 videí (a rss2json ho může mít v cache) – doplnit z data.js
   const seen = new Set(all.map((v) => v.yt));
-  all.push(...[...VIDEOS].sort((a, b) => b.datum.localeCompare(a.datum)).filter((v) => !seen.has(v.yt)).map((v) => ({ ...v, href: `/videa?v=${v.id}` })));
-  // nejnovější videa podle data; songy (mají všechny stejný náhled) jen na doplnění
-  const list = [...all.filter((v) => v.typ !== "song"), ...all.filter((v) => v.typ === "song")].slice(0, n);
+  all.push(...VIDEOS.filter((v) => !seen.has(v.yt)).map((v) => ({ ...v, cas: v.datum, href: `/videa?v=${v.id}` })));
+  // od posledního vydaného videa
+  const list = all.sort((a, b) => new Date(b.cas) - new Date(a.cas)).slice(0, n);
 
   grid.innerHTML = list.map((v, i) => `
     <a class="vcard" href="${esc(v.href)}">
