@@ -276,16 +276,19 @@ async function renderVideoTeasers() {
           ? { ...v, href: `/videa?v=${v.id}` }
           : { yt: it.yt, titul: cleanYtTitle(it.titul), typ: ytLabelFromTitle(it.titul) === "Video" ? "ostatni" : "prispevek", shrnuti: "", delka: "", label: ytLabelFromTitle(it.titul), href: `/videa?yt=${it.yt}` };
       })
-    : [...VIDEOS].sort((a, b) => b.datum.localeCompare(a.datum)).map((v) => ({ ...v, href: `/videa?v=${v.id}` }));
-  // přednostně kampaňové příspěvky (songy mají všechny stejný náhled), zbytek jen na doplnění
-  const list = [...all.filter((v) => v.typ === "prispevek"), ...all.filter((v) => v.typ !== "prispevek")].slice(0, n);
+    : [];
+  // RSS vrací jen posledních ~10 videí – doplnit o starší záznamy z data.js
+  const seen = new Set(all.map((v) => v.yt));
+  all.push(...[...VIDEOS].sort((a, b) => b.datum.localeCompare(a.datum)).filter((v) => !seen.has(v.yt)).map((v) => ({ ...v, href: `/videa?v=${v.id}` })));
+  // nejnovější videa podle data; songy (mají všechny stejný náhled) jen na doplnění
+  const list = [...all.filter((v) => v.typ !== "song"), ...all.filter((v) => v.typ === "song")].slice(0, n);
 
   grid.innerHTML = list.map((v, i) => `
     <a class="vcard" href="${esc(v.href)}">
       <div class="vcard__thumb ph ph--dark">
         <img src="${ytThumbHi(v.yt)}" onerror="this.onerror=null;this.src='${ytThumb(v.yt)}'" alt="" loading="lazy">
         <div class="vcard__play"><i>${ICONS.play}</i></div>
-        <span class="vcard__tag">${esc(v.label || videoLabel(v))}</span>
+        <span class="vcard__tag">${esc(v.label || (v.typ === "ostatni" ? "Video" : videoLabel(v)))}</span>
         ${v.delka ? `<span class="vcard__len">${esc(v.delka)}</span>` : ""}
       </div>
       <div class="vcard__body">
@@ -507,7 +510,7 @@ function initVidea() {
         <div class="sidebar__list">
           ${items.map((v) => `
             <button class="sidebar__item" data-id="${esc(v.id)}">
-              <span class="sidebar__num">${v.typ === "prispevek" ? "#" + v.cislo : "♪"}</span>
+              <span class="sidebar__num">${v.typ === "prispevek" ? "#" + v.cislo : v.typ === "song" ? "♪" : "▶"}</span>
               <span class="sidebar__name">${esc(v.titul)}${v.delka ? `<small>${esc(v.delka)}</small>` : ""}</span>
             </button>`).join("")}
         </div>
