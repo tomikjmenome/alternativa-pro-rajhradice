@@ -26,7 +26,7 @@ const SITE = {
   // Když je prázdný, použije se veřejný RSS kanál přes rss2json.com.
   ytApiKey: "",
   // Kolik nejnovějších videí ukázat na homepage
-  ytLatestCount: 4,
+  ytLatestCount: 8,
   // Statistiky návštěvnosti – GoatCounter (goatcounter.com, zdarma, bez cookies → bez souhlasu).
   // Založit účet, zvolit kód webu (např. "alternativa") a sem dát celou adresu: "https://alternativa.goatcounter.com/count"
   goatcounter: "https://alternativaprorajhradice.goatcounter.com/count",
@@ -88,6 +88,35 @@ const CANDIDATES = [
    dokumenty – [{ nazev, soubor, nahled, popis }] – PDF ke stažení pod videem (volitelné)
    ------------------------------------------------------------------------ */
 const VIDEOS = [
+  {
+    id: "doprava", yt: "-m5qYcfevkQ", typ: "prispevek", cislo: 10,
+    titul: "Doprava", podtitul: "Ranní spoje 509 a 514",
+    delka: "1:25", datum: "2026-09-28",
+    shrnuti: "Občané si stěžují na ranní autobusy 509 a 514: do přeplněného spoje se nevejdou nebo místo dvou spojů jede jeden jinou trasou. Dopravci jsme už napsali, po volbách to chceme dotáhnout.",
+    text: [
+      "Jsme znovu na zastávce, protože jsme dostali podněty od několika občanů na ranní spoje 509 a 514. Každý ten problém je trochu jiný, ale ve výsledku jde o to samé: dostat se ráno z bodu A do bodu B.",
+      "Někteří lidé se do autobusu nevejdou, jiní zase musí jezdit úplně jinou trasou, než byli zvyklí, protože místo dvou spojů jezdí jeden. Dopravci jsme už poslali e-mail s dotazem, jestli o problému ví a jak ho chce řešit. Hned po volbách se do toho chceme pořádně opřít a vyřešit to co nejdřív.",
+    ],
+    body: [
+      "Zmapovat problémy s ranními spoji 509 a 514",
+      "Dopravce jsme už oslovili – čekáme na odpověď",
+      "Po volbách jednat s dopravcem a organizátorem dopravy o kapacitě a trasách",
+    ],
+  },
+  {
+    id: "traktoriada", yt: "TVHlVsWkHic", typ: "prispevek", cislo: 9,
+    titul: "Traktoriáda", podtitul: "Vrátit ji do Rajhradic v roce 2027",
+    delka: "1:04", datum: "2026-09-26",
+    shrnuti: "Rajhradická traktoriáda se konala několik ročníků po sobě. Uděláme všechno pro to, aby se v roce 2027 vrátila a navázala na poslední úspěšný ročník.",
+    text: [
+      "Jsme na stopě něčemu velkému – stopám, které vyjel traktor. A při slově traktor si každý vybaví rajhradickou traktoriádu, která se v obci konala několik ročníků po sobě.",
+      "Uděláme všechno, co bude v našich silách, aby se traktoriáda v roce 2027 vrátila a navázala na poslední úspěšný ročník.",
+    ],
+    body: [
+      "Obnovit rajhradickou traktoriádu v roce 2027",
+      "Navázat na poslední úspěšný ročník",
+    ],
+  },
   {
     id: "spolky", yt: "MrJFwcPxU6E", typ: "prispevek", cislo: 8,
     titul: "Spolky", podtitul: "Tradice a spolky, které drží obec pohromadě",
@@ -226,6 +255,40 @@ const VIDEOS = [
       "Starosta všech občanů – nestranný, naslouchající, spojující",
       "Konkrétní návrhy a otevřená komunikace i po volbách",
     ],
+  },
+  {
+    id: "spolky-3", yt: "UvZOAjDxPgI", typ: "ostatni",
+    titul: "Spolky 3", podtitul: "Ženáči – a lídr ve všech spolcích",
+    delka: "2:24", datum: "2026-10-04",
+    shrnuti: "Napravujeme dluh z videa o spolcích – zapomněli jsme na rajhradické ženáče. A jako bonus ukazujeme, jak by to vypadalo, kdyby se lídr postupně stal členem každého rajhradického spolku.",
+    text: [
+      "Třetí díl jsme neplánovali, ale přišla malá výtka: ve videu o spolcích jsme zapomněli na rajhradické ženáče. Tímto to napravujeme.",
+      "A protože letošním volbám vládne – řekli bychom celorepublikově – trochu bizár, přidáváme bonus: jak by to vypadalo, kdyby se lídr kandidátky postupně stal členem každého našeho spolku. Celé to doprovází náš volební song.",
+    ],
+    body: [],
+  },
+  {
+    id: "jsme-nezavisli", yt: "eeTijcwiV0E", typ: "ostatni",
+    titul: "Jsme nezávislí!", podtitul: "Proč kandidujeme za Starosty a nezávislé",
+    delka: "2:28", datum: "2026-10-01",
+    shrnuti: "Žádný z našich 15 kandidátů není členem politické strany. Proč tedy na lístku uvidíte Starosty a nezávislé? Nemuseli jsme sbírat podpisy – a máme oporu, která obci pomůže.",
+    text: [
+      "Tentokrát komorněji z kanceláře: za koho, jak a proč kandidujeme. Využili jsme možnost kandidovat za Starosty a nezávislé, ale jsme nezávislí – nikdo z našich 15 kandidátů není členem žádné politické strany.",
+      "Má to dvě výhody. Nemuseli jsme sbírat podpisy a chodit po obci odkrývat karty ještě před registrací kandidátek. A jako nezávislí kandidáti s podporou strany, která je zastoupená v Parlamentu ČR, máme oporu do budoucna – při rozvoji obce a shánění prostředků to může hodně pomoct.",
+      "Proto na našich letácích a na volebním lístku uvidíte Starostové a nezávislí.",
+    ],
+    body: [],
+  },
+  {
+    id: "spolky-2", yt: "iNxo4CbE23k", typ: "ostatni",
+    titul: "Spolky 2", podtitul: "Reakce na jednu zprávu do Messengeru",
+    delka: "1:23", datum: "2026-09-19",
+    shrnuti: "Ráno po zveřejnění videa o spolcích nám do Messengeru přišla nevybíravá zpráva. Autora jmenovat nebudeme – zprávu ukážeme a necháme na vás, ať si uděláte obrázek.",
+    text: [
+      "Pokračování videa o spolcích jsme točit nechtěli, ale situace si to vyžádala. Ráno v 7:21 nám na Facebook do Messengeru napsal nejmenovaný člověk – zprávu ve videu ukazujeme.",
+      "Autora jmenovat nebudeme a necháme mu prostor, aby se nad sebou zamyslel. S nadsázkou bereme zprávu buď jako pozvánku na Gulášfest, kde hoří pod kotlem, nebo jako připomínku pálení čarodějnic – které se samozřejmě bude konat i příští rok.",
+    ],
+    body: [],
   },
   {
     id: "vitr-do-plachet", yt: "Og7AbaCcnms", typ: "song",
