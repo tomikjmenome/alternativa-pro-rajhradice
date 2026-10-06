@@ -89,6 +89,21 @@ const CANDIDATES = [
    ------------------------------------------------------------------------ */
 const VIDEOS = [
   {
+    id: "zakonceni-kampane", yt: "m4SaWUMR9jU", typ: "prispevek", cislo: 11,
+    titul: "Zakončení kampaně", podtitul: "Ohlédnutí a poděkování",
+    delka: "1:53", datum: "2026-10-07T00:59:47+02:00",
+    shrnuti: "U kapličky, kde nám zvoní na konec kampaně, se ohlížíme za posledními dvěma měsíci. Kampaň byla věcná a neagresivní – a takhle chceme komunikovat i po volbách.",
+    text: [
+      "Slyšíte? Už nám zvoní – ne jako ve škole, ale v kapličce. A zvoní nám asi proto, že kampaň Alternativy pro Rajhradice právě končí. Je čas na malé ohlédnutí a shrnutí.",
+      "Myslíme si, že se nemáme za co stydět. Naše kampaň byla věcná, trefná a nebyla agresivní. Když jsme poukázali na nějaký problém, snažili jsme se hned přijít i s řešením. A hlavně jsme vám ukázali, jak si představujeme naši komunikaci i po volbách – a to bereme jako to nejdůležitější.",
+      "Děkujeme všem divákům, kritikům i všem, kdo nám napsali své pocity, požadavky nebo otázky. A samozřejmě děkujeme kamarádům a fanouškům, kteří nás podporovali a drželi nad vodou i ve chvílích, kdy to bylo docela těžké – i malá komunální politika dokáže být pěkná mrška.",
+    ],
+    body: [
+      "Věcná komunikace – u každého problému i návrh řešení",
+      "Stejný styl komunikace s občany i po volbách",
+    ],
+  },
+  {
     id: "doprava", yt: "-m5qYcfevkQ", typ: "prispevek", cislo: 10,
     titul: "Doprava", podtitul: "Ranní spoje 509 a 514",
     delka: "1:25", datum: "2026-09-28",
@@ -255,6 +270,29 @@ const VIDEOS = [
       "Starosta všech občanů – nestranný, naslouchající, spojující",
       "Konkrétní návrhy a otevřená komunikace i po volbách",
     ],
+  },
+  {
+    id: "prijdte-k-volbam", yt: "NHO0OPEmSIY", typ: "ostatni",
+    titul: "Přijďte k volbám!", podtitul: "Nenechávejte rozhodovat jiné za vás",
+    delka: "1:22", datum: "2026-10-07T01:01:22+02:00",
+    shrnuti: "Volby 2026 v Rajhradicích jsou tady. Ať volíte Alternativu, nebo kohokoli jiného – přijďte. Kdo k volbám nejde, nechává rozhodovat jiné za sebe.",
+    text: [
+      "Volby 2026 v Rajhradicích jsou tady a budeme hrozně rádi, když k nim přijdete. Ať už chcete volit Alternativu, nebo jakoukoli jinou kandidátku – přijďte. Když k volbám jdete, nenecháváte rozhodovat jiné za sebe.",
+      "Volby jsou zároveň příležitost vyjádřit, co si doopravdy přejete a kam chcete, aby se naše obec v dalších letech ubírala. Děkujeme za pozornost a za celé dva měsíce, kdy jste nás sledovali. Hodně štěstí a zdraví – a doufáme, že se uvidíme i po volbách.",
+    ],
+    body: [],
+  },
+  {
+    id: "jak-volit", yt: "4ipUhBNQLXE", typ: "ostatni",
+    titul: "Jak volit?", podtitul: "Co si vzít s sebou a jak správně křížkovat",
+    delka: "2:35", datum: "2026-10-07T01:01:15+02:00",
+    shrnuti: "Krátký návod hlavně pro prvovoliče a ty, kdo jdou k volbám po letech: jaký doklad si vzít a jak zakřížkovat lístek, aby byl hlas platný – maximálně 15 křížků.",
+    text: [
+      "Volby se nezadržitelně blíží, a tak hlavně pro nové voliče a pro ty, kdo půjdou k volbám po 10, 15 nebo i 20 letech, shrnujeme, co budete potřebovat a jak můžete volit.",
+      "Do volební místnosti si vezměte platný doklad totožnosti – občanský průkaz nebo cestovní pas. Jde to i s eDokladem v mobilu, ale tady bychom byli opatrní: při posledních volbách systém kolaboval.",
+      "Možnosti volby: 1) zakřížkovat jen kandidátku Alternativy nahoře – tím dáváte všech 15 hlasů našim kandidátům; 2) zakřížkovat nás a k tomu jednotlivé kandidáty na jiných kandidátkách – jejich počet se odečte od našich 15 hlasů; 3) křížkovat jednotlivce napříč kandidátkami. Pozor: celkem nesmíte překročit 15 hlasů, jinak je hlas neplatný. Podrobný návod najdete na stránce Jak volit.",
+    ],
+    body: [],
   },
   {
     id: "spolky-3", yt: "UvZOAjDxPgI", typ: "ostatni",
