@@ -75,31 +75,6 @@ function renderSocialLinks(container, compact = false, asList = false) {
   }).join("");
 }
 
-function initCountdown() {
-  const els = document.querySelectorAll(".countdown");
-  if (!els.length) return;
-  const label = document.querySelector(".strip__count .strip__label");
-  const tick = () => {
-    const { text, html } = countdownState(Date.now());
-    if (label) label.textContent = text;
-    els.forEach((el) => (el.innerHTML = html));
-  };
-  tick(); setInterval(tick, 30e3);
-}
-
-// tři stavy: před volbami (odpočet) · během voleb · po volbách
-function countdownState(now) {
-  if (now >= SITE.volbyKonec) {
-    return { text: "Volby proběhly", html: `<div class="countdown__msg"><b>Děkujeme za každý hlas.</b><a href="${esc(SITE.vysledkyUrl)}" target="_blank" rel="noopener">Podívejte se na výsledky ↗</a></div>` };
-  }
-  if (now >= SITE.volby) {
-    return { text: "Právě teď", html: `<div class="countdown__msg"><b>Volby probíhají!</b><span>Pátek 14–22 h, sobota 8–14 h. Přijďte k urnám.</span></div>` };
-  }
-  const diff = SITE.volby - now;
-  const d = Math.floor(diff / 864e5), h = Math.floor(diff / 36e5) % 24, m = Math.floor(diff / 6e4) % 60;
-  return { text: "Do voleb zbývá", html: [[d, "dní"], [h, "hod"], [m, "min"]].map(([v, l]) => `<div><b>${String(v).padStart(2, "0")}</b><small>${l}</small></div>`).join("") };
-}
-
 /* --- homepage ------------------------------------------------------------ */
 
 // hero: mozaika kandidátů v pořadí kandidátky (1, 2, 3 … a znovu), dlaždice 4:5
@@ -130,18 +105,20 @@ function renderTeam() {
   const grid = document.querySelector("#team-grid");
   if (!grid) return;
   const n = Number(grid.dataset.limit) || CANDIDATES.length;
-  const sorted = [...CANDIDATES].sort((a, b) => a.poradi - b.poradi).slice(0, n);
+  const all = [...CANDIDATES].sort((a, b) => a.poradi - b.poradi);
+  const sorted = "zvoleni" in grid.dataset ? all.filter((c) => c.funkce) : all.slice(0, n);
   const rest = CANDIDATES.length - sorted.length;
-  document.querySelectorAll("[data-team-rest]").forEach((el) => (el.textContent = rest > 0 ? `Všech ${CANDIDATES.length} kandidátů` : "Celá kandidátka"));
+  document.querySelectorAll("[data-team-rest]").forEach((el) => (el.textContent = rest > 0 ? `Celý tým – všech ${CANDIDATES.length}` : "Celý tým"));
   grid.innerHTML = sorted.map((c, i) => {
     const lead = c.poradi === 1;
+    const role = c.funkce ? (lead ? `${c.funkce} · ${c.role.toLowerCase()}` : c.funkce) : lead ? c.role : "";
     return `
-    <a class="member ${lead ? "member--lead" : ""}" href="/kandidati?k=${esc(c.id)}">
+    <a class="member ${lead ? "member--lead" : ""}" href="${c.funkce ? `/zastupitele#${esc(c.id)}` : `/kandidati?k=${esc(c.id)}`}">
       <span class="member__num">${c.poradi}</span>
       ${avatarHtml(c)}
       <div>
         <div class="member__name">${esc(c.jmeno)}</div>
-        ${lead ? `<div class="member__role">${esc(c.role)}</div>` : ""}
+        ${role ? `<div class="member__role">${esc(role)}</div>` : ""}
       </div>
       <div class="member__prof">${esc(c.profese || "")}</div>
       <div class="member__age">${c.vek ? `${c.vek} let` : ""}</div>
@@ -151,18 +128,24 @@ function renderTeam() {
 }
 
 // program: časová osa tří období, u každého prvních 5 témat + "dalších N"
+// plnění programu: třetí prvek kapitoly v data.js ("resime" | "hotovo") → štítek; kapitoly se stavem jdou dopředu
+const PROGRAM_STAV = { hotovo: "Splněno", resime: "Řešíme" };
 function renderProgramTimeline() {
   const box = document.querySelector("#program-timeline");
   if (!box) return;
+  const rank = (k) => (k[2] === "hotovo" ? 0 : k[2] === "resime" ? 1 : 2);
+  const item = ([id, n, stav]) => `<a href="/program#${esc(id)}">${esc(n)}${PROGRAM_STAV[stav] ? ` <span class="tl__stav tl__stav--${esc(stav)}">${PROGRAM_STAV[stav]}</span>` : ""}</a>`;
+  const counts = Object.keys(PROGRAM_STAV).map((s) => [s, PROGRAM.flatMap((p) => p.kapitoly).filter((k) => k[2] === s).length]);
   box.innerHTML = PROGRAM.map((p, i) => `
     <div class="tl__item">
       <div class="tl__year"><small>Část ${i + 1}</small>Rajhradice ${esc(p.roky)}</div>
       <div class="tl__sub">${esc(p.sub)}</div>
       <div class="tl__list">
-        ${p.kapitoly.slice(0, 5).map(([id, n]) => `<a href="/program#${esc(id)}">${esc(n)}</a>`).join("")}
+        ${[...p.kapitoly].sort((a, b) => rank(a) - rank(b)).slice(0, 5).map(item).join("")}
         ${p.kapitoly.length > 5 ? `<a class="more" href="/program#${esc(p.id)}">+ dalších ${p.kapitoly.length - 5}</a>` : ""}
       </div>
-    </div>`).join("");
+    </div>`).join("")
+    + (counts.some(([, c]) => c) ? `<div class="tl__legend">${counts.filter(([, c]) => c).map(([s, c]) => `<span class="tl__stav tl__stav--${s}">${PROGRAM_STAV[s]}</span> ${c}×`).join(" · ")}</div>` : "");
 }
 
 /* --- podstránka: program – obsah vpravo se sledováním scrollu ------------ */
@@ -352,7 +335,42 @@ function initContact() {
   });
 }
 
-/* --- podstránka: kandidáti ---------------------------------------------- */
+/* --- podstránka: zastupitelé -------------------------------------------- */
+
+// karty zvolených (CANDIDATES s "funkce"), barevná fotka 4:5 z assets/img/tym/zastupitele/;
+// kotva #id (sem vedou i staré odkazy kandidati?k=id) kartu zvýrazní
+function initZastupitele() {
+  const grid = document.querySelector("#zast-grid");
+  if (!grid) return;
+  const list = CANDIDATES.filter((c) => c.funkce).sort((a, b) => (b.hlasy || 0) - (a.hlasy || 0));
+  const foto = (c) => `assets/img/tym/zastupitele/${String(c.poradi).padStart(2, "0")}-${c.id}.webp`;
+  grid.innerHTML = list.map((c, i) => `
+    <article class="zcard" id="${esc(c.id)}">
+      <figure class="zcard__photo ph ph--dark">
+        <img src="${esc(foto(c))}" width="800" height="1000" alt="${esc(c.jmeno)}" ${i ? 'loading="lazy"' : 'fetchpriority="high"'}>
+        ${c.hlasy ? `<figcaption class="zcard__votes"><b>${c.hlasy}</b><small>hlasů ve volbách 2026</small></figcaption>` : ""}
+      </figure>
+      <div class="zcard__body">
+        <h2 class="zcard__name">${esc(c.jmeno)}</h2>
+        <p class="zcard__meta">${esc(c.profese || "")}${c.vek ? ` · ${c.vek} let` : ""}</p>
+        ${c.claim ? `<p class="zcard__claim">„${esc(c.claim)}“</p>` : ""}
+        ${real(c.text).map((p) => `<p class="zcard__text">${esc(p)}</p>`).join("")}
+        ${c.temata?.length ? `<div class="tags">${c.temata.map((t) => `<span class="tag">${esc(t)}</span>`).join("")}</div>` : ""}
+      </div>
+    </article>`).join("");
+
+  const mark = () => {
+    const id = decodeURIComponent(location.hash.slice(1));
+    grid.querySelectorAll(".zcard").forEach((el) => el.classList.toggle("is-target", el.id === id));
+    if (id && grid.querySelector(`#${CSS.escape(id)}`)) grid.querySelector(`#${CSS.escape(id)}`).scrollIntoView({ block: "start" });
+  };
+  addEventListener("hashchange", mark);
+  mark();
+  setJsonLd({ "@type": "ItemList", itemListElement: list.map((c, i) => ({ "@type": "ListItem", position: i + 1,
+    item: { "@type": "Person", name: c.jmeno, jobTitle: c.funkce, url: absUrl(`zastupitele#${c.id}`), memberOf: { "@type": "Organization", name: SITE.nazev } } })) });
+}
+
+/* --- podstránka: kandidáti (jen _archiv/kandidati.html – pro příští volby) - */
 
 function initKandidati() {
   const side = document.querySelector("#side-list");
@@ -363,7 +381,7 @@ function initKandidati() {
   side.innerHTML = list.map((c) => `
     <button class="sidebar__item" data-id="${esc(c.id)}">
       <span class="sidebar__num">${c.poradi}.</span>
-      <span class="sidebar__name">${esc(c.jmeno)}<small>${esc(c.poradi === 1 ? c.role : c.profese || "")}</small></span>
+      <span class="sidebar__name">${esc(c.jmeno)}<small>${esc(c.funkce || (c.poradi === 1 ? c.role : c.profese || ""))}</small></span>
     </button>`).join("");
 
   const show = (id, push = true) => {
@@ -372,7 +390,7 @@ function initKandidati() {
     side.querySelectorAll(".sidebar__item").forEach((b) => { const on = b.dataset.id === c.id; b.classList.toggle("is-active", on); if (on) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current"); });
     detail.innerHTML = `
       <article class="detail__card detail__card--bare">
-        <h2 class="sr-only">${c.poradi === 1 ? "Lídr kandidátky" : candLabel(c).replace(/^k/, "K")}: ${esc(c.jmeno)}${c.profese ? `, ${esc(c.profese)}` : ""}${c.vek ? `, ${c.vek} let` : ""}</h2>
+        <h2 class="sr-only">${c.funkce ? `${esc(c.funkce)}, ${candLabel(c)}` : c.poradi === 1 ? "Lídr kandidátky" : candLabel(c).replace(/^k/, "K")}: ${esc(c.jmeno)}${c.profese ? `, ${esc(c.profese)}` : ""}${c.vek ? `, ${c.vek} let` : ""}</h2>
         <div class="detail__body cand__body">
           ${c.medailonek ? `<div class="cand__media">
             <figure class="cand__card ph" tabindex="0" role="button" aria-label="Zvětšit medailonek" data-zoom="${esc(c.medailonek)}"><img src="${esc(c.medailonek)}" width="900" height="1125" alt="Medailonek: ${esc(c.jmeno)}, ${candLabel(c)}" decoding="async"></figure>
@@ -390,11 +408,8 @@ function initKandidati() {
         <span class="detail__count" title="Přepínat můžete i šipkami ← → na klávesnici">${i + 1} / ${list.length}<small>šipky ← →</small></span>
         ${next ? `<button class="btn" data-go="${esc(next.id)}" title="${esc(next.jmeno)}"><span>Další</span>${ICONS.arrow}</button>` : "<span></span>"}
       </div>
-      <div class="vote-tip">
-        <strong>Jak nám dát hlas?</strong>
-        <span>Nejjednodušší je jeden křížek u názvu <b>Alternativa pro Rajhradice</b> v záhlaví lístku – platí pro všech ${list.length} našich kandidátů najednou. Druhá možnost je křížkovat jednotlivá jména (naše i z ostatních kandidátek), dohromady nejvýš ${list.length} křížků.</span>
-      </div>`;
-    document.title = `${c.jmeno} · Kandidáti · ${SITE.nazev}`;
+      <div class="vote-tip">${voteResult(c, list)}</div>`;
+    document.title = `${c.jmeno} · Náš tým · ${SITE.nazev}`;
     setJsonLd({ "@type": "Person", name: c.jmeno, jobTitle: c.profese || undefined, image: c.medailonek ? absUrl(c.medailonek) : undefined,
       url: absUrl(`kandidati?k=${c.id}`), affiliation: { "@type": "Organization", name: SITE.nazev } });
     if (push) { history.pushState({ id: c.id }, "", `?k=${c.id}`); trackPageview(); }
@@ -416,6 +431,19 @@ function initKandidati() {
   initListKeys(() => list.map((c) => c.id), () => side.querySelector(".is-active")?.dataset.id, show);
 }
 
+/* rámeček pod medailonkem: u zastupitelů jejich výsledek, u ostatních výsledek celé kandidátky */
+function voteResult(c, list) {
+  const zena = /a$/.test(c.funkce || "");
+  if (c.funkce) return `
+        <strong>${esc(c.funkce)} 2026–2030</strong>
+        <span>Ve volbách 2026 ${zena ? "získala" : "získal"} <b>${c.hlasy} hlasů</b> a ${zena ? "zasedla" : "zasedl"} v zastupitelstvu obce. Chcete, aby něco ${zena ? "otevřela" : "otevřel"} na jednání? <a href="/#kontakt">Napište nám</a>.</span>`;
+  const zvoleni = list.filter((x) => x.funkce).map((x) => esc(x.jmeno)).join(", ").replace(/, ([^,]*)$/, " a $1");
+  const v = SITE.vysledky;
+  return `
+        <strong>Výsledek voleb 2026</strong>
+        <span>Alternativa pro Rajhradice získala <b>${esc(v.procenta)}</b> (${esc(v.hlasy)} hlasů) a <b>${v.mandaty} mandáty z ${v.zastupitelu}</b>. Zastupiteli jsou ${zvoleni}, celý tým pracuje dál.</span>`;
+}
+
 /* sdílení kandidáta: na mobilu systémové sdílení (WhatsApp, Messenger…), jinde zkopíruje odkaz */
 async function shareCandidate(btn, c) {
   // sdílí se kandidat/<id>.html (generuje tools/build_kandidati.py) – má vlastní náhledový obrázek pro FB/WhatsApp
@@ -424,7 +452,7 @@ async function shareCandidate(btn, c) {
   const label = btn.querySelector("span"), orig = label.textContent;
   const flash = (t) => { label.textContent = t; btn.classList.add("is-done"); setTimeout(() => { label.textContent = orig; btn.classList.remove("is-done"); }, 2200); };
   if (navigator.share) {
-    try { await navigator.share({ title: `${c.jmeno} · ${SITE.nazev}`, text: `${c.jmeno} – ${candLabel(c)}, ${SITE.nazev}`, url }); } catch (_) { /* uživatel sdílení zavřel */ }
+    try { await navigator.share({ title: `${c.jmeno} · ${SITE.nazev}`, text: `${c.jmeno} – ${c.funkce ? c.funkce.toLowerCase() : candLabel(c)}, ${SITE.nazev}`, url }); } catch (_) { /* uživatel sdílení zavřel */ }
     return;
   }
   try { await navigator.clipboard.writeText(url); flash("Odkaz zkopírován"); }
@@ -714,7 +742,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initNav();
   initConsent();
   initAnalytics();
-  initCountdown();
   renderSocialLinks(document.querySelector("#social-list"));
   renderSocialLinks(document.querySelector("#footer-social"), true);
   renderSocialLinks(document.querySelector("[data-nav-social]"), true);
@@ -729,6 +756,7 @@ document.addEventListener("DOMContentLoaded", () => {
   switch (document.body.dataset.page) {
     case "home": renderHeroMosaic(); renderTeam(); renderProgramTimeline(); renderVideoTeasers(); initContact(); break;
     case "program": initProgramNav(); break;
+    case "zastupitele": initZastupitele(); initContact(); break;
     case "kandidati": initKandidati(); break;
     case "videa": initVidea(); break;
   }

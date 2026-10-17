@@ -6,13 +6,14 @@
 
 const SITE = {
   nazev: "Alternativa pro Rajhradice",
-  volby: new Date("2026-10-09T14:00:00+02:00"),      // začátek voleb (pá 14:00)
-  volbyKonec: new Date("2026-10-10T14:00:00+02:00"), // uzavření místností (so 14:00)
   volbyText: "9.–10. října 2026",
-  // Odkaz na výsledky – přímo obec Rajhradice na volby.cz (kód obce 583766, okres Brno-venkov 6203).
-  // Adresa je odvozená ze stejného formátu, jaký ČSÚ používal v letech 2014, 2018 a 2022 (jen "kv2022" → "kv2026").
-  // 10. 10. 2026 večer ověřit, že opravdu otevře Rajhradice; kdyby ne, kliknout na volby.cz → Zastupitelstva obcí 2026 → Brno-venkov → Rajhradice.
-  vysledkyUrl: "https://www.volby.cz/pls/kv2026/kv1111?xjazyk=CZ&xid=1&xdz=1&xnumnuts=6203&xobec=583766&xstat=0&xvyber=0",
+  // Výsledek komunálních voleb 2026 v Rajhradicích (15 zastupitelů, účast 63,41 %):
+  // Pro obec Rajhradice 52,40 % / 8 mandátů · Vaše Rajhradice 26,79 % / 4 · Alternativa 20,80 % / 3.
+  // Stav webu před volbami (odpočet, návod Jak volit, kandidátka) je v gitu jako tag i větev "volby-2026".
+  vysledky: { procenta: "20,80 %", hlasy: "2 185", mandaty: 3, zastupitelu: 15 },
+  // Odkaz na výsledky – obec Rajhradice na volby.gov.cz (kraj 6200, okres Brno-venkov 6203, obec 583766).
+  // Stará adresa volby.cz/pls/kv2026/… od roku 2026 nefunguje (ČSÚ přešel na novou aplikaci).
+  vysledkyUrl: "https://volby.gov.cz/app/kv2026/cs/20261009/results/!___6200_6203_583766",
   telefon: "732 760 085",
   telefonHref: "tel:+420732760085",
   email: "alternativaprorajhradice@gmail.com",
@@ -41,8 +42,12 @@ const SOCIALS = [
   { id: "youtube",   nazev: "YouTube",   url: "https://www.youtube.com/@AlternativaProRajhradice", handle: "@AlternativaProRajhradice" },
 ];
 
-/* --- Kandidátka ---------------------------------------------------------
+/* --- Tým (kandidátka 2026) -----------------------------------------------
    id       – pro URL (kandidati.html?k=id), jen malá písmena bez diakritiky
+   poradi     – pořadí na kandidátce 2026
+   funkce     – jen u zvolených: "Zastupitel" / "Zastupitelka" (případně "Místostarosta", "předseda výboru" …)
+                → zobrazí se na stránce /zastupitele (fotka z assets/img/tym/mozaika/, claim, text a temata pod jménem)
+   hlasy      – počet hlasů ve volbách 2026 (zatím jen u zvolených)
    foto       – čtvercová fotka do seznamu (assets/img/tym/xxx.jpg); když chybí, ukáže se monogram
    medailonek – grafická karta 4:5 (assets/img/tym/medailonek/xxx.webp), ukáže se na podstránce
    claim      – jedna věta, ukáže se v detailu jako citát
@@ -53,7 +58,9 @@ const CANDIDATES = [
     id: "vaclav-matl",
     poradi: 1,
     jmeno: "Václav Mátl",
-    role: "Lídr kandidátky · kandidát na starostu",
+    role: "Lídr kandidátky",
+    funkce: "Zastupitel",
+    hlasy: 195,
     profese: "Podnikatel, automobilový průmysl a obchod",
     vek: 33,
     foto: "assets/img/tym/01-vaclav-matl.jpg",
@@ -64,10 +71,10 @@ const CANDIDATES = [
   },
   { id: "vendula-kadlcikova", poradi:  2, jmeno: "Ing. Vendula Kadlčíková", role: "Kandidátka č. 2", profese: "Podnikatelka, výroba ocelových konstrukcí", vek: 31, foto: "assets/img/tym/02-vendula-kadlcikova.jpg", medailonek: "assets/img/tym/medailonek/02-vendula-kadlcikova.webp", claim: "", text: [], temata: [] },
   { id: "michal-matl", poradi:  3, jmeno: "Michal Mátl", role: "Kandidát č. 3", profese: "Podnikatel, stavebnictví", vek: 29, foto: "assets/img/tym/03-michal-matl.jpg", medailonek: "assets/img/tym/medailonek/03-michal-matl.webp", claim: "", text: [], temata: [] },
-  { id: "filip-vagner", poradi:  4, jmeno: "Filip Vágner", role: "Kandidát č. 4", profese: "OSVČ, výrobce nábytku", vek: 32, foto: "assets/img/tym/04-filip-vagner.jpg", medailonek: "assets/img/tym/medailonek/04-filip-vagner.webp", claim: "", text: [], temata: [] },
+  { id: "filip-vagner", poradi:  4, jmeno: "Filip Vágner", role: "Kandidát č. 4", funkce: "Zastupitel", hlasy: 171, profese: "OSVČ, výrobce nábytku", vek: 32, foto: "assets/img/tym/04-filip-vagner.jpg", medailonek: "assets/img/tym/medailonek/04-filip-vagner.webp", claim: "", text: [], temata: [] },
   { id: "ondrej-vykoupil", poradi:  5, jmeno: "Ondřej Vykoupil", role: "Kandidát č. 5", profese: "OSVČ, stavebnictví", vek: 32, foto: "assets/img/tym/05-ondrej-vykoupil.jpg", medailonek: "assets/img/tym/medailonek/05-ondrej-vykoupil.webp", claim: "", text: [], temata: [] },
   { id: "daniel-biznar", poradi:  6, jmeno: "Mgr. Daniel Biznár", role: "Kandidát č. 6", profese: "Servisní manažer", vek: 46, foto: "assets/img/tym/06-daniel-biznar.jpg", medailonek: "assets/img/tym/medailonek/06-daniel-biznar.webp", claim: "", text: [], temata: [] },
-  { id: "natalie-wismekova", poradi:  7, jmeno: "Ing. Natalie Wismeková", role: "Kandidátka č. 7", profese: "Strategická analytička (obor obchod)", vek: 26, foto: "assets/img/tym/07-natalie-wismekova.jpg", medailonek: "assets/img/tym/medailonek/07-natalie-wismekova.webp", claim: "", text: [], temata: [] },
+  { id: "natalie-wismekova", poradi:  7, jmeno: "Ing. Natalie Wismeková", role: "Kandidátka č. 7", funkce: "Zastupitelka", hlasy: 169, profese: "Strategická analytička (obor obchod)", vek: 26, foto: "assets/img/tym/07-natalie-wismekova.jpg", medailonek: "assets/img/tym/medailonek/07-natalie-wismekova.webp", claim: "", text: [], temata: [] },
   { id: "tomas-hajek", poradi:  8, jmeno: "Tomáš Hájek", role: "Kandidát č. 8", profese: "Student VUT", vek: 20, foto: "assets/img/tym/08-tomas-hajek.jpg", medailonek: "assets/img/tym/medailonek/08-tomas-hajek.webp", claim: "", text: [], temata: [] },
   { id: "jan-matl", poradi:  9, jmeno: "Jan Mátl", role: "Kandidát č. 9", profese: "Zámečník", vek: 38, foto: "assets/img/tym/09-jan-matl.jpg", medailonek: "assets/img/tym/medailonek/09-jan-matl.webp", claim: "", text: [], temata: [] },
   { id: "lukas-kordik", poradi: 10, jmeno: "Lukáš Kordík", role: "Kandidát č. 10", profese: "Projektant elektro", vek: 28, foto: "assets/img/tym/10-lukas-kordik.jpg", medailonek: "assets/img/tym/medailonek/10-lukas-kordik.webp", claim: "", text: [], temata: [] },
@@ -353,6 +360,9 @@ const VIDEOS = [
 
 /* --- Struktura programu (kapitoly z program.html) -----------------------
    Ukazuje se na homepage jako časová osa. id kapitol = kotvy v program.html.
+   Plnění programu: volitelný třetí prvek u kapitoly – "resime" (rozpracováno) nebo "hotovo" (splněno),
+   např. ["prehledne-hospodareni", "Přehledné hospodaření", "resime"]. Na ose se ukáže štítek
+   a pod osou legenda (jen když má stav aspoň jedna kapitola).
    ------------------------------------------------------------------------ */
 const PROGRAM = [
   { id: "obdobi-1", roky: "2026–2030", sub: "Co chceme udělat a začít řešit", kapitoly: [
@@ -386,6 +396,7 @@ const PROGRAM = [
 ];
 
 const VIDEO_TYPY = {
+  zastupitelstvo: "Ze zastupitelstva", // videa po volbách – co se na obci řeší a jak jsme hlasovali
   prispevek: "Příspěvky",
   song: "Songy",
   ostatni: "Ostatní",
