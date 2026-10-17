@@ -9,12 +9,14 @@ Lokálně proto spouštěj `python tools/serve.py`, ne `python -m http.server` (
 
 | soubor | co je |
 |---|---|
-| `index.html` | homepage: hero, sociální sítě, tým, program, videa, kontakt |
-| `kandidati.html` | podstránka kandidátů (levý seznam + detail), `?k=id` |
+| `index.html` | homepage: hero, výsledek voleb + sociální sítě, zastupitelé, program, videa, kontakt |
+| `zastupitele.html` | podstránka zastupitelů – karty zvolených (z `CANDIDATES` s `funkce`), rozložení mandátů, jak s námi řešit věci; `#id` zvýrazní kartu |
+| `kandidati.html` | jen přesměrování starých odkazů `kandidati?k=id` → `/zastupitele#id` |
+| `_archiv/kandidati.html` | stránka kandidátky 2026 (levý seznam + medailonek) – **mimo web**, pro příští volby; logika `initKandidati` v `main.js` zůstává |
 | `videa.html` | videoarchiv (levý seznam témat + shrnutí + YouTube), `?v=id` |
 | `program.html` | celý text programového prohlášení |
 | `program.md` + `tools/build_program.py` | zdrojový text programu a skript, který z něj dělá `program.html` |
-| `jak-volit.html` | návod, jak volit v komunálních volbách (kdy, kde, křížkování, platnost hlasu) |
+| `_archiv/jak-volit.html` | návod, jak volit – **mimo web** (složky s podtržítkem GitHub Pages nezveřejňuje). Před dalšími volbami vrátit do kořene, aktualizovat data a přidat zpět do menu, patičky a `sitemap.xml` |
 | `gdpr.html` | ochrana osobních údajů + cookies (doplnit místa označená [DOPLNIT]) |
 | `404.html` | stránka „nenalezeno“ – Netlify i GitHub Pages ji berou automaticky |
 | `robots.txt`, `sitemap.xml` | pro vyhledávače (obsahují doménu – viz „Co doplnit“ bod 5) |
@@ -50,8 +52,16 @@ Lokálně proto spouštěj `python tools/serve.py`, ne `python -m http.server` (
    Nahradí placeholder `DOPLNIT-DOMENA.cz` v canonical/og tazích, sitemap, robots a JSON-LD.
    S `--index` odstraní dočasné `noindex` a zapne ostrý `robots.txt` (do té doby Google web neindexuje).
    Bez toho nefunguje náhled při sdílení na Facebooku (potřebuje absolutní adresu obrázku).
-6. **Po volbách** – `SITE.vysledkyUrl` míří rovnou na Rajhradice na volby.cz (formát z roku 2022);
-   večer 10. 10. ověřit, že odkaz opravdu otevře Rajhradice.
+6. **Po volbách 2026** – web je přepnutý z kampaně na volební období 2026–2030. Stav před volbami
+   (odpočet, Jak volit v menu, texty kampaně) je uložený v gitu jako tag **`volby-2026`** (a stejnojmenná větev) –
+   zobrazit `git checkout volby-2026`, porovnat `git diff volby-2026 -- index.html`.
+   - Výsledek voleb na homepage je staticky v `index.html` (pruh pod hero), čísla jsou i v `SITE.vysledky`.
+   - Zvolení mají v `CANDIDATES` pole `funkce` („Zastupitel“/„Zastupitelka“, příp. výbor) a `hlasy`;
+     homepage i `/zastupitele` ukazují jen je (fotka z `assets/img/tym/mozaika/`). Po změně spustit `python tools/build_kandidati.py`
+     – sdílecí stránky `kandidat/<id>` teď vedou na `/zastupitele` (zastupitelé rovnou na svou kartu).
+   - Odkaz na výsledky: ČSÚ v roce 2026 přešel na volby.gov.cz, staré adresy `volby.cz/pls/kv2026/…` nefungují.
+   - Plnění programu: u kapitoly v `PROGRAM` třetí prvek `"resime"` nebo `"hotovo"` → štítek na časové ose.
+   - Videa ze zastupitelstva: v `VIDEOS` `typ: "zastupitelstvo"` – ve videoarchivu se objeví nová skupina.
 
 Texty začínající slovem „Doplnit" (v `text`, `body`, `shrnuti`) se návštěvníkům nezobrazují –
 jsou to poznámky pro redakci.

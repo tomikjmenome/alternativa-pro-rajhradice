@@ -99,7 +99,7 @@ body = "\n".join(out)
 p = "program.html"; s = open(p, encoding="utf-8").read()
 h1i = s.index('<h1 class="h-l">'); head_old = s[h1i:s.index("</nav>", h1i) + 6]
 head_new = f'''<h1 class="h-l">Rozumně hospodařit.<br>Otevřeně rozhodovat.<br><span class="brick">Myslet na budoucnost.</span></h1>
-    <p class="lead">{E(sub)}. Záleží nám na tom, jakým směrem se budou Rajhradice v příštích letech ubírat.</p>
+    <p class="lead">Program, se kterým jsme šli do komunálních voleb 2026 a který teď jako zastupitelé prosazujeme a hlídáme. Záleží nám na tom, jakým směrem se budou Rajhradice v příštích letech ubírat.</p>
     <nav class="toc" aria-label="Obsah">
       <a href="#uvod">Úvod</a>
 ''' + "\n".join(f'      <a href="#{pid}">{E(t)}</a>' for pid, t in toc) + "\n    </nav>"

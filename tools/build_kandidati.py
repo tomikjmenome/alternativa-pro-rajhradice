@@ -1,11 +1,12 @@
 """Vygeneruje sdílecí stránky kandidátů: kandidat/<id>.html + náhledový obrázek assets/img/tym/og/<id>.jpg.
 
-Proč: Facebook, WhatsApp ani Messenger nespouští JavaScript, takže u odkazu kandidati.html?k=id
-vidí vždy stejný obecný og.png. Každý kandidát má proto vlastní malou HTML stránku, která nese
-jeho og:image (1200×630 s medailonkem) a návštěvníka hned přesměruje na kandidati.html?k=id.
+Proč: Facebook, WhatsApp ani Messenger nespouští JavaScript, takže u odkazu na stránku vidí vždy
+stejný obecný og.png. Každý člověk z týmu má proto vlastní malou HTML stránku, která nese
+jeho og:image (1200×630 s medailonkem) a návštěvníka hned přesměruje dál:
+zastupitele na /zastupitele#id, ostatní na /zastupitele (stránka kandidátů je po volbách v _archiv/).
 
 Spustit z WEB/ po každé změně kandidátů nebo medailonků:  python tools/build_kandidati.py
-Doménu bere z canonical v kandidati.html (doplňuje ji tools/set_domain.py).
+Doménu bere z canonical v zastupitele.html (doplňuje ji tools/set_domain.py).
 """
 import json, os, re, subprocess, sys
 from PIL import Image, ImageFilter
@@ -21,9 +22,9 @@ except (OSError, subprocess.CalledProcessError) as e:
 data = json.loads(out)
 SITE, CANDIDATES = data["SITE"], sorted(data["CANDIDATES"], key=lambda c: c["poradi"])
 
-m = re.search(r'<link rel="canonical" href="(https://[^/"]+)/kandidati">', open("kandidati.html", encoding="utf-8").read())
+m = re.search(r'<link rel="canonical" href="(https://[^/"]+)/zastupitele">', open("zastupitele.html", encoding="utf-8").read())
 if not m:
-    sys.exit("V kandidati.html chybí canonical s doménou – nejdřív spustit tools/set_domain.py")
+    sys.exit("V zastupitele.html chybí canonical s doménou – nejdřív spustit tools/set_domain.py")
 DOMAIN = m.group(1)
 
 os.makedirs("kandidat", exist_ok=True)
@@ -56,18 +57,18 @@ PAGE = """<!DOCTYPE html>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{jmeno} · Kandidáti · {site}</title>
   <meta name="description" content="{popis}">
-  <meta name="robots" content="noindex, follow"><!-- jen sdílecí stránka, do vyhledávačů patří kandidati.html -->
-  <link rel="canonical" href="{domain}/kandidati?k={id}">
+  <meta name="robots" content="noindex, follow"><!-- jen sdílecí stránka, do vyhledávačů patří zastupitele.html -->
+  <link rel="canonical" href="{domain}/zastupitele">
   <meta property="og:type" content="profile">
   <meta property="og:site_name" content="{site}">
   <meta property="og:locale" content="cs_CZ">
   <meta property="og:url" content="{domain}/kandidat/{id}">
-  <meta property="og:title" content="{jmeno} – {kdo} č. {poradi}">
+  <meta property="og:title" content="{jmeno} – {kdo}">
   <meta property="og:description" content="{popis}">
   <meta property="og:image" content="{domain}/assets/img/tym/og/{id}.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Medailonek: {jmeno}, {kdo} č. {poradi}">
+  <meta property="og:image:alt" content="Medailonek: {jmeno}, {kdo}">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#24252d">
   <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64 128x128 256x256">
@@ -76,11 +77,11 @@ PAGE = """<!DOCTYPE html>
   <link rel="icon" href="/assets/img/favicon-512.png" type="image/png" sizes="512x512">
   <link rel="icon" href="/assets/img/Icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
-  <script>location.replace("/kandidati?k={id}");</script>
+  <script>location.replace("{cil}");</script>
   <style>body{{margin:0;min-height:100vh;display:grid;place-items:center;background:#f2ebe1;color:#24252d;font:500 16px/1.5 system-ui,sans-serif;text-align:center;padding:24px}}a{{color:#c8502f}}</style>
 </head>
 <body>
-  <p><strong>{jmeno}</strong> – {kdo} č. {poradi}<br><a href="/kandidati?k={id}">Zobrazit medailonek →</a></p>
+  <p><strong>{jmeno}</strong> – {kdo}<br><a href="{cil}">Pokračovat →</a></p>
 </body>
 </html>
 """
@@ -93,8 +94,9 @@ for c in CANDIDATES:
     # "kandidátka" u žen – pozná se podle role v data.js ("Kandidátka č. …")
     kdo = "kandidátka" if c.get("role", "").lower().startswith("kandidátka") else "kandidát"
     popis = f"{c['jmeno']}" + (f", {c['vek']} let" if c.get("vek") else "") + (f". {c['profese']}" if c.get("profese") else "") \
-            + f". {kdo.capitalize()} č. {c['poradi']} – {SITE['nazev']}, komunální volby {SITE['volbyText']}."
-    html = PAGE.format(id=c["id"], jmeno=c["jmeno"], poradi=c["poradi"], kdo=kdo, popis=popis.replace('"', "&quot;"), site=SITE["nazev"], domain=DOMAIN)
+            + (f". {c['funkce']} 2026–2030 – {SITE['nazev']}" if c.get("funkce") else f". {kdo.capitalize()} č. {c['poradi']} – {SITE['nazev']}") \
+            + f", komunální volby {SITE['volbyText']}."
+    html = PAGE.format(id=c["id"], cil=f"/zastupitele#{c['id']}" if c.get("funkce") else "/zastupitele", jmeno=c["jmeno"], kdo=c["funkce"].lower() if c.get("funkce") else f"{kdo} č. {c['poradi']}", popis=popis.replace('"', "&quot;"), site=SITE["nazev"], domain=DOMAIN)
     open(f"kandidat/{c['id']}.html", "w", encoding="utf-8", newline="\n").write(html)
     n += 1
 
