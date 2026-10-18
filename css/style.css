@@ -215,6 +215,8 @@ h1, h2, h3, h4, p { margin: 0; }
   position: absolute; left: 50%; top: 0; transform: translateX(-50%);
   display: grid; grid-template-columns: repeat(var(--cols, 4), var(--cell, 25vw)); grid-auto-rows: calc(var(--cell, 25vw) * 5 / 4); gap: 4px;
 }
+/* po volbách 2026: místo mozaiky kandidátů letecký pohled na obec (mozaika zůstává pro příští kampaň) */
+.hero__photo { position: absolute; inset: 0; background: url(../assets/img/obec/hero-letecky.webp) 60% 45% / cover no-repeat; filter: grayscale(1) contrast(1.05); }
 .hero__mosaic figure { margin: 0; overflow: hidden; background: var(--dark); animation: tilein .9s var(--ease-out) both; }
 .hero__mosaic img { width: 100%; height: 100%; object-fit: cover; }
 @keyframes tilein { from { opacity: 0; transform: scale(1.06); } to { opacity: 1; transform: none; } }
