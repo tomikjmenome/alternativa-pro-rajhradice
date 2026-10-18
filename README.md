@@ -26,7 +26,7 @@ Lokálně proto spouštěj `python tools/serve.py`, ne `python -m http.server` (
 | `js/data.js` | **VŠECHNA DATA** – kandidáti, videa, odkazy na sítě, telefon, klíč formuláře |
 | `js/main.js` | logika (vykreslení seznamů, odpočet, formulář) |
 | `css/style.css` | styl – paleta a fonty z brand kitu videí |
-| `assets/` | logo, fotky týmu, medailonky, mozaika do hero, dokumenty (PDF). Jen to, co web opravdu používá – zdrojové fotky jsou v `../medailonky/`, loga v `../Alternativa-logo/` |
+| `assets/` | logo, fotky týmu, medailonky, letecký pohled do hero (`obec/hero-letecky.webp`, z něj i sdílecí `og-obec.jpg` přes `tools/build_og.py`), dokumenty (PDF). Jen to, co web opravdu používá – zdrojové fotky jsou v `../medailonky/`, loga v `../Alternativa-logo/` |
 
 ## Co doplnit
 
