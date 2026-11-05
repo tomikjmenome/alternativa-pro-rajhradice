@@ -148,7 +148,7 @@ function renderProgramTimeline() {
     + (counts.some(([, c]) => c) ? `<div class="tl__legend">${counts.filter(([, c]) => c).map(([s, c]) => `<span class="tl__stav tl__stav--${s}">${PROGRAM_STAV[s]}</span> ${c}×`).join(" · ")}</div>` : "");
 }
 
-/* --- podstránka: program – obsah vpravo se sledováním scrollu ------------ */
+/* --- podstránka: program a detail zápisu – obsah vpravo se sledováním scrollu */
 
 function initProgramNav() {
   const main = document.querySelector("main.prose");
@@ -157,7 +157,7 @@ function initProgramNav() {
   if (!heads.length) return;
 
   const aside = document.createElement("aside");
-  aside.className = "pnav"; aside.setAttribute("aria-label", "Obsah programu");
+  aside.className = "pnav"; aside.setAttribute("aria-label", "Obsah stránky");
   aside.innerHTML = `
     <div class="pnav__bar"><i></i></div>
     <div class="pnav__title">Obsah</div>
@@ -351,6 +351,7 @@ function initZastupitele() {
         ${c.hlasy ? `<figcaption class="zcard__votes"><b>${c.hlasy}</b><small>hlasů ve volbách 2026</small></figcaption>` : ""}
       </figure>
       <div class="zcard__body">
+        <p class="zcard__func">${esc((c.obec?.length ? c.obec : [c.funkce]).join(" · "))}</p>
         <h2 class="zcard__name">${esc(c.jmeno)}</h2>
         <p class="zcard__meta">${esc(c.profese || "")}${c.vek ? ` · ${c.vek} let` : ""}</p>
         ${c.claim ? `<p class="zcard__claim">„${esc(c.claim)}“</p>` : ""}
@@ -367,7 +368,7 @@ function initZastupitele() {
   addEventListener("hashchange", mark);
   mark();
   setJsonLd({ "@type": "ItemList", itemListElement: list.map((c, i) => ({ "@type": "ListItem", position: i + 1,
-    item: { "@type": "Person", name: c.jmeno, jobTitle: c.funkce, url: absUrl(`zastupitele#${c.id}`), memberOf: { "@type": "Organization", name: SITE.nazev } } })) });
+    item: { "@type": "Person", name: c.jmeno, jobTitle: [c.funkce, ...(c.obec || [])].join(", "), url: absUrl(`zastupitele#${c.id}`), memberOf: { "@type": "Organization", name: SITE.nazev } } })) });
 }
 
 /* --- podstránka: kandidáti (jen _archiv/kandidati.html – pro příští volby) - */
@@ -756,6 +757,7 @@ document.addEventListener("DOMContentLoaded", () => {
   switch (document.body.dataset.page) {
     case "home": renderHeroMosaic(); renderTeam(); renderProgramTimeline(); renderVideoTeasers(); initContact(); break;
     case "program": initProgramNav(); break;
+    case "zapisy": initProgramNav(); break;   // obsah vpravo jen na detailu zápisu (main.prose), na seznamu nic neudělá
     case "zastupitele": initZastupitele(); initContact(); break;
     case "kandidati": initKandidati(); break;
     case "videa": initVidea(); break;

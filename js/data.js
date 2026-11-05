@@ -47,6 +47,8 @@ const SOCIALS = [
    poradi     – pořadí na kandidátce 2026
    funkce     – jen u zvolených: "Zastupitel" / "Zastupitelka" (případně "Místostarosta", "předseda výboru" …)
                 → zobrazí se na stránce /zastupitele (fotka z assets/img/tym/mozaika/, claim, text a temata pod jménem)
+   obec       – jen u zvolených: funkce v orgánech obce, pole textů (["Člen rady obce"], ["Předseda kontrolního výboru"] …)
+                → ukáže se na kartě na /zastupitele pod fotkou
    hlasy      – počet hlasů ve volbách 2026 (zatím jen u zvolených)
    foto       – čtvercová fotka do seznamu (assets/img/tym/xxx.jpg); když chybí, ukáže se monogram
    medailonek – grafická karta 4:5 (assets/img/tym/medailonek/xxx.webp), ukáže se na podstránce
@@ -60,6 +62,7 @@ const CANDIDATES = [
     jmeno: "Václav Mátl",
     role: "Lídr kandidátky",
     funkce: "Zastupitel",
+    obec: ["Člen rady obce"],
     hlasy: 195,
     profese: "Podnikatel, automobilový průmysl a obchod",
     vek: 33,
@@ -71,10 +74,10 @@ const CANDIDATES = [
   },
   { id: "vendula-kadlcikova", poradi:  2, jmeno: "Ing. Vendula Kadlčíková", role: "Kandidátka č. 2", profese: "Podnikatelka, výroba ocelových konstrukcí", vek: 31, foto: "assets/img/tym/02-vendula-kadlcikova.jpg", medailonek: "assets/img/tym/medailonek/02-vendula-kadlcikova.webp", claim: "", text: [], temata: [] },
   { id: "michal-matl", poradi:  3, jmeno: "Michal Mátl", role: "Kandidát č. 3", profese: "Podnikatel, stavebnictví", vek: 29, foto: "assets/img/tym/03-michal-matl.jpg", medailonek: "assets/img/tym/medailonek/03-michal-matl.webp", claim: "", text: [], temata: [] },
-  { id: "filip-vagner", poradi:  4, jmeno: "Filip Vágner", role: "Kandidát č. 4", funkce: "Zastupitel", hlasy: 171, profese: "OSVČ, výrobce nábytku", vek: 32, foto: "assets/img/tym/04-filip-vagner.jpg", medailonek: "assets/img/tym/medailonek/04-filip-vagner.webp", claim: "", text: [], temata: [] },
+  { id: "filip-vagner", poradi:  4, jmeno: "Filip Vágner", role: "Kandidát č. 4", funkce: "Zastupitel", obec: ["Člen kontrolního výboru"], hlasy: 171, profese: "OSVČ, výrobce nábytku", vek: 32, foto: "assets/img/tym/04-filip-vagner.jpg", medailonek: "assets/img/tym/medailonek/04-filip-vagner.webp", claim: "", text: [], temata: [] },
   { id: "ondrej-vykoupil", poradi:  5, jmeno: "Ondřej Vykoupil", role: "Kandidát č. 5", profese: "OSVČ, stavebnictví", vek: 32, foto: "assets/img/tym/05-ondrej-vykoupil.jpg", medailonek: "assets/img/tym/medailonek/05-ondrej-vykoupil.webp", claim: "", text: [], temata: [] },
   { id: "daniel-biznar", poradi:  6, jmeno: "Mgr. Daniel Biznár", role: "Kandidát č. 6", profese: "Servisní manažer", vek: 46, foto: "assets/img/tym/06-daniel-biznar.jpg", medailonek: "assets/img/tym/medailonek/06-daniel-biznar.webp", claim: "", text: [], temata: [] },
-  { id: "natalie-wismekova", poradi:  7, jmeno: "Ing. Natalie Wismeková", role: "Kandidátka č. 7", funkce: "Zastupitelka", hlasy: 169, profese: "Strategická analytička (obor obchod)", vek: 26, foto: "assets/img/tym/07-natalie-wismekova.jpg", medailonek: "assets/img/tym/medailonek/07-natalie-wismekova.webp", claim: "", text: [], temata: [] },
+  { id: "natalie-wismekova", poradi:  7, jmeno: "Ing. Natalie Wismeková", role: "Kandidátka č. 7", funkce: "Zastupitelka", obec: ["Členka kontrolního výboru"], hlasy: 169, profese: "Strategická analytička (obor obchod)", vek: 26, foto: "assets/img/tym/07-natalie-wismekova.jpg", medailonek: "assets/img/tym/medailonek/07-natalie-wismekova.webp", claim: "", text: [], temata: [] },
   { id: "tomas-hajek", poradi:  8, jmeno: "Tomáš Hájek", role: "Kandidát č. 8", profese: "Student VUT", vek: 20, foto: "assets/img/tym/08-tomas-hajek.jpg", medailonek: "assets/img/tym/medailonek/08-tomas-hajek.webp", claim: "", text: [], temata: [] },
   { id: "jan-matl", poradi:  9, jmeno: "Jan Mátl", role: "Kandidát č. 9", profese: "Zámečník", vek: 38, foto: "assets/img/tym/09-jan-matl.jpg", medailonek: "assets/img/tym/medailonek/09-jan-matl.webp", claim: "", text: [], temata: [] },
   { id: "lukas-kordik", poradi: 10, jmeno: "Lukáš Kordík", role: "Kandidát č. 10", profese: "Projektant elektro", vek: 28, foto: "assets/img/tym/10-lukas-kordik.jpg", medailonek: "assets/img/tym/medailonek/10-lukas-kordik.webp", claim: "", text: [], temata: [] },

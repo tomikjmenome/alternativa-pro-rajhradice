@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20261018">
+  <link rel="stylesheet" href="css/style.css?v=20261106">
   <!-- Strukturovaná data pro vyhledávače (Google zobrazí logo, sítě a kontakt u výsledku) -->
   <script type="application/ld+json">
   {
@@ -62,6 +62,7 @@
     </a>
     <nav class="nav__links" id="hlavni-menu" aria-label="Hlavní">
       <a href="#tym" data-nav="zastupitele">Zastupitelé</a>
+      <a href="#zastupitelstvo" data-nav="zapisy">Zápisy</a>
       <a href="#program" data-nav="program">Program</a>
       <a href="#videa" data-nav="videa">Videa</a>
       <a class="btn btn--brick" href="#kontakt"><span>Napište nám</span></a>
@@ -143,13 +144,43 @@
   </div>
 </section>
 
+<!-- ===== ZE ZASTUPITELSTVA – jen nejnovější zápis (kopie karty ze zapisy.html) ===== -->
+<section class="section section--zapis" id="zastupitelstvo">
+  <div class="container">
+    <div class="section__head">
+      <span class="kicker">Ze zastupitelstva</span>
+      <h2 class="h-l">Víte, co se<br>rozhodlo</h2>
+      <p class="lead">Z každého zasedání sepíšeme, kdo co navrhl a jak se hlasovalo. Tady je to nejnovější.</p>
+    </div>
+    <article class="zrec">
+      <a class="zrec__thumb" href="/zapis/2026-11-04-ustavujici" tabindex="-1" aria-hidden="true">
+        <img src="assets/dokumenty/zapisy/2026-11-04-ustavujici-zasedani.webp" width="600" height="849" alt="" loading="lazy">
+      </a>
+      <div class="zrec__body">
+        <p class="zrec__date"><time datetime="2026-11-04">Středa 4. 11. 2026</time></p>
+        <h3 class="zrec__name"><a href="/zapis/2026-11-04-ustavujici">Ustavující zasedání</a></h3>
+        <ul class="zrec__points">
+          <li>Starostou je Luboš Přichystal, místostarostou Ing. Marek Kubeš</li>
+          <li>Zvolená rada obce, finanční a kontrolní výbor</li>
+          <li>Odměny zastupitelů zůstávají podle dosavadních zvyklostí</li>
+          <li>Alternativa má místo v radě obce a 2 ze 3 míst v kontrolním výboru</li>
+        </ul>
+        <div class="zrec__cta">
+          <a class="btn btn--brick" href="/zapis/2026-11-04-ustavujici"><span>Číst záznam</span><svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="link-more" href="/zapisy">Všechny zápisy</a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
 
 <!-- ===== PROGRAM ===== -->
 <section class="section section--dark" id="program">
   <div class="container program-hero">
     <div>
       <span class="kicker">Program 2026–2030</span>
-      <h2 class="h-l" style="margin-top:14px;line-height:1.2">Plán, který <span class="brick">hlídáme</span></h2>
+      <h2 class="h-l" style="margin-top:14px;line-height:1.2">Plán, který hlídáme</h2>
       <p class="lead" style="margin-top:18px">
         Volbami náš program nekončí. Máme 22 konkrétních témat rozdělených do tří období
         a v zastupitelstvu budeme prosazovat a hlídat každé z nich. Co se podaří, tady označíme.
@@ -172,7 +203,7 @@
   <div class="container">
     <div class="section__head">
       <span class="kicker">Videoarchiv</span>
-      <h2 class="h-l">Neslibujeme.<br><span class="brick">Ukazujeme.</span></h2>
+      <h2 class="h-l">Neslibujeme.<br>Ukazujeme.</h2>
       <p class="lead">V sérii videí jsme ukázali, jak chceme Rajhradice v tomhle volebním období rozvíjet a posouvat dál. Pokračujeme i po volbách. <br> Tady jsou nejnovější díly.</p>
     </div>
     <div class="videos" id="video-grid"></div>
@@ -226,12 +257,13 @@
   <div class="container">
     <div class="footer__cta">
       <p class="footer__date">Volební období 2026–2030</p>
-      <h2 class="footer__headline">Alternativní cesta<br><span class="brick">pokračuje.</span></h2>
+      <h2 class="footer__headline">Alternativní cesta<br>pokračuje.</h2>
     </div>
     <div class="footer__bar">
       <nav class="footer__nav" aria-label="Patička">
         <a href="/">Úvod</a>
         <a href="/zastupitele">Zastupitelé</a>
+        <a href="/zapisy">Zápisy</a>
         <a href="/program">Program</a>
         <a href="/videa">Videa</a>
         <a href="/#kontakt">Napište nám</a>
@@ -250,7 +282,7 @@
   </div>
 </footer>
 
-<script src="js/data.js?v=20261018"></script>
-<script src="js/main.js?v=20261018"></script>
+<script src="js/data.js?v=20261106"></script>
+<script src="js/main.js?v=20261106"></script>
 </body>
 </html>

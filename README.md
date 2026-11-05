@@ -13,6 +13,8 @@ Lokálně proto spouštěj `python tools/serve.py`, ne `python -m http.server` (
 | `zastupitele.html` | podstránka zastupitelů – karty zvolených (z `CANDIDATES` s `funkce`), rozložení mandátů, jak s námi řešit věci; `#id` zvýrazní kartu |
 | `kandidati.html` | jen přesměrování starých odkazů `kandidati?k=id` → `/zastupitele#id` |
 | `_archiv/kandidati.html` | stránka kandidátky 2026 (levý seznam + medailonek) – **mimo web**, pro příští volby; logika `initKandidati` v `main.js` zůstává |
+| `zapisy.html` | seznam našich záznamů ze zasedání zastupitelstva (karty od nejnovějšího, statické HTML) |
+| `zapis/<datum>-<nazev>.html` | detail jednoho zasedání (`/zapis/2026-11-04-ustavujici`) – celý text záznamu, PDF ke stažení, obsah vpravo jako u programu |
 | `videa.html` | videoarchiv (levý seznam témat + shrnutí + YouTube), `?v=id` |
 | `program.html` | celý text programového prohlášení |
 | `program.md` + `tools/build_program.py` | zdrojový text programu a skript, který z něj dělá `program.html` |
@@ -68,6 +70,17 @@ jsou to poznámky pro redakci.
 
 Po každé změně `css/style.css` nebo `js/*.js` zvedni číslo `?v=` v odkazech v HTML
 (např. `js/main.js?v=20260915`), jinak si prohlížeče nechají starou verzi.
+
+## Zápisy ze zastupitelstva
+
+Nový zápis ze zasedání:
+1. PDF ulož do `assets/dokumenty/zapisy/<datum>-<nazev>.pdf` a vedle něj náhled první strany `…webp` (600 px na šířku).
+2. Zkopíruj `zapis/2026-11-04-ustavujici.html` na `zapis/<datum>-<nazev>.html` a přepiš obsah (body `h3.bod`
+   s číslem v `<i>`, řádky v `dl.facts`, diskuze v `.talk`). Uprav `<title>`, description, canonical a `og:url`.
+   Stránka je v podsložce, proto má všechny cesty absolutní (`/css/…`, `/assets/…`).
+3. V `zapisy.html` přidej novou kartu `<article class="zrec">` **nahoru** (u staré smaž „· nejnovější“).
+4. Na homepage (`index.html`, sekce `#zastupitelstvo`) vyměň kartu za nový zápis – ukazuje se jen ten nejnovější.
+5. Přidej adresu do `sitemap.xml`.
 
 ## Videa na homepage
 
