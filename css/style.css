@@ -810,6 +810,7 @@ body:has(.prose) .page-head .container { width: min(74ch, 100% - 2 * var(--gutte
 .zcard__votes small { display: block; margin-top: 6px; font-size: 10.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; opacity: .85; }
 
 .zcard__body { flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 22px 22px 20px; border-top: 5px solid var(--brick); }
+.zcard__func { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--brick); }
 .zcard__name { font-size: clamp(1.4rem, 2.2vw, 1.75rem); font-weight: 900; line-height: 1.1; letter-spacing: -.015em; text-transform: uppercase; }
 .zcard__meta { font-size: 14.5px; color: var(--grey); font-weight: 500; }
 .zcard__claim { font-weight: 700; font-size: 15.5px; }
@@ -836,4 +837,83 @@ body:has(.prose) .page-head .container { width: min(74ch, 100% - 2 * var(--gutte
   .zast__grid { grid-template-columns: 1fr; }
   .zcard__photo { aspect-ratio: 1; }
   .zcard__photo img { object-position: 50% 25%; }
+}
+
+/* --- zápisy ze zastupitelstva (/zapisy, /zapis/<datum>, homepage #zastupitelstvo) --- */
+
+/* homepage: navazuje na sekci týmu, proto bez horního odsazení (kotva ale musí skončit pod navbarem) */
+.section--zapis { padding-top: 0; scroll-margin-top: calc(var(--nav-h) + 36px); }
+
+/* karta jednoho zasedání: náhled první strany PDF + body */
+.zrecs { padding-top: clamp(8px, 2vw, 24px); }
+.zrec__list { display: grid; gap: clamp(20px, 3vw, 32px); }
+.zrec {
+  display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: clamp(20px, 3.5vw, 44px); align-items: center;
+  padding: clamp(18px, 2.6vw, 30px); border-radius: var(--radius); background: var(--white);
+  border: 1px solid rgba(36,37,45,.1); border-top: 4px solid var(--brick);
+}
+.zrec__thumb { display: block; aspect-ratio: 600 / 849; border-radius: 4px; overflow: hidden; background: var(--cream-2); box-shadow: 0 14px 30px -16px rgba(36,37,45,.55); }
+.zrec__thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.zrec__date { font-size: 12.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--brick); }
+.zrec__name { font-size: clamp(1.6rem, 3.2vw, 2.4rem); font-weight: 900; text-transform: uppercase; line-height: 1.02; letter-spacing: -.02em; margin: 8px 0 18px; }
+.zrec__points { display: grid; gap: 8px; margin-bottom: 24px; }
+.zrec__points li { position: relative; padding-left: 20px; font-weight: 600; font-size: 15.5px; line-height: 1.45; color: var(--dark-3); }
+.zrec__points li::before { content: ""; position: absolute; left: 0; top: .5em; width: 8px; height: 8px; border-radius: 50%; background: var(--brick); }
+.zrec__cta { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; }
+.zrecs__note { margin-top: clamp(28px, 4vw, 44px); }
+.zrecs__note p, .notice--zapis p { margin: 0; }
+.notice--zapis p + p { margin-top: 10px; }
+.notice a { color: var(--brick); text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 640px) {
+  .zrec { grid-template-columns: 96px minmax(0, 1fr); align-items: start; }
+  .zrec__name { margin-bottom: 12px; }
+  .zrec__points, .zrec__cta { grid-column: 1 / -1; }
+  .zrec__body { display: contents; }
+  .zrec__date, .zrec__name { grid-column: 2; }
+  .zrec__thumb { grid-row: 1 / 3; }
+}
+
+/* detail zápisu */
+.back-link { display: inline-block; margin-bottom: 18px; font-size: 13px; font-weight: 800; letter-spacing: .04em; color: var(--grey); }
+.back-link:hover { color: var(--brick); }
+.prose .summary { margin: 8px 0 22px; padding: 22px 24px; border-radius: var(--radius); background: var(--dark); color: var(--cream); }
+.prose .summary__title { font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--brick-light); margin: 0 0 12px; }
+.prose .summary ul { margin: 0; gap: 10px; }
+.prose .summary li { color: rgba(247,243,236,.86); font-size: 15.5px; line-height: 1.5; }
+.prose .summary li::before { background: var(--brick-light); }
+.prose .summary strong { color: var(--cream); }
+.prose .doc--zapis { margin-bottom: 8px; }
+
+/* číslovaný bod programu zasedání (01–16) */
+.prose h3.bod { display: flex; gap: 14px; align-items: baseline; padding-left: 0; margin: 40px 0 6px; font-size: 1.3rem; }
+.prose h3.bod::before { display: none; }
+.prose h3.bod i { font-style: normal; font-size: 1rem; font-weight: 900; color: var(--brick); min-width: 1.6em; font-variant-numeric: tabular-nums; }
+.prose .bod__why { font-size: 15px; margin-bottom: 10px; }
+.prose h3.bod + .facts { margin-top: 12px; }
+.prose .facts--wide > div { grid-template-columns: 150px 1fr; }
+@media (max-width: 520px) { .prose .facts--wide > div { grid-template-columns: 1fr; } }
+
+/* přepis diskuze */
+.talk { display: grid; gap: 14px; margin: 18px 0 8px; }
+.talk__item { padding: 4px 0 4px 18px; border-left: 3px solid var(--dark); }
+.talk__item b { display: block; font-size: 14px; font-weight: 800; margin-bottom: 2px; }
+.prose .talk__item p { margin: 0; font-size: 16px; color: var(--dark-3); }
+.talk__item small, .talk__note { font-size: 13px; color: var(--grey); font-style: italic; }
+.talk__item--public { border-left-color: var(--cream-3); }
+.talk__item--public b { color: var(--grey); }
+.prose .talk__note { margin: 0; padding-left: 21px; }
+
+/* kam se dostali naši */
+.nasi { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 18px 0 8px; }
+.nasi__item { display: grid; border-radius: var(--radius); overflow: hidden; background: var(--dark); color: var(--cream); transition: transform .3s var(--ease-back); }
+.nasi__item:hover { transform: translateY(-3px); }
+.nasi__item img { width: 100%; aspect-ratio: 1; object-fit: cover; object-position: 50% 20%; background: var(--dark-2); }
+.nasi__item span { display: grid; gap: 2px; padding: 12px 14px 14px; }
+.nasi__item b { font-size: 15px; font-weight: 800; line-height: 1.2; }
+.nasi__item small { font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--brick-light); }
+.zapis__foot { margin-top: 36px; }
+@media (max-width: 560px) {
+  .nasi { grid-template-columns: 1fr; }
+  .nasi__item { grid-template-columns: 88px 1fr; align-items: center; }
+  .nasi__item img { aspect-ratio: 1; }
 }
