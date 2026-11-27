@@ -81,6 +81,9 @@ Nový zápis ze zasedání:
 3. V `zapisy.html` přidej novou kartu `<article class="zrec">` **nahoru** (u staré smaž „· nejnovější“).
 4. Na homepage (`index.html`, sekce `#zastupitelstvo`) vyměň kartu za nový zápis – ukazuje se jen ten nejnovější.
 5. Přidej adresu do `sitemap.xml`.
+6. Sdílecí obrázek: přidej řádek do `ZASEDANI` v `tools/build_og_zapisy.py`, spusť ho a v `og:image` nové stránky
+   nastav `assets/img/og/zapis-<datum>-<nazev>.jpg`.
+7. Odkazy na PDF nech bez atributu `download` – PDF se pak otevře rovnou v prohlížeči.
 
 ## Videa na homepage
 
